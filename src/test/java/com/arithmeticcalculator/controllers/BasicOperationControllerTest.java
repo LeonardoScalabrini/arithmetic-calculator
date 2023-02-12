@@ -1,6 +1,5 @@
 package com.arithmeticcalculator.controllers;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -10,8 +9,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(OperationController.class)
-class OperationControllerTest {
+@WebMvcTest(BasicOperationController.class)
+class BasicOperationControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @Test

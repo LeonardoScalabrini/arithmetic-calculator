@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController()
 @RequestMapping("/operations")
-public class OperationController {
+public class BasicOperationController {
   @PostMapping("/{operation}")
   public @ResponseBody ResponseEntity<Double> calc(
       @PathVariable(value = "operation") String operation,
