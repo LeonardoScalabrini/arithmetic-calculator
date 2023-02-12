@@ -11,7 +11,7 @@ public class RandomOrgConfigImpl implements RandomOrgConfig {
   private final String host;
 
   @Autowired
-  public RandomOrgConfigImpl(@Value("${random.org.host}") String host) {
+  public RandomOrgConfigImpl(@Value("${random-org-host}") String host) {
     this.host = host;
   }
 
