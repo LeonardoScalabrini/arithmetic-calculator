@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -23,9 +25,9 @@ class RandomStringControllerTest {
   @BeforeEach
   void setUp() {
     when(randomService.stringGenerator()).thenReturn(Optional.of("test"));
-    ;
   }
 
+  @WithMockUser
   @Test
   void randomString() throws Exception {
     mockMvc
@@ -35,6 +37,7 @@ class RandomStringControllerTest {
     verify(randomService, times(1)).stringGenerator();
   }
 
+  @WithMockUser
   @Test
   void shouldThrowException() throws Exception {
     doThrow(RuntimeException.class).when(randomService).stringGenerator();
@@ -42,5 +45,15 @@ class RandomStringControllerTest {
         .perform(MockMvcRequestBuilders.get("/operations/random-string"))
         .andExpect(status().isInternalServerError());
     verify(randomService, times(1)).stringGenerator();
+  }
+
+  @WithAnonymousUser
+  @Test
+  void shouldAuth() throws Exception {
+    doThrow(RuntimeException.class).when(randomService).stringGenerator();
+    mockMvc
+        .perform(MockMvcRequestBuilders.get("/operations/random-string"))
+        .andExpect(status().isUnauthorized());
+    verify(randomService, times(0)).stringGenerator();
   }
 }

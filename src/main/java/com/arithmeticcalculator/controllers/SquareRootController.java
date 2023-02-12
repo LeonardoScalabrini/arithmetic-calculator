@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController()
-@RequestMapping("/operations/square-root")
+@RequestMapping("/operations")
 public class SquareRootController {
   private final SquareRootOperation squareRootOperation = SquareRootOperation.getInstance();
 
-  @PostMapping("/{radicand}")
+  @PostMapping("/square-root/{radicand}")
   public @ResponseBody ResponseEntity<Double> sqrt(
       @PathVariable(value = "radicand") double radicand) {
     try {
