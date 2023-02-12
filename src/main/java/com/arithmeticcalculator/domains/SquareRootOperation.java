@@ -6,7 +6,7 @@ import com.arithmeticcalculator.domains.exceptions.CalculatorException;
 
 public final class SquareRootOperation {
 
-  private static SquareRootOperation INSTANCE;
+  private static SquareRootOperation instance;
 
   private SquareRootOperation() {}
 
@@ -17,7 +17,7 @@ public final class SquareRootOperation {
   }
 
   public static SquareRootOperation getInstance() {
-    if (isNull(INSTANCE)) INSTANCE = new SquareRootOperation();
-    return INSTANCE;
+    if (isNull(instance)) instance = new SquareRootOperation();
+    return instance;
   }
 }

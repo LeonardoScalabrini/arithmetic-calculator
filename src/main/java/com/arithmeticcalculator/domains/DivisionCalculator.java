@@ -7,7 +7,7 @@ import com.arithmeticcalculator.domains.interfaces.Calculator;
 
 public final class DivisionCalculator implements Calculator {
 
-  private static DivisionCalculator INSTANCE;
+  private static DivisionCalculator instance;
 
   private DivisionCalculator() {}
 
@@ -19,8 +19,8 @@ public final class DivisionCalculator implements Calculator {
   }
 
   public static DivisionCalculator getInstance() {
-    if (isNull(INSTANCE)) INSTANCE = new DivisionCalculator();
+    if (isNull(instance)) instance = new DivisionCalculator();
 
-    return INSTANCE;
+    return instance;
   }
 }
