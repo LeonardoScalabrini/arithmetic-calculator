@@ -25,6 +25,7 @@ class StringGeneratorServiceImplTest {
   @BeforeEach
   void setUp() {
     when(randomOrgConfig.getHost()).thenReturn("http://localhost:7777");
+    when(randomOrgConfig.getStrings()).thenReturn(TEST_URL);
   }
 
   @Test

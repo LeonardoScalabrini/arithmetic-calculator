@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
-  private final UserEntityJpaRepository UserEntityjpaRepository;
+  private final UserEntityJpaRepository userEntityJpaRepository;
 
   @Autowired
-  public SecurityServiceImpl(UserEntityJpaRepository userEntityjpaRepository) {
-    UserEntityjpaRepository = userEntityjpaRepository;
+  public SecurityServiceImpl(UserEntityJpaRepository userEntityJpaRepository) {
+    this.userEntityJpaRepository = userEntityJpaRepository;
   }
 
   @Override
   public void createUser(String email, String password) {
     var user =
         UserEntity.builder().email(email).password(password).privileges(Privileges.USER).build();
-    UserEntityjpaRepository.save(user);
+    userEntityJpaRepository.save(user);
   }
 }

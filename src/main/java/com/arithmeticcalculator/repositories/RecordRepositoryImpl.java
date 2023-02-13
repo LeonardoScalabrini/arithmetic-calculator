@@ -27,23 +27,23 @@ public class RecordRepositoryImpl implements RecordRepository {
   }
 
   @Override
-  public <T> void save(@NonNull Record<T> record) {
+  public <T> void save(@NonNull Record<T> r) {
     userEntityJpaRepository
-        .findByEmail(record.getUser().getEmail())
+        .findByEmail(r.getUser().getEmail())
         .ifPresent(
             userEntity ->
                 operationEntityJpaRepository
-                    .findByType(record.getOperation().getOperations())
+                    .findByType(r.getOperation().getOperations())
                     .ifPresent(
                         operationEntity -> {
                           var recordEntity =
                               RecordEntity.builder()
-                                  .date(record.getDate())
+                                  .date(r.getDate())
                                   .user(userEntity)
-                                  .userBalance(record.getBalance())
-                                  .amount(record.getAmount())
+                                  .userBalance(r.getBalance())
+                                  .amount(r.getAmount())
                                   .operation(operationEntity)
-                                  .operationResponse(record.getOperationResult().toString())
+                                  .operationResponse(r.getOperationResult().toString())
                                   .build();
                           recordEntityJpaRepository.save(recordEntity);
                         }));

@@ -11,8 +11,6 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class StringGeneratorServiceImpl implements StringGeneratorService {
   private final RestTemplate restTemplate;
-  private static final String STRING_GENERATOR_PATH =
-      "/strings/?num=1&len=20&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new";
   private final RandomOrgConfig randomOrgConfig;
 
   @Autowired
@@ -26,7 +24,7 @@ public class StringGeneratorServiceImpl implements StringGeneratorService {
     try {
       var result =
           restTemplate.getForEntity(
-              String.format("%s/%s", randomOrgConfig.getHost(), STRING_GENERATOR_PATH),
+              String.format("%s/%s", randomOrgConfig.getHost(), randomOrgConfig.getStrings()),
               String.class);
       if (result.getStatusCode().is2xxSuccessful() && result.hasBody())
         return Optional.ofNullable(result.getBody());

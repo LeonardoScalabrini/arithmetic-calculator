@@ -14,5 +14,8 @@ class RandomOrgConfigImplTest {
   @Test
   void getHost() {
     assertEquals("https://www.test.org", randomOrgConfig.getHost());
+    assertEquals(
+        "/strings/?num=1&len=20&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new",
+        randomOrgConfig.getStrings());
   }
 }
