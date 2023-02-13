@@ -4,7 +4,6 @@ import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.domains.interfaces.FindInitalBalance;
 import com.arithmeticcalculator.domains.interfaces.UserRepository;
 import com.arithmeticcalculator.fixtures.Fixture;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

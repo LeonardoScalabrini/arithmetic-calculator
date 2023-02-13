@@ -34,8 +34,7 @@ class OperationRepositoryImplTest {
     var result = operationRepository.findByName(Operations.DIVISION).orElseThrow();
     assertEquals(operationEntity.getType(), result.getOperations());
     assertEquals(operationEntity.getCost(), result.getCost());
-    Mockito.verify(operationEntityJpaRepository, Mockito.times(1))
-        .findByType(Operations.DIVISION);
+    Mockito.verify(operationEntityJpaRepository, Mockito.times(1)).findByType(Operations.DIVISION);
   }
 
   @Test
@@ -44,7 +43,6 @@ class OperationRepositoryImplTest {
         .thenReturn(Optional.empty());
     var result = operationRepository.findByName(Operations.DIVISION);
     assertTrue(result.isEmpty());
-    Mockito.verify(operationEntityJpaRepository, Mockito.times(1))
-        .findByType(Operations.DIVISION);
+    Mockito.verify(operationEntityJpaRepository, Mockito.times(1)).findByType(Operations.DIVISION);
   }
 }

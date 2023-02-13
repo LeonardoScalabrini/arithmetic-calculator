@@ -1,12 +1,11 @@
 package com.arithmeticcalculator.entities;
 
-import lombok.*;
-import org.hibernate.annotations.Immutable;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
+import javax.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.Immutable;
 
 @Immutable
 @Entity(name = "record")
@@ -20,6 +19,7 @@ public class RecordEntity implements Serializable {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "fk_user")
   private UserEntity user;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "fk_operation")
   private OperationEntity operation;
@@ -31,9 +31,16 @@ public class RecordEntity implements Serializable {
   private String operationResponse;
 
   private Date date;
+
   private RecordEntity() {};
 
-  private RecordEntity(@NonNull UserEntity user, @NonNull OperationEntity operation, double amount, double userBalance, @NonNull String operationResponse, @NonNull Date date) {
+  private RecordEntity(
+      @NonNull UserEntity user,
+      @NonNull OperationEntity operation,
+      double amount,
+      double userBalance,
+      @NonNull String operationResponse,
+      @NonNull Date date) {
     this.user = user;
     this.operation = operation;
     this.amount = amount;

@@ -21,7 +21,6 @@ class OperationTest {
 
   @Test
   void notNull() {
-    assertThrows(
-        NullPointerException.class, () -> Operation.builder().build());
+    assertThrows(NullPointerException.class, () -> Operation.builder().build());
   }
 }

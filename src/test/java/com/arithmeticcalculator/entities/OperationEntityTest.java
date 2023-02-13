@@ -23,7 +23,6 @@ class OperationEntityTest {
 
   @Test
   void notNull() {
-    assertThrows(
-        NullPointerException.class, () -> OperationEntity.builder().build());
+    assertThrows(NullPointerException.class, () -> OperationEntity.builder().build());
   }
 }

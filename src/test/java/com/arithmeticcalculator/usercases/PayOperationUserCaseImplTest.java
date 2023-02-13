@@ -11,7 +11,6 @@ import com.arithmeticcalculator.domains.interfaces.OperationCommand;
 import com.arithmeticcalculator.domains.interfaces.OperationRepository;
 import com.arithmeticcalculator.domains.interfaces.UserRepository;
 import com.arithmeticcalculator.fixtures.Fixture;
-
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +66,8 @@ class PayOperationUserCaseImplTest {
     Mockito.verify(userRepository, Mockito.times(0)).save(Mockito.any());
     Mockito.verify(user, Mockito.times(0)).pay(Mockito.any());
     Mockito.verify(operationCommand, Mockito.times(0)).execute();
-    Mockito.verify(createRecordUserCase, Mockito.times(0)).create(Mockito.any(), Mockito.any(), Mockito.any());
+    Mockito.verify(createRecordUserCase, Mockito.times(0))
+        .create(Mockito.any(), Mockito.any(), Mockito.any());
   }
 
   @Test
@@ -82,6 +82,7 @@ class PayOperationUserCaseImplTest {
     Mockito.verify(userRepository, Mockito.times(0)).save(Mockito.any());
     Mockito.verify(user, Mockito.times(0)).pay(Mockito.any());
     Mockito.verify(operationCommand, Mockito.times(0)).execute();
-    Mockito.verify(createRecordUserCase, Mockito.times(0)).create(Mockito.any(), Mockito.any(), Mockito.any());
+    Mockito.verify(createRecordUserCase, Mockito.times(0))
+        .create(Mockito.any(), Mockito.any(), Mockito.any());
   }
 }

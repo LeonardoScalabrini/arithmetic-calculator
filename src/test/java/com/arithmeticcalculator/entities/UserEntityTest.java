@@ -34,8 +34,6 @@ class UserEntityTest {
 
   @Test
   void notNull() {
-    assertThrows(
-        NullPointerException.class,
-        () -> UserEntity.builder().build());
+    assertThrows(NullPointerException.class, () -> UserEntity.builder().build());
   }
 }

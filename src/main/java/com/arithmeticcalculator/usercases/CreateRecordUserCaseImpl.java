@@ -12,16 +12,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreateRecordUserCaseImpl implements CreateRecordUserCase {
 
-    private final RecordRepository recordRepository;
+  private final RecordRepository recordRepository;
 
-    @Autowired
-    public CreateRecordUserCaseImpl(RecordRepository recordRepository) {
-        this.recordRepository = recordRepository;
-    }
+  @Autowired
+  public CreateRecordUserCaseImpl(RecordRepository recordRepository) {
+    this.recordRepository = recordRepository;
+  }
 
-    @Override
-    public <T> void create(@NonNull User user, @NonNull Operation operation, @NonNull T result) {
-        var record = Record.<T>builder().amount(operation.getCost()).operation(operation).balance(user.getBalance()).user(user).operationResult(result).build();
-        recordRepository.save(record);
-    }
+  @Override
+  public <T> void create(@NonNull User user, @NonNull Operation operation, @NonNull T result) {
+    var record =
+        Record.<T>builder()
+            .amount(operation.getCost())
+            .operation(operation)
+            .balance(user.getBalance())
+            .user(user)
+            .operationResult(result)
+            .build();
+    recordRepository.save(record);
+  }
 }

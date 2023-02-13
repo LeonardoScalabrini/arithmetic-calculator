@@ -2,11 +2,9 @@ package com.arithmeticcalculator.repositories;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.entities.UserEntity;
 import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
-import com.arithmeticcalculator.security.Privileges;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

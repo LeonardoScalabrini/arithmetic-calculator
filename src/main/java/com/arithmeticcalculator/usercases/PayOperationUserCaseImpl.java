@@ -3,11 +3,10 @@ package com.arithmeticcalculator.usercases;
 import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.interfaces.*;
+import javax.transaction.Transactional;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.transaction.Transactional;
 
 @Component
 public class PayOperationUserCaseImpl implements PayOperationUserCase {
@@ -19,7 +18,9 @@ public class PayOperationUserCaseImpl implements PayOperationUserCase {
 
   @Autowired
   public PayOperationUserCaseImpl(
-          UserRepository userRepository, OperationRepository operationRepository, CreateRecordUserCase createRecordUserCase) {
+      UserRepository userRepository,
+      OperationRepository operationRepository,
+      CreateRecordUserCase createRecordUserCase) {
     this.userRepository = userRepository;
     this.operationRepository = operationRepository;
     this.createRecordUserCase = createRecordUserCase;
