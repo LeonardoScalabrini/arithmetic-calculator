@@ -14,17 +14,18 @@ class UserEntityTest {
   void build() {
     var userEntity =
         UserEntity.builder()
-            .name("name")
             .email("email")
             .password("password")
             .privileges(Privileges.USER)
             .build();
     assertNotNull(userEntity.getId());
-    assertEquals("name", userEntity.getName());
     assertEquals("email", userEntity.getEmail());
-    assertEquals("password", userEntity.getPassword());
+    assertNotEquals("password", userEntity.getPassword());
     assertEquals(Privileges.USER, userEntity.getPrivileges());
-    EqualsVerifier.forClass(UserEntity.class).suppress(Warning.STRICT_INHERITANCE).verify();
+    EqualsVerifier.forClass(UserEntity.class)
+        .suppress(Warning.STRICT_INHERITANCE)
+        .withIgnoredFields("password")
+        .verify();
     ToStringVerifier.forClass(UserEntity.class).verify();
   }
 
@@ -32,25 +33,12 @@ class UserEntityTest {
   void notNull() {
     assertThrows(
         NullPointerException.class,
-        () ->
-            UserEntity.builder()
-                .email("email")
-                .password("password")
-                .privileges(Privileges.USER)
-                .build());
+        () -> UserEntity.builder().password("password").privileges(Privileges.USER).build());
     assertThrows(
         NullPointerException.class,
-        () ->
-            UserEntity.builder()
-                .name("name")
-                .password("password")
-                .privileges(Privileges.USER)
-                .build());
+        () -> UserEntity.builder().email("email").privileges(Privileges.USER).build());
     assertThrows(
         NullPointerException.class,
-        () -> UserEntity.builder().name("name").email("email").privileges(Privileges.USER).build());
-    assertThrows(
-        NullPointerException.class,
-        () -> UserEntity.builder().name("name").email("email").password("password").build());
+        () -> UserEntity.builder().email("email").password("password").build());
   }
 }

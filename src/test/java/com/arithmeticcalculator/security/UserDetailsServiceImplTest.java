@@ -21,24 +21,19 @@ class UserDetailsServiceImplTest {
   @Mock private UserEntityJpaRepository userEntityJpaRepository;
   @InjectMocks private UserDetailsServiceImpl userDetailsService;
 
+  private final UserEntity userEntity =
+      UserEntity.builder().email("email").password("password").privileges(Privileges.USER).build();
+
   @BeforeEach
   void setUp() {
-    Mockito.when(userEntityJpaRepository.findByEmail("email"))
-        .thenReturn(
-            Optional.of(
-                UserEntity.builder()
-                    .name("name")
-                    .email("email")
-                    .password("password")
-                    .privileges(Privileges.USER)
-                    .build()));
+    Mockito.when(userEntityJpaRepository.findByEmail("email")).thenReturn(Optional.of(userEntity));
   }
 
   @Test
   void loadUserByUsername() {
     var result = userDetailsService.loadUserByUsername("email");
-    assertEquals("email", result.getUsername());
-    assertEquals("password", result.getPassword());
+    assertEquals(userEntity.getEmail(), result.getUsername());
+    assertEquals(userEntity.getPassword(), result.getPassword());
     assertEquals("USER", result.getAuthorities().stream().findFirst().orElseThrow().getAuthority());
     verify(userEntityJpaRepository, times(1)).findByEmail("email");
   }

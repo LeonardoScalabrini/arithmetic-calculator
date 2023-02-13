@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Immutable
 @Entity(name = "user")
@@ -18,23 +19,20 @@ import org.hibernate.annotations.Immutable;
 @Builder
 public class UserEntity implements Serializable {
   @Id @EqualsAndHashCode.Exclude @Builder.Default private String id = UUID.randomUUID().toString();
-  @NotBlank private String name;
   @NotBlank private String email;
-  @NotBlank private String password;
+  @NotBlank @EqualsAndHashCode.Exclude private String password;
   @NotNull private Privileges privileges;
 
   private UserEntity() {};
 
   private UserEntity(
       @NonNull String id,
-      @NonNull String name,
       @NonNull String email,
       @NonNull String password,
       @NonNull Privileges privileges) {
     this.id = id;
-    this.name = name;
     this.email = email;
-    this.password = password;
+    this.password = new BCryptPasswordEncoder().encode(password);
     this.privileges = privileges;
   }
 }

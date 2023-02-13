@@ -1,8 +1,10 @@
 package com.arithmeticcalculator.domains.exceptions;
 
+import lombok.NonNull;
+
 public class CalculatorException extends Exception {
 
-  private CalculatorException(String message) {
+  private CalculatorException(@NonNull String message) {
     super(message);
   }
 
