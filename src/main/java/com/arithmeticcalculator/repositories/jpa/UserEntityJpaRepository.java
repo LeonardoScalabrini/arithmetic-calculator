@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.repositories;
+package com.arithmeticcalculator.repositories.jpa;
 
 import com.arithmeticcalculator.entities.UserEntity;
 import java.util.Optional;

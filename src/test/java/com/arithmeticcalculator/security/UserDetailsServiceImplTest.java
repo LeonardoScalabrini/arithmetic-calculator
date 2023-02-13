@@ -5,7 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.arithmeticcalculator.entities.UserEntity;
-import com.arithmeticcalculator.repositories.UserEntityJpaRepository;
+import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

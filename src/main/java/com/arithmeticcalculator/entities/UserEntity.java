@@ -22,6 +22,7 @@ public class UserEntity implements Serializable {
   @NotBlank private String email;
   @NotBlank @EqualsAndHashCode.Exclude private String password;
   @NotNull private Privileges privileges;
+  @Setter private double balance;
 
   private UserEntity() {};
 
@@ -29,10 +30,12 @@ public class UserEntity implements Serializable {
       @NonNull String id,
       @NonNull String email,
       @NonNull String password,
-      @NonNull Privileges privileges) {
+      @NonNull Privileges privileges,
+      double balance) {
     this.id = id;
     this.email = email;
     this.password = new BCryptPasswordEncoder().encode(password);
     this.privileges = privileges;
+    this.balance = balance;
   }
 }

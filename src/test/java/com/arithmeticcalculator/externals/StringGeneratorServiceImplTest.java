@@ -12,15 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpStatusCodeException;
 
 @SpringBootTest
 @WireMockTest(httpPort = 7777)
-class RandomOrgServiceImplTest {
+class StringGeneratorServiceImplTest {
 
   private static final String TEST_URL =
       "/strings/?num=1&len=20&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new";
-  @Autowired public RandomOrgServiceImpl randomOrgService;
+  @Autowired public StringGeneratorServiceImpl stringGeneratorService;
   @MockBean public RandomOrgConfig randomOrgConfig;
 
   @BeforeEach
@@ -38,7 +37,7 @@ class RandomOrgServiceImplTest {
                     .withStatus(HttpStatus.OK.value())
                     .withHeader("Content-Type", "text/plain;charset=UTF-8")
                     .withBody(expected)));
-    var result = randomOrgService.stringGenerator();
+    var result = stringGeneratorService.stringGenerator();
     assertEquals(expected, result.orElseThrow());
   }
 
@@ -50,7 +49,7 @@ class RandomOrgServiceImplTest {
                 aResponse()
                     .withStatus(HttpStatus.NO_CONTENT.value())
                     .withHeader("Content-Type", "text/plain;charset=UTF-8")));
-    var result = randomOrgService.stringGenerator();
+    var result = stringGeneratorService.stringGenerator();
     assertTrue(result.isEmpty());
   }
 
@@ -62,6 +61,7 @@ class RandomOrgServiceImplTest {
                 aResponse()
                     .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .withHeader("Content-Type", "text/plain;charset=UTF-8")));
-    assertThrows(HttpStatusCodeException.class, () -> randomOrgService.stringGenerator());
+    var result = stringGeneratorService.stringGenerator();
+    assertTrue(result.isEmpty());
   }
 }

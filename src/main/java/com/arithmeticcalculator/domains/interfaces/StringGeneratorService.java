@@ -2,6 +2,6 @@ package com.arithmeticcalculator.domains.interfaces;
 
 import java.util.Optional;
 
-public interface RandomService {
+public interface StringGeneratorService {
   Optional<String> stringGenerator();
 }

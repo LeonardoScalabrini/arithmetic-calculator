@@ -1,10 +1,9 @@
 package com.arithmeticcalculator.security;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.arithmeticcalculator.entities.UserEntity;
-import com.arithmeticcalculator.repositories.UserEntityJpaRepository;
+import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

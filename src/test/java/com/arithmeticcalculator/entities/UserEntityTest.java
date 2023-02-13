@@ -30,6 +30,18 @@ class UserEntityTest {
   }
 
   @Test
+  void with() {
+    var userEntity =
+        UserEntity.builder()
+            .email("email")
+            .password("password")
+            .privileges(Privileges.USER)
+            .build();
+    userEntity.setBalance(5);
+    assertEquals(5, userEntity.getBalance());
+  }
+
+  @Test
   void notNull() {
     assertThrows(
         NullPointerException.class,

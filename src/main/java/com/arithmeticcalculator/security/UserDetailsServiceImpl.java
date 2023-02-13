@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.security;
 
 import com.arithmeticcalculator.entities.UserEntity;
-import com.arithmeticcalculator.repositories.UserEntityJpaRepository;
+import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
