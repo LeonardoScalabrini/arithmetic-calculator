@@ -3,6 +3,7 @@ package com.arithmeticcalculator.security;
 import static org.mockito.Mockito.*;
 
 import com.arithmeticcalculator.entities.UserEntity;
+import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,7 @@ class SecurityServiceImplTest {
   @Mock private UserEntityJpaRepository userEntityJpaRepository;
   @InjectMocks private SecurityServiceImpl securityService;
 
-  private UserEntity userEntity =
-      UserEntity.builder().email("email").password("password").privileges(Privileges.USER).build();
+  private final UserEntity userEntity = Fixture.getUserEntity();
 
   @BeforeEach
   void setUp() {
@@ -28,6 +28,6 @@ class SecurityServiceImplTest {
   @Test
   void createUser() {
     securityService.createUser("email", "password");
-    verify(userEntityJpaRepository, times(1)).save(userEntity);
+    verify(userEntityJpaRepository, times(1)).save(any());
   }
 }

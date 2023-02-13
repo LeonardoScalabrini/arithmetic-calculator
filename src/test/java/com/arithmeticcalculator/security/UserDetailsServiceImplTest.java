@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.arithmeticcalculator.entities.UserEntity;
+import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,8 +22,7 @@ class UserDetailsServiceImplTest {
   @Mock private UserEntityJpaRepository userEntityJpaRepository;
   @InjectMocks private UserDetailsServiceImpl userDetailsService;
 
-  private final UserEntity userEntity =
-      UserEntity.builder().email("email").password("password").privileges(Privileges.USER).build();
+  private final UserEntity userEntity = Fixture.getUserEntity();
 
   @BeforeEach
   void setUp() {

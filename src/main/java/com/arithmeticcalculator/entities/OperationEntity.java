@@ -16,14 +16,13 @@ import org.hibernate.annotations.Immutable;
 @EqualsAndHashCode
 @Builder
 public class OperationEntity implements Serializable {
-  @Id @EqualsAndHashCode.Exclude @Builder.Default private String id = UUID.randomUUID().toString();
+  @Id @EqualsAndHashCode.Exclude private final String id = UUID.randomUUID().toString();
   @NotNull private Operations type;
   private double cost;
 
   private OperationEntity() {};
 
-  private OperationEntity(@NonNull String id, @NonNull Operations type, double cost) {
-    this.id = id;
+  private OperationEntity(@NonNull Operations type, double cost) {
     this.type = type;
     this.cost = cost;
   }

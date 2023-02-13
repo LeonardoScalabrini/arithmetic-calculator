@@ -3,6 +3,7 @@ package com.arithmeticcalculator.domains;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.arithmeticcalculator.domains.exceptions.OperationException;
+import com.arithmeticcalculator.fixtures.Fixture;
 import com.jparams.verifier.tostring.ToStringVerifier;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -12,7 +13,7 @@ class UserTest {
 
   @Test
   void build() {
-    var user = User.builder().email("email").balance(20).build();
+    var user = Fixture.getUser();
     assertEquals("email", user.getEmail());
     assertEquals(20, user.getBalance());
     EqualsVerifier.simple().forClass(User.class).suppress(Warning.STRICT_INHERITANCE).verify();
@@ -21,8 +22,9 @@ class UserTest {
 
   @Test
   void pay() throws OperationException {
-    var user = User.builder().email("email").balance(15).build();
-    var operation = Operation.builder().cost(5).operations(Operations.SQUARE_ROOT).build();
+    var user = Fixture.getUser();
+    var operation = Fixture.getOperation();
+    assertEquals(15, user.pay(operation));
     assertEquals(10, user.pay(operation));
     assertEquals(5, user.pay(operation));
     assertEquals(0, user.pay(operation));
@@ -31,6 +33,6 @@ class UserTest {
 
   @Test
   void notNull() {
-    assertThrows(NullPointerException.class, () -> User.builder().email(null).balance(20).build());
+    assertThrows(NullPointerException.class, () -> User.builder().build());
   }
 }

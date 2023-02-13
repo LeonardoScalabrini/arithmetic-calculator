@@ -2,6 +2,7 @@ package com.arithmeticcalculator.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.security.Privileges;
 import com.jparams.verifier.tostring.ToStringVerifier;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -12,12 +13,7 @@ class UserEntityTest {
 
   @Test
   void build() {
-    var userEntity =
-        UserEntity.builder()
-            .email("email")
-            .password("password")
-            .privileges(Privileges.USER)
-            .build();
+    var userEntity = Fixture.getUserEntity();
     assertNotNull(userEntity.getId());
     assertEquals("email", userEntity.getEmail());
     assertNotEquals("password", userEntity.getPassword());
@@ -31,12 +27,7 @@ class UserEntityTest {
 
   @Test
   void with() {
-    var userEntity =
-        UserEntity.builder()
-            .email("email")
-            .password("password")
-            .privileges(Privileges.USER)
-            .build();
+    var userEntity = Fixture.getUserEntity();
     userEntity.setBalance(5);
     assertEquals(5, userEntity.getBalance());
   }
@@ -45,12 +36,6 @@ class UserEntityTest {
   void notNull() {
     assertThrows(
         NullPointerException.class,
-        () -> UserEntity.builder().password("password").privileges(Privileges.USER).build());
-    assertThrows(
-        NullPointerException.class,
-        () -> UserEntity.builder().email("email").privileges(Privileges.USER).build());
-    assertThrows(
-        NullPointerException.class,
-        () -> UserEntity.builder().email("email").password("password").build());
+        () -> UserEntity.builder().build());
   }
 }

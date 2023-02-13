@@ -3,6 +3,7 @@ package com.arithmeticcalculator.entities;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.arithmeticcalculator.domains.Operations;
+import com.arithmeticcalculator.fixtures.Fixture;
 import com.jparams.verifier.tostring.ToStringVerifier;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -12,7 +13,7 @@ class OperationEntityTest {
 
   @Test
   void build() {
-    var operationEntity = OperationEntity.builder().cost(5).type(Operations.DIVISION).build();
+    var operationEntity = Fixture.getOperationEntity();
     assertNotNull(operationEntity.getId());
     assertEquals(5, operationEntity.getCost());
     assertEquals(Operations.DIVISION, operationEntity.getType());
@@ -23,6 +24,6 @@ class OperationEntityTest {
   @Test
   void notNull() {
     assertThrows(
-        NullPointerException.class, () -> OperationEntity.builder().type(null).cost(5).build());
+        NullPointerException.class, () -> OperationEntity.builder().build());
   }
 }

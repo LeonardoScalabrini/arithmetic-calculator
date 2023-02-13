@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.entities.UserEntity;
+import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
 import com.arithmeticcalculator.security.Privileges;
 import java.util.Optional;
@@ -22,13 +23,7 @@ class UserRepositoryImplTest {
   @Mock private UserEntityJpaRepository userEntityJpaRepository;
   @InjectMocks private UserRepositoryImpl userRepository;
 
-  private final UserEntity userEntity =
-      UserEntity.builder()
-          .email("email")
-          .password("password")
-          .privileges(Privileges.USER)
-          .balance(50)
-          .build();
+  private final UserEntity userEntity = Fixture.getUserEntity();
 
   @BeforeEach
   void setUp() {
@@ -39,7 +34,7 @@ class UserRepositoryImplTest {
 
   @Test
   void save() {
-    var user = User.builder().email("email").build();
+    var user = Fixture.getUser();
     userRepository.save(user);
     Mockito.verify(userEntityJpaRepository, Mockito.times(1))
         .findByEmail(ArgumentMatchers.anyString());
@@ -50,7 +45,7 @@ class UserRepositoryImplTest {
   void notFound() {
     Mockito.when(userEntityJpaRepository.findByEmail(ArgumentMatchers.anyString()))
         .thenReturn(Optional.empty());
-    var user = User.builder().email("email").build();
+    var user = Fixture.getUser();
     userRepository.save(user);
     Mockito.verify(userEntityJpaRepository, Mockito.times(1))
         .findByEmail(ArgumentMatchers.anyString());
