@@ -38,3 +38,29 @@ docker-compose up
 ````
 docker run --name arithmetic-calculator -p 8080:8080 -e SPRING_PROFILE=dockerdev --network=mynet arithmetic-calculator
 ````
+
+# API Documentation #
+
+## APIs without basic auth
+
+POST /user
+{
+"email": "email",
+"password": "password"
+}
+
+## APIs with basic auth
+
+POST /api/v1/operations/addtion?n1=1.0&n2=2.0
+
+POST /api/v1/operations/subtration?n1=1.0&n2=2.0
+
+POST /api/v1/operations/multiplication?n1=1.0&n2=2.0
+
+POST /api/v1/operations/division?n1=1.0&n2=2.0
+
+POST /api/v1/operations/square-root/9
+
+GET /api/v1/operations/random-string
+
+GET /api/v1/records/search?page=0&size=10

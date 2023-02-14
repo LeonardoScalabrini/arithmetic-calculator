@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.v1.controllers;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,8 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(QueryController.class)
-class QueryControllerTest {
+@WebMvcTest(RecordController.class)
+class RecordControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
@@ -34,7 +34,7 @@ class QueryControllerTest {
   @Test
   void findBy() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.get("/records/search?page=1&size=2"))
+        .perform(MockMvcRequestBuilders.get("/api/v1/records/search?page=1&size=2"))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
     verify(recordPaginationQuery, times(1)).findBy("user", 1, 2);
@@ -45,7 +45,7 @@ class QueryControllerTest {
   void noContent() throws Exception {
     when(recordPaginationQuery.findBy("user", 1, 2)).thenReturn(Collections.emptyList());
     mockMvc
-        .perform(MockMvcRequestBuilders.get("/records/search?page=1&size=2"))
+        .perform(MockMvcRequestBuilders.get("/api/v1/records/search?page=1&size=2"))
         .andExpect(status().isNoContent())
         .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
     verify(recordPaginationQuery, times(1)).findBy("user", 1, 2);
@@ -55,7 +55,7 @@ class QueryControllerTest {
   @Test
   void shouldAuth() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.get("/records/search?page=1&size=2"))
+        .perform(MockMvcRequestBuilders.get("/api/v1/records/search?page=1&size=2"))
         .andExpect(status().isUnauthorized());
     verify(recordPaginationQuery, times(0)).findBy(anyString(), anyInt(), anyInt());
   }

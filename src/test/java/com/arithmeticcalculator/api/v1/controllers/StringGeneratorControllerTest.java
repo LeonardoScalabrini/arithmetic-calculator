@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.v1.controllers;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,7 +35,7 @@ class StringGeneratorControllerTest {
   @Test
   void randomString() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.get("/operations/random-string"))
+        .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").isString());
     verify(payOperationUserCase, times(1))
@@ -49,7 +49,7 @@ class StringGeneratorControllerTest {
             anyString(), eq(Operations.RANDOM_STRING), eq(stringGeneratorCommand)))
         .thenThrow(OperationException.class);
     mockMvc
-        .perform(MockMvcRequestBuilders.get("/operations/random-string"))
+        .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isInternalServerError());
     verify(payOperationUserCase, times(1))
         .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(stringGeneratorCommand));
@@ -59,7 +59,7 @@ class StringGeneratorControllerTest {
   @Test
   void shouldAuth() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.get("/operations/random-string"))
+        .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isUnauthorized());
     verify(payOperationUserCase, times(0))
         .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(stringGeneratorCommand));

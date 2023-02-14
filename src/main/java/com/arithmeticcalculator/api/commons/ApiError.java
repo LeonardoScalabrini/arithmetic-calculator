@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.commons;
 
 import java.io.Serializable;
 import java.util.Date;

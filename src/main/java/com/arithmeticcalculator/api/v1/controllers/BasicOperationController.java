@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
-@RequestMapping("/operations")
+@RequestMapping("api/v1/operations")
 public class BasicOperationController {
 
   private final PayOperationUserCase payOperationUserCase;

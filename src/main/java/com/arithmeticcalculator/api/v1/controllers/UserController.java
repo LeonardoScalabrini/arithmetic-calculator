@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.domains.interfaces.InitialBalanceUserCase;
 import com.arithmeticcalculator.dtos.UserCreateRequestDTO;
@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
-@RequestMapping("/user")
+@RequestMapping("api/v1/user")
 public class UserController {
 
   private final SecurityService securityService;

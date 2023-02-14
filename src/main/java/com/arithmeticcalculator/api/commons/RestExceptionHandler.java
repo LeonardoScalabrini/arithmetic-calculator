@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.commons;
 
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import org.springframework.http.HttpStatus;

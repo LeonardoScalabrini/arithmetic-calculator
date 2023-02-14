@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.v1.controllers;
 
 import static com.arithmeticcalculator.fixtures.Fixture.fromJson;
 import static org.mockito.Mockito.*;
@@ -28,7 +28,8 @@ class UserControllerTest {
     doNothing().when(securityService).createUser(dto.getEmail(), dto.getPassword());
     doNothing().when(initialBalanceUserCase).apply(dto.getEmail());
     mockMvc
-        .perform(post("/user").content(fromJson(dto)).contentType(MediaType.APPLICATION_JSON))
+        .perform(
+            post("/api/v1/user").content(fromJson(dto)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
     verify(securityService, times(1)).createUser(dto.getEmail(), dto.getPassword());
     verify(initialBalanceUserCase, times(1)).apply(dto.getEmail());
@@ -37,23 +38,23 @@ class UserControllerTest {
   @Test
   void badRequest() throws Exception {
     mockMvc
-        .perform(post("/user").content("").contentType(MediaType.APPLICATION_JSON))
+        .perform(post("/api/v1/user").content("").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());
     mockMvc
         .perform(
-            post("/user")
+            post("/api/v1/user")
                 .content(fromJson(new UserCreateRequestDTO("", "")))
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());
     mockMvc
         .perform(
-            post("/user")
+            post("/api/v1/user")
                 .content(fromJson(new UserCreateRequestDTO("email", "")))
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());
     mockMvc
         .perform(
-            post("/user")
+            post("/api/v1/user")
                 .content(fromJson(new UserCreateRequestDTO("", "password")))
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());

@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.v1.controllers;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,7 +36,7 @@ class SquareRootControllerTest {
   @Test
   void sqrt() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/operations/square-root/9"))
+        .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/9"))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").isNumber());
 
@@ -51,7 +51,7 @@ class SquareRootControllerTest {
             anyString(), eq(Operations.SQUARE_ROOT), any(SquareRootCommand.class)))
         .thenThrow(OperationException.class);
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/operations/square-root/-1"))
+        .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/-1"))
         .andExpect(status().isInternalServerError());
     verify(payOperationUserCase, times(1))
         .payOperation(anyString(), eq(Operations.SQUARE_ROOT), any());
@@ -61,7 +61,7 @@ class SquareRootControllerTest {
   @Test
   void shouldAuth() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/operations/square-root/-1"))
+        .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/-1"))
         .andExpect(status().isUnauthorized());
     verify(payOperationUserCase, times(0)).payOperation(anyString(), any(), any());
   }

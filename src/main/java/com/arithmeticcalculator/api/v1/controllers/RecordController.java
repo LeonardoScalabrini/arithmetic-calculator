@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.dtos.RecordResponseDTO;
 import com.arithmeticcalculator.queries.interfaces.RecordPaginationQuery;
@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
-@RequestMapping("/")
-public class QueryController {
+@RequestMapping("api/v1/records")
+public class RecordController {
 
   private final RecordPaginationQuery recordPaginationQuery;
 
   @Autowired
-  public QueryController(RecordPaginationQuery recordPaginationQuery) {
+  public RecordController(RecordPaginationQuery recordPaginationQuery) {
     this.recordPaginationQuery = recordPaginationQuery;
   }
 
-  @GetMapping("/records/search")
+  @GetMapping("/search")
   public ResponseEntity<List<RecordResponseDTO>> findBy(
       @Valid @RequestParam("page") int page,
       @Valid @RequestParam("size") int size,

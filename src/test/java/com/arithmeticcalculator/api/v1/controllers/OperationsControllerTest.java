@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.controllers;
+package com.arithmeticcalculator.api.v1.controllers;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -35,7 +35,7 @@ class OperationsControllerTest {
   @Test
   void calc() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/operations/addtion?n1=1.0&n2=2.0"))
+        .perform(MockMvcRequestBuilders.post("/api/v1/operations/addtion?n1=1.0&n2=2.0"))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").isNumber());
     verify(payOperationUserCase, times(1)).payOperation(anyString(), eq(Operations.ADDTION), any());
@@ -45,7 +45,7 @@ class OperationsControllerTest {
   @Test
   void shouldValidateEnum() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/operations/notexist?n1=1.0&n2=2.0"))
+        .perform(MockMvcRequestBuilders.post("/api/v1/operations/notexist?n1=1.0&n2=2.0"))
         .andExpect(status().isInternalServerError());
     verify(payOperationUserCase, times(0)).payOperation(anyString(), any(Operations.class), any());
   }
@@ -54,10 +54,10 @@ class OperationsControllerTest {
   @Test
   void shouldValidateNumbers() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/operations/addtion?n1=abc&n2=2.0"))
+        .perform(MockMvcRequestBuilders.post("/api/v1/operations/addtion?n1=abc&n2=2.0"))
         .andExpect(status().isBadRequest());
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/operations/addtion?n1=1.0&n2=abc"))
+        .perform(MockMvcRequestBuilders.post("/api/v1/operations/addtion?n1=1.0&n2=abc"))
         .andExpect(status().isBadRequest());
     verify(payOperationUserCase, times(0)).payOperation(anyString(), any(), any());
   }
@@ -68,7 +68,7 @@ class OperationsControllerTest {
     when(payOperationUserCase.payOperation(anyString(), eq(Operations.DIVISION), any()))
         .thenThrow(OperationException.class);
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/operations/division?n1=1.0&n2=0"))
+        .perform(MockMvcRequestBuilders.post("/api/v1/operations/division?n1=1.0&n2=0"))
         .andExpect(status().isInternalServerError());
     verify(payOperationUserCase, times(1)).payOperation(anyString(), any(), any());
   }
@@ -77,7 +77,7 @@ class OperationsControllerTest {
   @Test
   void shouldAuth() throws Exception {
     mockMvc
-        .perform(MockMvcRequestBuilders.post("/operations/division?n1=1.0&n2=0"))
+        .perform(MockMvcRequestBuilders.post("/api/v1/operations/division?n1=1.0&n2=0"))
         .andExpect(status().isUnauthorized());
     verify(payOperationUserCase, times(0)).payOperation(anyString(), any(), any());
   }
