@@ -26,7 +26,7 @@ class QueryControllerTest {
 
   @BeforeEach
   void setUp() {
-    when(recordPaginationQuery.findBy(1, 2))
+    when(recordPaginationQuery.findBy("user", 1, 2))
         .thenReturn(Collections.singletonList(Fixture.getRecordEntity()));
   }
 
@@ -37,18 +37,18 @@ class QueryControllerTest {
         .perform(MockMvcRequestBuilders.get("/records/search?page=1&size=2"))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
-    verify(recordPaginationQuery, times(1)).findBy(1, 2);
+    verify(recordPaginationQuery, times(1)).findBy("user", 1, 2);
   }
 
   @WithMockUser
   @Test
   void noContent() throws Exception {
-    when(recordPaginationQuery.findBy(1, 2)).thenReturn(Collections.emptyList());
+    when(recordPaginationQuery.findBy("user", 1, 2)).thenReturn(Collections.emptyList());
     mockMvc
         .perform(MockMvcRequestBuilders.get("/records/search?page=1&size=2"))
         .andExpect(status().isNoContent())
         .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
-    verify(recordPaginationQuery, times(1)).findBy(1, 2);
+    verify(recordPaginationQuery, times(1)).findBy("user", 1, 2);
   }
 
   @WithAnonymousUser
@@ -57,6 +57,6 @@ class QueryControllerTest {
     mockMvc
         .perform(MockMvcRequestBuilders.get("/records/search?page=1&size=2"))
         .andExpect(status().isUnauthorized());
-    verify(recordPaginationQuery, times(0)).findBy(1, 2);
+    verify(recordPaginationQuery, times(0)).findBy(anyString(), anyInt(), anyInt());
   }
 }

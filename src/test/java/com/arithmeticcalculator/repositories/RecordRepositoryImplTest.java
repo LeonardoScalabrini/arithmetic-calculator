@@ -1,7 +1,5 @@
 package com.arithmeticcalculator.repositories;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.entities.OperationEntity;

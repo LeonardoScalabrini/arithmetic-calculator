@@ -1,7 +1,8 @@
 package com.arithmeticcalculator.controllers;
 
-import com.arithmeticcalculator.entities.RecordEntity;
+import com.arithmeticcalculator.dtos.RecordResponseDTO;
 import com.arithmeticcalculator.queries.interfaces.RecordPaginationQuery;
+import java.security.Principal;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,12 @@ public class QueryController {
   }
 
   @GetMapping("/records/search")
-  public ResponseEntity<List<RecordEntity>> findBy(
-      @Valid @RequestParam("page") int page, @Valid @RequestParam("size") int size) {
-    var result = recordPaginationQuery.findBy(page, size);
+  public ResponseEntity<List<RecordResponseDTO>> findBy(
+      @Valid @RequestParam("page") int page,
+      @Valid @RequestParam("size") int size,
+      Principal principal) {
+    var result =
+        RecordResponseDTO.parseOf(recordPaginationQuery.findBy(principal.getName(), page, size));
     if (result.isEmpty()) return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
     return ResponseEntity.ok(result);
   }

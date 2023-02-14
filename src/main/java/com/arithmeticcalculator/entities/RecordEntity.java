@@ -8,7 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.Immutable;
 
 @Immutable
-@Entity(name = "record")
+@Entity(name = "records")
 @Getter
 @ToString
 @EqualsAndHashCode
@@ -16,11 +16,11 @@ import org.hibernate.annotations.Immutable;
 public class RecordEntity implements Serializable {
   @Id @EqualsAndHashCode.Exclude private final String id = UUID.randomUUID().toString();
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   @JoinColumn(name = "fk_user")
   private UserEntity user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   @JoinColumn(name = "fk_operation")
   private OperationEntity operation;
 
@@ -32,7 +32,7 @@ public class RecordEntity implements Serializable {
 
   private Date date;
 
-  private RecordEntity() {};
+  public RecordEntity() {};
 
   private RecordEntity(
       @NonNull UserEntity user,

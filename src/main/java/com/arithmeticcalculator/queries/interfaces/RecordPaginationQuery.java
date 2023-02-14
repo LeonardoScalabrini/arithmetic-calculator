@@ -4,5 +4,5 @@ import com.arithmeticcalculator.entities.RecordEntity;
 import java.util.List;
 
 public interface RecordPaginationQuery {
-  List<RecordEntity> findBy(int page, int size);
+  List<RecordEntity> findBy(String email, int page, int size);
 }

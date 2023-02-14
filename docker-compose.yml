@@ -3,6 +3,7 @@ services:
   mysql:
     image: mysql:5.7
     restart: always
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_DATABASE: 'db'
@@ -22,3 +23,5 @@ volumes:
 
 networks:
   mynet:
+    name: mynet
+    external: true

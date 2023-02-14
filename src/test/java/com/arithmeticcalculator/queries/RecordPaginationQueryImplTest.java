@@ -26,14 +26,15 @@ class RecordPaginationQueryImplTest {
 
   @BeforeEach
   void setUp() {
-    Mockito.when(recordRepository.findAll(Mockito.any(Pageable.class)))
+    Mockito.when(recordRepository.findByUserEmail(Mockito.eq("email"), Mockito.any(Pageable.class)))
         .thenReturn(new PageImpl<>(Collections.singletonList(record)));
   }
 
   @Test
   void findBy() {
-    var result = recordPaginationQuery.findBy(1, 2);
+    var result = recordPaginationQuery.findBy("email", 1, 2);
     assertEquals(Collections.singletonList(record), result);
-    Mockito.verify(recordRepository, Mockito.times(1)).findAll(Mockito.any(Pageable.class));
+    Mockito.verify(recordRepository, Mockito.times(1))
+        .findByUserEmail(Mockito.eq("email"), Mockito.any(Pageable.class));
   }
 }

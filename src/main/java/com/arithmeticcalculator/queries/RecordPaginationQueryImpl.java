@@ -4,7 +4,9 @@ import com.arithmeticcalculator.entities.RecordEntity;
 import com.arithmeticcalculator.queries.interfaces.RecordPaginationQuery;
 import com.arithmeticcalculator.repositories.jpa.RecordEntityJpaRepository;
 import java.util.List;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,8 +21,9 @@ public class RecordPaginationQueryImpl implements RecordPaginationQuery {
     this.recordEntityJpaRepository = recordEntityJpaRepository;
   }
 
-  public List<RecordEntity> findBy(int page, int size) {
+  public List<RecordEntity> findBy(@NonNull String email, int page, int size) {
     Pageable pageable = PageRequest.of(page, size, Sort.by("date").descending());
-    return recordEntityJpaRepository.findAll(pageable).toList();
+    Page<RecordEntity> recordsPage = recordEntityJpaRepository.findByUserEmail(email, pageable);
+    return recordsPage.getContent();
   }
 }

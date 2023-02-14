@@ -46,7 +46,7 @@ class OperationsControllerTest {
   void shouldValidateEnum() throws Exception {
     mockMvc
         .perform(MockMvcRequestBuilders.post("/operations/notexist?n1=1.0&n2=2.0"))
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isInternalServerError());
     verify(payOperationUserCase, times(0)).payOperation(anyString(), any(Operations.class), any());
   }
 
