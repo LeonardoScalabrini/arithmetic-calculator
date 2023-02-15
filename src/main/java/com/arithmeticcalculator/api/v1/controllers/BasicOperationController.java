@@ -1,9 +1,10 @@
 package com.arithmeticcalculator.api.v1.controllers;
 
+import com.arithmeticcalculator.api.v1.dtos.RecordResponseDTO;
 import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.factories.BasicOperationCommandFactory;
-import com.arithmeticcalculator.domains.interfaces.PayOperationUserCase;
+import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
 import java.security.Principal;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -23,7 +24,7 @@ public class BasicOperationController {
   }
 
   @PostMapping("/{operation}")
-  public @ResponseBody ResponseEntity<Double> calc(
+  public @ResponseBody ResponseEntity<RecordResponseDTO> calc(
       @Valid @PathVariable(value = "operation") @NotBlank String operation,
       @Valid @RequestParam("n1") double n1,
       @Valid @RequestParam("n2") double n2,
@@ -33,7 +34,8 @@ public class BasicOperationController {
       var operations = Operations.valueOf(operation.toUpperCase());
       var command = BasicOperationCommandFactory.of(operations, n1, n2);
       return ResponseEntity.ok(
-          payOperationUserCase.payOperation(principal.getName(), operations, command));
+          RecordResponseDTO.from(
+              payOperationUserCase.payOperation(principal.getName(), operations, command)));
     } catch (IllegalArgumentException e) {
       throw OperationException.withMessage("Operation should be valid!");
     }

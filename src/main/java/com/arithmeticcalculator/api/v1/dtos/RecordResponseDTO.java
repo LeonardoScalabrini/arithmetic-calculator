@@ -1,6 +1,7 @@
-package com.arithmeticcalculator.dtos;
+package com.arithmeticcalculator.api.v1.dtos;
 
 import com.arithmeticcalculator.domains.Operations;
+import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.entities.RecordEntity;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +32,16 @@ public class RecordResponseDTO {
     this.date = date;
   }
 
-  private static RecordResponseDTO from(@NonNull RecordEntity r) {
+  public static <T> RecordResponseDTO from(@NonNull Record<T> r) {
+    return new RecordResponseDTO(
+        r.getOperation().getOperations(),
+        r.getAmount(),
+        r.getBalance(),
+        r.getOperationResult().toString(),
+        r.getDate());
+  }
+
+  public static RecordResponseDTO from(@NonNull RecordEntity r) {
     return new RecordResponseDTO(
         r.getOperation().getType(),
         r.getAmount(),

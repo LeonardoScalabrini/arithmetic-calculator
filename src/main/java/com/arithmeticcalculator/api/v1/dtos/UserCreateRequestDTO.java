@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.dtos;
+package com.arithmeticcalculator.api.v1.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

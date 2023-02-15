@@ -4,9 +4,11 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.arithmeticcalculator.domains.Operations;
-import com.arithmeticcalculator.domains.commands.StringGeneratorCommand;
+import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
-import com.arithmeticcalculator.domains.interfaces.PayOperationUserCase;
+import com.arithmeticcalculator.fixtures.Fixture;
+import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
+import com.arithmeticcalculator.usercases.interfaces.RandomStringUserCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +20,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(StringGeneratorController.class)
-class StringGeneratorControllerTest {
+@WebMvcTest(RandomStringController.class)
+class RandomStringControllerTest {
 
   @Autowired private MockMvc mockMvc;
-  @MockBean private StringGeneratorCommand stringGeneratorCommand;
+  @MockBean private RandomStringUserCase randomStringUserCase;
   @MockBean private PayOperationUserCase payOperationUserCase;
 
   @BeforeEach
   void setUp() throws OperationException {
-    when(payOperationUserCase.payOperation(anyString(), eq(Operations.RANDOM_STRING), any()))
-        .thenReturn("random");
+    when(payOperationUserCase.<String>payOperation(
+            anyString(), eq(Operations.RANDOM_STRING), any()))
+        .thenReturn(Record.<String>from(Fixture.getUser(), Fixture.getOperation(), "result"));
   }
 
   @WithMockUser
@@ -37,22 +40,22 @@ class StringGeneratorControllerTest {
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$").isString());
+        .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
     verify(payOperationUserCase, times(1))
-        .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(stringGeneratorCommand));
+        .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(randomStringUserCase));
   }
 
   @WithMockUser
   @Test
   void shouldThrowException() throws Exception {
     when(payOperationUserCase.payOperation(
-            anyString(), eq(Operations.RANDOM_STRING), eq(stringGeneratorCommand)))
+            anyString(), eq(Operations.RANDOM_STRING), eq(randomStringUserCase)))
         .thenThrow(OperationException.class);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isInternalServerError());
     verify(payOperationUserCase, times(1))
-        .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(stringGeneratorCommand));
+        .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(randomStringUserCase));
   }
 
   @WithAnonymousUser
@@ -62,6 +65,6 @@ class StringGeneratorControllerTest {
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isUnauthorized());
     verify(payOperationUserCase, times(0))
-        .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(stringGeneratorCommand));
+        .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(randomStringUserCase));
   }
 }

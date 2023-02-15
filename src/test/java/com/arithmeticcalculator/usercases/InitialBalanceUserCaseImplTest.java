@@ -1,9 +1,9 @@
 package com.arithmeticcalculator.usercases;
 
 import com.arithmeticcalculator.domains.User;
-import com.arithmeticcalculator.domains.interfaces.FindInitalBalance;
-import com.arithmeticcalculator.domains.interfaces.UserRepository;
 import com.arithmeticcalculator.fixtures.Fixture;
+import com.arithmeticcalculator.usercases.interfaces.repositories.UserRepository;
+import com.arithmeticcalculator.usercases.interfaces.services.FindInitalBalance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

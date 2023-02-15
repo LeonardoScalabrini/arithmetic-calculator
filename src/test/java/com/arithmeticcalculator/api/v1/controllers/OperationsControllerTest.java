@@ -6,7 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
-import com.arithmeticcalculator.domains.interfaces.PayOperationUserCase;
+import com.arithmeticcalculator.fixtures.Fixture;
+import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ class OperationsControllerTest {
 
   @BeforeEach
   void setUp() throws OperationException {
-    when(payOperationUserCase.payOperation(anyString(), eq(Operations.ADDTION), any()))
-        .thenReturn(2.0);
+    when(payOperationUserCase.<Double>payOperation(anyString(), eq(Operations.ADDTION), any()))
+        .thenReturn(Fixture.getRecord());
   }
 
   @WithMockUser
@@ -37,7 +38,7 @@ class OperationsControllerTest {
     mockMvc
         .perform(MockMvcRequestBuilders.post("/api/v1/operations/addtion?n1=1.0&n2=2.0"))
         .andExpect(status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$").isNumber());
+        .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
     verify(payOperationUserCase, times(1)).payOperation(anyString(), eq(Operations.ADDTION), any());
   }
 

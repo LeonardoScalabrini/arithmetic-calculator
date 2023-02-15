@@ -6,7 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.commands.SquareRootCommand;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
-import com.arithmeticcalculator.domains.interfaces.PayOperationUserCase;
+import com.arithmeticcalculator.fixtures.Fixture;
+import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ class SquareRootControllerTest {
   void setUp() throws OperationException {
     when(payOperationUserCase.payOperation(
             anyString(), eq(Operations.SQUARE_ROOT), any(SquareRootCommand.class)))
-        .thenReturn(3.0);
+        .thenReturn(Fixture.getRecord());
   }
 
   @WithMockUser
@@ -38,7 +39,7 @@ class SquareRootControllerTest {
     mockMvc
         .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/9"))
         .andExpect(status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$").isNumber());
+        .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
 
     verify(payOperationUserCase, times(1))
         .payOperation(anyString(), eq(Operations.SQUARE_ROOT), any());

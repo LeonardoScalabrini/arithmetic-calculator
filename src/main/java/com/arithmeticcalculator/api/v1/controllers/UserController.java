@@ -1,8 +1,8 @@
 package com.arithmeticcalculator.api.v1.controllers;
 
-import com.arithmeticcalculator.domains.interfaces.InitialBalanceUserCase;
-import com.arithmeticcalculator.dtos.UserCreateRequestDTO;
+import com.arithmeticcalculator.api.v1.dtos.UserCreateRequestDTO;
 import com.arithmeticcalculator.security.interfaces.SecurityService;
+import com.arithmeticcalculator.usercases.interfaces.InitialBalanceUserCase;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

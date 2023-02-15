@@ -1,9 +1,9 @@
 package com.arithmeticcalculator.usercases;
 
 import com.arithmeticcalculator.domains.User;
-import com.arithmeticcalculator.domains.interfaces.FindInitalBalance;
-import com.arithmeticcalculator.domains.interfaces.InitialBalanceUserCase;
-import com.arithmeticcalculator.domains.interfaces.UserRepository;
+import com.arithmeticcalculator.usercases.interfaces.InitialBalanceUserCase;
+import com.arithmeticcalculator.usercases.interfaces.repositories.UserRepository;
+import com.arithmeticcalculator.usercases.interfaces.services.FindInitalBalance;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

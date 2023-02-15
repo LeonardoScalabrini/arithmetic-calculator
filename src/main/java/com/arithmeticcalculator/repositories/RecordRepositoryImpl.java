@@ -1,11 +1,11 @@
 package com.arithmeticcalculator.repositories;
 
 import com.arithmeticcalculator.domains.Record;
-import com.arithmeticcalculator.domains.interfaces.RecordRepository;
 import com.arithmeticcalculator.entities.RecordEntity;
 import com.arithmeticcalculator.repositories.jpa.OperationEntityJpaRepository;
 import com.arithmeticcalculator.repositories.jpa.RecordEntityJpaRepository;
 import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
+import com.arithmeticcalculator.usercases.interfaces.repositories.RecordRepository;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

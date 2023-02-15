@@ -4,13 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.arithmeticcalculator.domains.Operation;
 import com.arithmeticcalculator.domains.Operations;
+import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
-import com.arithmeticcalculator.domains.interfaces.CreateRecordUserCase;
 import com.arithmeticcalculator.domains.interfaces.OperationCommand;
-import com.arithmeticcalculator.domains.interfaces.OperationRepository;
-import com.arithmeticcalculator.domains.interfaces.UserRepository;
 import com.arithmeticcalculator.fixtures.Fixture;
+import com.arithmeticcalculator.usercases.interfaces.CreateRecordUserCase;
+import com.arithmeticcalculator.usercases.interfaces.repositories.OperationRepository;
+import com.arithmeticcalculator.usercases.interfaces.repositories.UserRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,8 @@ class PayOperationUserCaseImplTest {
   @Spy private final User user = Fixture.getUser();
   private final Operation operation = Fixture.getOperation();
 
+  private final Record<Double> record = Fixture.getRecord();
+
   @BeforeEach
   void setUp() throws OperationException {
     Mockito.when(userRepository.findByEmail(ArgumentMatchers.anyString()))
@@ -38,14 +41,14 @@ class PayOperationUserCaseImplTest {
     Mockito.when(operationRepository.findByName(Operations.SQUARE_ROOT))
         .thenReturn(Optional.of(operation));
     Mockito.when(operationCommand.execute()).thenReturn(2.0);
-    Mockito.doNothing().when(createRecordUserCase).create(user, operation, 2.0);
+    Mockito.when(createRecordUserCase.create(user, operation, 2.0)).thenReturn(record);
   }
 
   @Test
   void payOperation() throws OperationException {
     var result =
         payOperationUserCase.payOperation("email", Operations.SQUARE_ROOT, operationCommand);
-    assertEquals(2, result);
+    assertEquals(record, result);
     Mockito.verify(userRepository, Mockito.times(1)).findByEmail("email");
     Mockito.verify(operationRepository, Mockito.times(1)).findByName(Operations.SQUARE_ROOT);
     Mockito.verify(userRepository, Mockito.times(1)).save(user);

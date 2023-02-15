@@ -1,9 +1,9 @@
 package com.arithmeticcalculator.repositories;
 
 import com.arithmeticcalculator.domains.User;
-import com.arithmeticcalculator.domains.interfaces.UserRepository;
 import com.arithmeticcalculator.entities.UserEntity;
 import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
+import com.arithmeticcalculator.usercases.interfaces.repositories.UserRepository;
 import java.util.Optional;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;

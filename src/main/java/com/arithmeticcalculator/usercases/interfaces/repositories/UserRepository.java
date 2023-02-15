@@ -1,4 +1,4 @@
-package com.arithmeticcalculator.domains.interfaces;
+package com.arithmeticcalculator.usercases.interfaces.repositories;
 
 import com.arithmeticcalculator.domains.User;
 import java.util.Optional;

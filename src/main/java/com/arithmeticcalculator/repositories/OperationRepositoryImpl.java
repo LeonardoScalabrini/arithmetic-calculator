@@ -2,9 +2,9 @@ package com.arithmeticcalculator.repositories;
 
 import com.arithmeticcalculator.domains.Operation;
 import com.arithmeticcalculator.domains.Operations;
-import com.arithmeticcalculator.domains.interfaces.OperationRepository;
 import com.arithmeticcalculator.entities.OperationEntity;
 import com.arithmeticcalculator.repositories.jpa.OperationEntityJpaRepository;
+import com.arithmeticcalculator.usercases.interfaces.repositories.OperationRepository;
 import java.util.Optional;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,8 @@
 package com.arithmeticcalculator.usercases;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.arithmeticcalculator.domains.Record;
-import com.arithmeticcalculator.domains.interfaces.RecordRepository;
 import com.arithmeticcalculator.fixtures.Fixture;
+import com.arithmeticcalculator.usercases.interfaces.repositories.RecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

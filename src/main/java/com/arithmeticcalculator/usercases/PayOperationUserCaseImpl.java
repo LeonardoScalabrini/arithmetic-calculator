@@ -1,8 +1,13 @@
 package com.arithmeticcalculator.usercases;
 
 import com.arithmeticcalculator.domains.Operations;
+import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.interfaces.*;
+import com.arithmeticcalculator.usercases.interfaces.CreateRecordUserCase;
+import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
+import com.arithmeticcalculator.usercases.interfaces.repositories.OperationRepository;
+import com.arithmeticcalculator.usercases.interfaces.repositories.UserRepository;
 import javax.transaction.Transactional;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +33,7 @@ public class PayOperationUserCaseImpl implements PayOperationUserCase {
 
   @Override
   @Transactional
-  public <T> T payOperation(
+  public <T> Record<T> payOperation(
       @NonNull String email, @NonNull Operations operations, @NonNull OperationCommand<T> command)
       throws OperationException {
     var user =
@@ -42,7 +47,6 @@ public class PayOperationUserCaseImpl implements PayOperationUserCase {
     var result = command.execute();
     user.pay(operation);
     userRepository.save(user);
-    createRecordUserCase.create(user, operation, result);
-    return result;
+    return createRecordUserCase.create(user, operation, result);
   }
 }

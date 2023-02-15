@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = InitialBalanceConfiguration.class)
+@SpringBootTest(classes = InitialBalanceConfigurationFind.class)
 class InitialBalanceConfigurationTest {
 
-  @Autowired private InitialBalanceConfiguration initialBalanceConfiguration;
+  @Autowired private InitialBalanceConfigurationFind initialBalanceConfiguration;
 
   @Test
   void find() {
