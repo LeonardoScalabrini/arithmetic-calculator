@@ -21,14 +21,6 @@ public class CreateRecordUserCaseImpl implements CreateRecordUserCase {
 
   @Override
   public <T> void create(@NonNull User user, @NonNull Operation operation, @NonNull T result) {
-    var r =
-        Record.<T>builder()
-            .amount(operation.getCost())
-            .operation(operation)
-            .balance(user.getBalance())
-            .user(user)
-            .operationResult(result)
-            .build();
-    recordRepository.save(r);
+    recordRepository.save(Record.from(user, operation, result));
   }
 }

@@ -11,7 +11,6 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @Value
-@Builder
 public class RecordResponseDTO {
   Operations operation;
   double amount;
@@ -19,18 +18,29 @@ public class RecordResponseDTO {
   String response;
   Date date;
 
-  public static List<RecordResponseDTO> parseOf(List<RecordEntity> records) {
-    return records
-        .parallelStream()
-        .map(
-            r ->
-                RecordResponseDTO.builder()
-                    .operation(r.getOperation().getType())
-                    .amount(r.getAmount())
-                    .balance(r.getUserBalance())
-                    .response(r.getOperationResponse())
-                    .date(r.getDate())
-                    .build())
-        .collect(Collectors.toList());
+  private RecordResponseDTO(
+      @NonNull Operations operation,
+      double amount,
+      double balance,
+      @NonNull String response,
+      @NonNull Date date) {
+    this.operation = operation;
+    this.amount = amount;
+    this.balance = balance;
+    this.response = response;
+    this.date = date;
+  }
+
+  private static RecordResponseDTO from(@NonNull RecordEntity r) {
+    return new RecordResponseDTO(
+        r.getOperation().getType(),
+        r.getAmount(),
+        r.getUserBalance(),
+        r.getOperationResponse(),
+        r.getDate());
+  }
+
+  public static List<RecordResponseDTO> from(List<RecordEntity> records) {
+    return records.parallelStream().map(RecordResponseDTO::from).collect(Collectors.toList());
   }
 }

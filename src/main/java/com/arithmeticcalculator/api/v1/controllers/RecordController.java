@@ -30,7 +30,7 @@ public class RecordController {
       @Valid @RequestParam("size") int size,
       Principal principal) {
     var result =
-        RecordResponseDTO.parseOf(recordPaginationQuery.findBy(principal.getName(), page, size));
+        RecordResponseDTO.from(recordPaginationQuery.findBy(principal.getName(), page, size));
     if (result.isEmpty()) return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
     return ResponseEntity.ok(result);
   }

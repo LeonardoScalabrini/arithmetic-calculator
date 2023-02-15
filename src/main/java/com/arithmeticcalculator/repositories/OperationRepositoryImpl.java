@@ -3,6 +3,7 @@ package com.arithmeticcalculator.repositories;
 import com.arithmeticcalculator.domains.Operation;
 import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.interfaces.OperationRepository;
+import com.arithmeticcalculator.entities.OperationEntity;
 import com.arithmeticcalculator.repositories.jpa.OperationEntityJpaRepository;
 import java.util.Optional;
 import lombok.NonNull;
@@ -21,8 +22,6 @@ public class OperationRepositoryImpl implements OperationRepository {
 
   @Override
   public Optional<Operation> findByName(@NonNull Operations operations) {
-    return operationEntityJpaRepository
-        .findByType(operations)
-        .map(entity -> Operation.builder().operations(operations).cost(entity.getCost()).build());
+    return operationEntityJpaRepository.findByType(operations).map(OperationEntity::getOperation);
   }
 }

@@ -1,5 +1,6 @@
 package com.arithmeticcalculator.entities;
 
+import com.arithmeticcalculator.domains.Record;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -12,7 +13,6 @@ import org.hibernate.annotations.Immutable;
 @Getter
 @ToString
 @EqualsAndHashCode
-@Builder
 public class RecordEntity implements Serializable {
   @Id @EqualsAndHashCode.Exclude private final String id = UUID.randomUUID().toString();
 
@@ -47,5 +47,16 @@ public class RecordEntity implements Serializable {
     this.userBalance = userBalance;
     this.operationResponse = operationResponse;
     this.date = date;
+  }
+
+  public static <T> RecordEntity from(
+      @NonNull UserEntity user, @NonNull OperationEntity operation, @NonNull Record<T> record) {
+    return new RecordEntity(
+        user,
+        operation,
+        record.getAmount(),
+        record.getBalance(),
+        record.getOperationResult().toString(),
+        record.getDate());
   }
 }

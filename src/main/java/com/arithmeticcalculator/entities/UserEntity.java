@@ -1,5 +1,6 @@
 package com.arithmeticcalculator.entities;
 
+import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.security.Privileges;
 import java.io.Serializable;
 import java.util.UUID;
@@ -36,5 +37,9 @@ public class UserEntity implements Serializable {
     this.password = new BCryptPasswordEncoder().encode(password);
     this.privileges = privileges;
     this.balance = balance;
+  }
+
+  public User getUser() {
+    return User.builder().email(email).balance(balance).build();
   }
 }

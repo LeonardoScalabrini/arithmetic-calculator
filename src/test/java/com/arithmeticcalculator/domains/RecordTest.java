@@ -24,6 +24,6 @@ class RecordTest {
 
   @Test
   void notNull() {
-    assertThrows(NullPointerException.class, () -> Record.<Double>builder().build());
+    assertThrows(NullPointerException.class, () -> Record.<Double>from(null, null, null));
   }
 }

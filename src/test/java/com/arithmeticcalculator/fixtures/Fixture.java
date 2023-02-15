@@ -12,11 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 public class Fixture {
-
-  public static final Date DATE = new Date();
 
   public static User getUser() {
     return User.builder().email("email").balance(20).build();
@@ -27,13 +24,7 @@ public class Fixture {
   }
 
   public static Record<Double> getRecord() {
-    return Record.<Double>builder()
-        .amount(5)
-        .balance(20)
-        .operation(getOperation())
-        .user(getUser())
-        .operationResult(2.0)
-        .build();
+    return Record.from(getUser(), getOperation(), 2.0);
   }
 
   public static UserEntity getUserEntity() {
@@ -46,18 +37,11 @@ public class Fixture {
   }
 
   public static OperationEntity getOperationEntity() {
-    return OperationEntity.builder().type(Operations.DIVISION).cost(5).build();
+    return OperationEntity.from(getOperation());
   }
 
   public static RecordEntity getRecordEntity() {
-    return RecordEntity.builder()
-        .amount(5)
-        .userBalance(20)
-        .operation(getOperationEntity())
-        .user(getUserEntity())
-        .operationResponse("2.0")
-        .date(DATE)
-        .build();
+    return RecordEntity.from(getUserEntity(), getOperationEntity(), getRecord());
   }
 
   public static final String CREATE_USER_REQUEST_PATH =

@@ -4,24 +4,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.arithmeticcalculator.fixtures.Fixture;
 import com.jparams.verifier.tostring.ToStringVerifier;
-import java.util.Date;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.jupiter.api.Test;
 
 class RecordEntityTest {
 
-  private final Date date = new Date();
-
   @Test
   void build() {
-    var record = Fixture.getRecordEntity();
+    var user = Fixture.getUserEntity();
+    var operation = Fixture.getOperationEntity();
+    var model = Fixture.getRecord();
+    var record = RecordEntity.from(user, operation, model);
     assertNotNull(record.getId());
-    assertEquals(Fixture.DATE, record.getDate());
-    assertEquals(5, record.getAmount());
-    assertEquals(20, record.getUserBalance());
-    assertEquals(Fixture.getOperationEntity(), record.getOperation());
-    assertEquals(Fixture.getUserEntity(), record.getUser());
+    assertEquals(model.getDate(), record.getDate());
+    assertEquals(model.getAmount(), record.getAmount());
+    assertEquals(user.getBalance(), record.getUserBalance());
+    assertEquals(operation, record.getOperation());
+    assertEquals(user, record.getUser());
     assertEquals("2.0", record.getOperationResponse());
     EqualsVerifier.simple()
         .forClass(RecordEntity.class)
@@ -32,6 +32,13 @@ class RecordEntityTest {
 
   @Test
   void notNull() {
-    assertThrows(NullPointerException.class, () -> RecordEntity.builder().build());
+    var userEntity = Fixture.getUserEntity();
+    var operationEntity = Fixture.getOperationEntity();
+    var record = Fixture.getRecord();
+    assertThrows(
+        NullPointerException.class, () -> RecordEntity.from(null, operationEntity, record));
+    assertThrows(NullPointerException.class, () -> RecordEntity.from(userEntity, null, record));
+    assertThrows(
+        NullPointerException.class, () -> RecordEntity.from(userEntity, operationEntity, null));
   }
 }

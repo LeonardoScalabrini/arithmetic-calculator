@@ -2,6 +2,7 @@ package com.arithmeticcalculator.repositories;
 
 import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.domains.interfaces.UserRepository;
+import com.arithmeticcalculator.entities.UserEntity;
 import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
 import java.util.Optional;
 import lombok.NonNull;
@@ -31,8 +32,6 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public Optional<User> findByEmail(@NonNull String email) {
-    return userEntityJpaRepository
-        .findByEmail(email)
-        .map(u -> User.builder().email(email).balance(u.getBalance()).build());
+    return userEntityJpaRepository.findByEmail(email).map(UserEntity::getUser);
   }
 }

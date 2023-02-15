@@ -6,7 +6,6 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-@Builder
 @Value
 public class Record<T> {
   User user;
@@ -27,5 +26,10 @@ public class Record<T> {
     this.amount = amount;
     this.balance = balance;
     this.operationResult = operationResult;
+  }
+
+  public static <T> Record<T> from(
+      @NonNull User user, @NonNull Operation operation, @NonNull T result) {
+    return new Record<>(user, operation, operation.getCost(), user.getBalance(), result);
   }
 }

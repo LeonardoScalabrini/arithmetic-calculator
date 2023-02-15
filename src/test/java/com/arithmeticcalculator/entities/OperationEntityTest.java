@@ -16,13 +16,13 @@ class OperationEntityTest {
     var operationEntity = Fixture.getOperationEntity();
     assertNotNull(operationEntity.getId());
     assertEquals(5, operationEntity.getCost());
-    assertEquals(Operations.DIVISION, operationEntity.getType());
+    assertEquals(Operations.SQUARE_ROOT, operationEntity.getType());
     EqualsVerifier.forClass(OperationEntity.class).suppress(Warning.STRICT_INHERITANCE).verify();
     ToStringVerifier.forClass(OperationEntity.class).verify();
   }
 
   @Test
   void notNull() {
-    assertThrows(NullPointerException.class, () -> OperationEntity.builder().build());
+    assertThrows(NullPointerException.class, () -> OperationEntity.from(null));
   }
 }

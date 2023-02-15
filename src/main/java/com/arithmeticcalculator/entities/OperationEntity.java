@@ -1,5 +1,6 @@
 package com.arithmeticcalculator.entities;
 
+import com.arithmeticcalculator.domains.Operation;
 import com.arithmeticcalculator.domains.Operations;
 import java.io.Serializable;
 import java.util.UUID;
@@ -16,7 +17,6 @@ import org.hibernate.annotations.Immutable;
 @Getter
 @ToString
 @EqualsAndHashCode
-@Builder
 public class OperationEntity implements Serializable {
   @Id @EqualsAndHashCode.Exclude private final String id = UUID.randomUUID().toString();
 
@@ -31,5 +31,13 @@ public class OperationEntity implements Serializable {
   private OperationEntity(@NonNull Operations type, double cost) {
     this.type = type;
     this.cost = cost;
+  }
+
+  public static OperationEntity from(@NonNull Operation operation) {
+    return new OperationEntity(operation.getOperations(), operation.getCost());
+  }
+
+  public Operation getOperation() {
+    return Operation.builder().operations(type).cost(cost).build();
   }
 }

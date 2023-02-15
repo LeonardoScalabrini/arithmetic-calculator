@@ -35,17 +35,8 @@ public class RecordRepositoryImpl implements RecordRepository {
                 operationEntityJpaRepository
                     .findByType(r.getOperation().getOperations())
                     .ifPresent(
-                        operationEntity -> {
-                          var recordEntity =
-                              RecordEntity.builder()
-                                  .date(r.getDate())
-                                  .user(userEntity)
-                                  .userBalance(r.getBalance())
-                                  .amount(r.getAmount())
-                                  .operation(operationEntity)
-                                  .operationResponse(r.getOperationResult().toString())
-                                  .build();
-                          recordEntityJpaRepository.save(recordEntity);
-                        }));
+                        operationEntity ->
+                            recordEntityJpaRepository.save(
+                                RecordEntity.from(userEntity, operationEntity, r))));
   }
 }
