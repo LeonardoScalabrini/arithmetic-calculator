@@ -30,14 +30,12 @@ public class BasicOperationController {
       @Valid @RequestParam("n2") double n2,
       Principal principal)
       throws OperationException {
-    try {
-      var operations = Operations.valueOf(operation.toUpperCase());
-      var command = BasicOperationCommandFactory.of(operations, n1, n2);
-      return ResponseEntity.ok(
-          RecordResponseDTO.from(
-              payOperationUserCase.payOperation(principal.getName(), operations, command)));
-    } catch (IllegalArgumentException e) {
-      throw OperationException.withMessage("Operation should be valid!");
-    }
+    var operations =
+        Operations.from(operation)
+            .orElseThrow(() -> OperationException.withMessage("Operation should be valid!"));
+    var command = BasicOperationCommandFactory.of(operations, n1, n2);
+    return ResponseEntity.ok(
+        RecordResponseDTO.from(
+            payOperationUserCase.payOperation(principal.getName(), operations, command)));
   }
 }

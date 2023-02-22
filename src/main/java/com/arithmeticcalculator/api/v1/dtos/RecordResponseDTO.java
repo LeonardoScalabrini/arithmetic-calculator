@@ -1,9 +1,7 @@
 package com.arithmeticcalculator.api.v1.dtos;
 
-import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.entities.RecordEntity;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.*;
@@ -13,18 +11,18 @@ import lombok.*;
 @EqualsAndHashCode
 @Value
 public class RecordResponseDTO {
-  Operations operation;
+  String operation;
   double amount;
   double balance;
   String response;
-  Date date;
+  String date;
 
   private RecordResponseDTO(
-      @NonNull Operations operation,
+      @NonNull String operation,
       double amount,
       double balance,
       @NonNull String response,
-      @NonNull Date date) {
+      @NonNull String date) {
     this.operation = operation;
     this.amount = amount;
     this.balance = balance;
@@ -34,20 +32,20 @@ public class RecordResponseDTO {
 
   public static <T> RecordResponseDTO from(@NonNull Record<T> r) {
     return new RecordResponseDTO(
-        r.getOperation().getOperations(),
+        r.getOperation().getOperations().getName(),
         r.getAmount(),
         r.getBalance(),
         r.getOperationResult().toString(),
-        r.getDate());
+        r.getDate().toString());
   }
 
   public static RecordResponseDTO from(@NonNull RecordEntity r) {
     return new RecordResponseDTO(
-        r.getOperation().getType(),
+        r.getOperation().getType().getName(),
         r.getAmount(),
         r.getUserBalance(),
         r.getOperationResponse(),
-        r.getDate());
+        r.getDate().toString());
   }
 
   public static List<RecordResponseDTO> from(List<RecordEntity> records) {

@@ -17,6 +17,7 @@ public final class DivisionCommand implements OperationCommand<Double> {
     return new DivisionCommand(dividend, divisor);
   }
 
+  @Override
   public Double execute() throws OperationException {
     if (divisor == 0)
       throw OperationException.withMessage("The divisor should be great than zero!");
