@@ -3,7 +3,6 @@ package com.arithmeticcalculator.api.v1.controllers;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.commands.SquareRootCommand;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.fixtures.Fixture;
@@ -28,8 +27,7 @@ class SquareRootControllerTest {
 
   @BeforeEach
   void setUp() throws OperationException {
-    when(payOperationUserCase.payOperation(
-            anyString(), eq(Operations.SQUARE_ROOT), any(SquareRootCommand.class)))
+    when(payOperationUserCase.payOperation(anyString(), any(SquareRootCommand.class)))
         .thenReturn(Fixture.getRecord());
   }
 
@@ -41,21 +39,18 @@ class SquareRootControllerTest {
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
 
-    verify(payOperationUserCase, times(1))
-        .payOperation(anyString(), eq(Operations.SQUARE_ROOT), any());
+    verify(payOperationUserCase, times(1)).payOperation(anyString(), any());
   }
 
   @WithMockUser
   @Test
   void shouldThrowException() throws Exception {
-    when(payOperationUserCase.payOperation(
-            anyString(), eq(Operations.SQUARE_ROOT), any(SquareRootCommand.class)))
+    when(payOperationUserCase.payOperation(anyString(), any(SquareRootCommand.class)))
         .thenThrow(OperationException.class);
     mockMvc
         .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/-1"))
         .andExpect(status().isInternalServerError());
-    verify(payOperationUserCase, times(1))
-        .payOperation(anyString(), eq(Operations.SQUARE_ROOT), any());
+    verify(payOperationUserCase, times(1)).payOperation(anyString(), any());
   }
 
   @WithAnonymousUser
@@ -64,6 +59,6 @@ class SquareRootControllerTest {
     mockMvc
         .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/-1"))
         .andExpect(status().isUnauthorized());
-    verify(payOperationUserCase, times(0)).payOperation(anyString(), any(), any());
+    verify(payOperationUserCase, times(0)).payOperation(anyString(), any());
   }
 }

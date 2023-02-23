@@ -32,7 +32,7 @@ public class RecordResponseDTO {
 
   public static <T> RecordResponseDTO from(@NonNull Record<T> r) {
     return new RecordResponseDTO(
-        r.getOperation().getOperations().getName(),
+        r.getOperation().getOperationTypes().name(),
         r.getAmount(),
         r.getBalance(),
         r.getOperationResult().toString(),
@@ -41,7 +41,7 @@ public class RecordResponseDTO {
 
   public static RecordResponseDTO from(@NonNull RecordEntity r) {
     return new RecordResponseDTO(
-        r.getOperation().getType().getName(),
+        r.getOperation().getType().name(),
         r.getAmount(),
         r.getUserBalance(),
         r.getOperationResponse(),

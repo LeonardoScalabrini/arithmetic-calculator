@@ -33,7 +33,7 @@ public class RecordRepositoryImpl implements RecordRepository {
         .ifPresent(
             userEntity ->
                 operationEntityJpaRepository
-                    .findByType(r.getOperation().getOperations())
+                    .findByType(r.getOperation().getOperationTypes())
                     .ifPresent(
                         operationEntity ->
                             recordEntityJpaRepository.save(

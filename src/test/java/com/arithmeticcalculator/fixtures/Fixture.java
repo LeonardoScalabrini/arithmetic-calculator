@@ -1,9 +1,7 @@
 package com.arithmeticcalculator.fixtures;
 
-import com.arithmeticcalculator.domains.Operation;
-import com.arithmeticcalculator.domains.Operations;
+import com.arithmeticcalculator.domains.*;
 import com.arithmeticcalculator.domains.Record;
-import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.entities.OperationEntity;
 import com.arithmeticcalculator.entities.RecordEntity;
 import com.arithmeticcalculator.entities.UserEntity;
@@ -20,7 +18,7 @@ public class Fixture {
   }
 
   public static Operation getOperation() {
-    return Operation.builder().cost(5).operations(Operations.SQUARE_ROOT).build();
+    return Operation.builder().cost(5).operationTypes(OperationTypes.SQUARE_ROOT).build();
   }
 
   public static Record<Double> getRecord() {

@@ -2,7 +2,7 @@ package com.arithmeticcalculator.repositories;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.arithmeticcalculator.domains.Operations;
+import com.arithmeticcalculator.domains.OperationTypes;
 import com.arithmeticcalculator.entities.OperationEntity;
 import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.repositories.jpa.OperationEntityJpaRepository;
@@ -25,24 +25,26 @@ class OperationRepositoryImplTest {
 
   @BeforeEach
   void setUp() {
-    Mockito.when(operationEntityJpaRepository.findByType(Operations.DIVISION))
+    Mockito.when(operationEntityJpaRepository.findByType(OperationTypes.DIVISION))
         .thenReturn(Optional.of(operationEntity));
   }
 
   @Test
   void findByName() {
-    var result = operationRepository.findByName(Operations.DIVISION).orElseThrow();
-    assertEquals(operationEntity.getType(), result.getOperations());
+    var result = operationRepository.findByName(OperationTypes.DIVISION).orElseThrow();
+    assertEquals(operationEntity.getType(), result.getOperationTypes());
     assertEquals(operationEntity.getCost(), result.getCost());
-    Mockito.verify(operationEntityJpaRepository, Mockito.times(1)).findByType(Operations.DIVISION);
+    Mockito.verify(operationEntityJpaRepository, Mockito.times(1))
+        .findByType(OperationTypes.DIVISION);
   }
 
   @Test
   void empty() {
-    Mockito.when(operationEntityJpaRepository.findByType(Operations.DIVISION))
+    Mockito.when(operationEntityJpaRepository.findByType(OperationTypes.DIVISION))
         .thenReturn(Optional.empty());
-    var result = operationRepository.findByName(Operations.DIVISION);
+    var result = operationRepository.findByName(OperationTypes.DIVISION);
     assertTrue(result.isEmpty());
-    Mockito.verify(operationEntityJpaRepository, Mockito.times(1)).findByType(Operations.DIVISION);
+    Mockito.verify(operationEntityJpaRepository, Mockito.times(1))
+        .findByType(OperationTypes.DIVISION);
   }
 }

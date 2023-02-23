@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.repositories;
 
 import com.arithmeticcalculator.domains.Operation;
-import com.arithmeticcalculator.domains.Operations;
+import com.arithmeticcalculator.domains.OperationTypes;
 import com.arithmeticcalculator.entities.OperationEntity;
 import com.arithmeticcalculator.repositories.jpa.OperationEntityJpaRepository;
 import com.arithmeticcalculator.usercases.interfaces.repositories.OperationRepository;
@@ -21,7 +21,9 @@ public class OperationRepositoryImpl implements OperationRepository {
   }
 
   @Override
-  public Optional<Operation> findByName(@NonNull Operations operations) {
-    return operationEntityJpaRepository.findByType(operations).map(OperationEntity::getOperation);
+  public Optional<Operation> findByName(@NonNull OperationTypes operationTypes) {
+    return operationEntityJpaRepository
+        .findByType(operationTypes)
+        .map(OperationEntity::getOperation);
   }
 }

@@ -3,7 +3,6 @@ package com.arithmeticcalculator.api.v1.controllers;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.fixtures.Fixture;
@@ -29,8 +28,7 @@ class RandomStringControllerTest {
 
   @BeforeEach
   void setUp() throws OperationException {
-    when(payOperationUserCase.<String>payOperation(
-            anyString(), eq(Operations.RANDOM_STRING), any()))
+    when(payOperationUserCase.<String>payOperation(anyString(), any()))
         .thenReturn(Record.<String>from(Fixture.getUser(), Fixture.getOperation(), "result"));
   }
 
@@ -41,21 +39,18 @@ class RandomStringControllerTest {
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
-    verify(payOperationUserCase, times(1))
-        .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(randomStringUserCase));
+    verify(payOperationUserCase, times(1)).payOperation(anyString(), eq(randomStringUserCase));
   }
 
   @WithMockUser
   @Test
   void shouldThrowException() throws Exception {
-    when(payOperationUserCase.payOperation(
-            anyString(), eq(Operations.RANDOM_STRING), eq(randomStringUserCase)))
+    when(payOperationUserCase.payOperation(anyString(), eq(randomStringUserCase)))
         .thenThrow(OperationException.class);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isInternalServerError());
-    verify(payOperationUserCase, times(1))
-        .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(randomStringUserCase));
+    verify(payOperationUserCase, times(1)).payOperation(anyString(), eq(randomStringUserCase));
   }
 
   @WithAnonymousUser
@@ -64,7 +59,6 @@ class RandomStringControllerTest {
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isUnauthorized());
-    verify(payOperationUserCase, times(0))
-        .payOperation(anyString(), eq(Operations.RANDOM_STRING), eq(randomStringUserCase));
+    verify(payOperationUserCase, times(0)).payOperation(anyString(), eq(randomStringUserCase));
   }
 }

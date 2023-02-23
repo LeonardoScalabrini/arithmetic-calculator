@@ -1,6 +1,6 @@
 package com.arithmeticcalculator.repositories;
 
-import com.arithmeticcalculator.domains.Operations;
+import com.arithmeticcalculator.domains.OperationTypes;
 import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.entities.OperationEntity;
 import com.arithmeticcalculator.entities.RecordEntity;
@@ -37,7 +37,7 @@ class RecordRepositoryImplTest {
   void setUp() {
     Mockito.when(userEntityJpaRepository.findByEmail(ArgumentMatchers.anyString()))
         .thenReturn(Optional.of(userEntity));
-    Mockito.when(operationEntityJpaRepository.findByType(Operations.SQUARE_ROOT))
+    Mockito.when(operationEntityJpaRepository.findByType(OperationTypes.SQUARE_ROOT))
         .thenReturn(Optional.of(operationEntity));
     Mockito.when(recordEntityJpaRepository.save(recordEntity)).thenReturn(recordEntity);
   }
@@ -47,7 +47,7 @@ class RecordRepositoryImplTest {
     recordRepository.save(record);
     Mockito.verify(userEntityJpaRepository, Mockito.times(1)).findByEmail("email");
     Mockito.verify(operationEntityJpaRepository, Mockito.times(1))
-        .findByType(Operations.SQUARE_ROOT);
+        .findByType(OperationTypes.SQUARE_ROOT);
     Mockito.verify(recordEntityJpaRepository, Mockito.times(1)).save(Mockito.any());
   }
 
@@ -58,18 +58,18 @@ class RecordRepositoryImplTest {
     recordRepository.save(record);
     Mockito.verify(userEntityJpaRepository, Mockito.times(1)).findByEmail("email");
     Mockito.verify(operationEntityJpaRepository, Mockito.times(0))
-        .findByType(Operations.SQUARE_ROOT);
+        .findByType(OperationTypes.SQUARE_ROOT);
     Mockito.verify(recordEntityJpaRepository, Mockito.times(0)).save(Mockito.any());
   }
 
   @Test
   void notFoundOperation() {
-    Mockito.when(operationEntityJpaRepository.findByType(Operations.SQUARE_ROOT))
+    Mockito.when(operationEntityJpaRepository.findByType(OperationTypes.SQUARE_ROOT))
         .thenReturn(Optional.empty());
     recordRepository.save(record);
     Mockito.verify(userEntityJpaRepository, Mockito.times(1)).findByEmail("email");
     Mockito.verify(operationEntityJpaRepository, Mockito.times(1))
-        .findByType(Operations.SQUARE_ROOT);
+        .findByType(OperationTypes.SQUARE_ROOT);
     Mockito.verify(recordEntityJpaRepository, Mockito.times(0)).save(Mockito.any());
   }
 }

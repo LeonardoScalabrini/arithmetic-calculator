@@ -1,5 +1,6 @@
 package com.arithmeticcalculator.usercases;
 
+import com.arithmeticcalculator.domains.OperationTypes;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.usercases.interfaces.services.RandomString;
 import org.junit.Assert;
@@ -28,6 +29,11 @@ class RandomStringUserCaseImplTest {
     var result = randomStringUserCase.execute();
     Assertions.assertEquals("random", result);
     Mockito.verify(randomString, Mockito.times(1)).random();
+  }
+
+  @Test
+  void getOperationType() {
+    Assertions.assertEquals(OperationTypes.RANDOM_STRING, randomStringUserCase.getOperationType());
   }
 
   @Test

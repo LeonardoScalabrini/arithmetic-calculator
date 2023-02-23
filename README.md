@@ -51,16 +51,16 @@ POST /user
 
 ## APIs with basic auth
 
-POST /api/v1/operations/addtion?n1=1.0&n2=2.0
+POST /api/v1/basicOperations/addtion?n1=1.0&n2=2.0
 
-POST /api/v1/operations/subtration?n1=1.0&n2=2.0
+POST /api/v1/basicOperations/subtration?n1=1.0&n2=2.0
 
-POST /api/v1/operations/multiplication?n1=1.0&n2=2.0
+POST /api/v1/basicOperations/multiplication?n1=1.0&n2=2.0
 
-POST /api/v1/operations/division?n1=1.0&n2=2.0
+POST /api/v1/basicOperations/division?n1=1.0&n2=2.0
 
-POST /api/v1/operations/square-root/9
+POST /api/v1/basicOperations/square-root/9
 
-GET /api/v1/operations/random-string
+GET /api/v1/basicOperations/random-string
 
 GET /api/v1/records/search?page=0&size=10

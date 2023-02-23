@@ -1,7 +1,6 @@
 package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.api.v1.dtos.RecordResponseDTO;
-import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.commands.SquareRootCommand;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
@@ -28,6 +27,6 @@ public class SquareRootController {
     return ResponseEntity.ok(
         RecordResponseDTO.from(
             payOperationUserCase.payOperation(
-                principal.getName(), Operations.SQUARE_ROOT, SquareRootCommand.of(radicand))));
+                principal.getName(), SquareRootCommand.of(radicand))));
   }
 }

@@ -1,5 +1,6 @@
 package com.arithmeticcalculator.usercases;
 
+import com.arithmeticcalculator.domains.OperationTypes;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.usercases.interfaces.RandomStringUserCase;
 import com.arithmeticcalculator.usercases.interfaces.services.RandomString;
@@ -13,6 +14,11 @@ public class RandomStringUserCaseImpl implements RandomStringUserCase {
   @Autowired
   public RandomStringUserCaseImpl(RandomString randomString) {
     this.randomString = randomString;
+  }
+
+  @Override
+  public OperationTypes getOperationType() {
+    return OperationTypes.RANDOM_STRING;
   }
 
   @Override

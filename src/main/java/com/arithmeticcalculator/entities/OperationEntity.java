@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.entities;
 
 import com.arithmeticcalculator.domains.Operation;
-import com.arithmeticcalculator.domains.Operations;
+import com.arithmeticcalculator.domains.OperationTypes;
 import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.Entity;
@@ -22,22 +22,22 @@ public class OperationEntity implements Serializable {
 
   @NotNull
   @Enumerated(EnumType.STRING)
-  private Operations type;
+  private OperationTypes type;
 
   private double cost;
 
   public OperationEntity() {};
 
-  private OperationEntity(@NonNull Operations type, double cost) {
+  private OperationEntity(@NonNull OperationTypes type, double cost) {
     this.type = type;
     this.cost = cost;
   }
 
   public static OperationEntity from(@NonNull Operation operation) {
-    return new OperationEntity(operation.getOperations(), operation.getCost());
+    return new OperationEntity(operation.getOperationTypes(), operation.getCost());
   }
 
   public Operation getOperation() {
-    return Operation.builder().operations(type).cost(cost).build();
+    return Operation.builder().operationTypes(type).cost(cost).build();
   }
 }

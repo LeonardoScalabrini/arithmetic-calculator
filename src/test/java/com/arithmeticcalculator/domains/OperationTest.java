@@ -13,7 +13,7 @@ class OperationTest {
   @Test
   void build() {
     var operation = Fixture.getOperation();
-    assertEquals(Operations.SQUARE_ROOT, operation.getOperations());
+    assertEquals(OperationTypes.SQUARE_ROOT, operation.getOperationTypes());
     assertEquals(5, operation.getCost());
     EqualsVerifier.forClass(Operation.class).suppress(Warning.STRICT_INHERITANCE).verify();
     ToStringVerifier.forClass(Operation.class).verify();

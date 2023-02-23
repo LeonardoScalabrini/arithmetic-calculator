@@ -8,11 +8,11 @@ import lombok.*;
 @Builder
 @Value
 public class Operation {
-  Operations operations;
+  OperationTypes operationTypes;
   double cost;
 
-  private Operation(@NonNull Operations operations, double cost) {
-    this.operations = operations;
+  private Operation(@NonNull OperationTypes operationTypes, double cost) {
+    this.operationTypes = operationTypes;
     this.cost = cost;
   }
 }

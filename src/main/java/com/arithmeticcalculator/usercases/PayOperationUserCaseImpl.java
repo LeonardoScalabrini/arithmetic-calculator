@@ -1,6 +1,5 @@
 package com.arithmeticcalculator.usercases;
 
-import com.arithmeticcalculator.domains.Operations;
 import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.interfaces.*;
@@ -33,8 +32,7 @@ public class PayOperationUserCaseImpl implements PayOperationUserCase {
 
   @Override
   @Transactional
-  public <T> Record<T> payOperation(
-      @NonNull String email, @NonNull Operations operations, @NonNull OperationCommand<T> command)
+  public <T> Record<T> payOperation(@NonNull String email, @NonNull OperationCommand<T> command)
       throws OperationException {
     var user =
         userRepository
@@ -42,7 +40,7 @@ public class PayOperationUserCaseImpl implements PayOperationUserCase {
             .orElseThrow(() -> OperationException.withMessage("Not found user!"));
     var operation =
         operationRepository
-            .findByName(operations)
+            .findByName(command.getOperationType())
             .orElseThrow(() -> OperationException.withMessage("Not found operation!"));
     var result = command.execute();
     user.pay(operation);
