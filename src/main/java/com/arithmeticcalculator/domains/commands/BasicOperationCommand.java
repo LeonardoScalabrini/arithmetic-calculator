@@ -29,6 +29,6 @@ public final class BasicOperationCommand implements OperationCommand<Double> {
 
   @Override
   public Double execute() throws OperationException {
-    return basicOperations.calc(n1, n2);
+    return basicOperations.applyAsDouble(n1, n2);
   }
 }

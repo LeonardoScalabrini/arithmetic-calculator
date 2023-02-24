@@ -4,37 +4,27 @@ import static com.arithmeticcalculator.domains.OperationTypes.*;
 
 import com.arithmeticcalculator.domains.commands.BasicOperationCommand;
 import com.arithmeticcalculator.domains.exceptions.OperationException;
-import com.arithmeticcalculator.domains.interfaces.Calculator;
 import com.arithmeticcalculator.domains.interfaces.OperationCommand;
+import java.util.function.DoubleBinaryOperator;
 
-public enum BasicOperations implements Calculator {
-  PLUS(ADDITION) {
-    public double calc(double n1, double n2) {
-      return Double.sum(n1, n2);
-    }
-  },
-  MINUS(SUBTRACTION) {
-    public double calc(double n1, double n2) {
-      return n1 - n2;
-    }
-  },
-  TIMES(MULTIPLICATION) {
-    public double calc(double n1, double n2) {
-      return n1 * n2;
-    }
-  },
-  DIVIDE(DIVISION) {
-    public double calc(double dividend, double divisor) throws OperationException {
-      if (divisor == 0)
-        throw OperationException.withMessage("The divisor should be great than zero!");
-      return dividend / divisor;
-    }
-  };
+public enum BasicOperations implements DoubleBinaryOperator {
+  PLUS(ADDITION, Double::sum),
+  MINUS(SUBTRACTION, (n1, n2) -> n1 - n2),
+  TIMES(MULTIPLICATION, (n1, n2) -> n1 * n2),
+  DIVIDE(DIVISION, BasicOperations::divide);
 
   private final OperationTypes operationType;
+  private final DoubleBinaryOperator doubleBinaryOperator;
 
-  BasicOperations(OperationTypes operationType) {
+  BasicOperations(OperationTypes operationType, DoubleBinaryOperator doubleBinaryOperator) {
     this.operationType = operationType;
+    this.doubleBinaryOperator = doubleBinaryOperator;
+  }
+
+  private static double divide(double dividend, double divisor) throws OperationException {
+    if (divisor == 0)
+      throw OperationException.withMessage("The divisor should be great than zero!");
+    return dividend / divisor;
   }
 
   public OperationCommand<Double> getOperationCommand(double n1, double n2) {
@@ -43,5 +33,10 @@ public enum BasicOperations implements Calculator {
 
   public OperationTypes getOperationType() {
     return operationType;
+  }
+
+  @Override
+  public double applyAsDouble(double n1, double n2) {
+    return doubleBinaryOperator.applyAsDouble(n1, n2);
   }
 }
