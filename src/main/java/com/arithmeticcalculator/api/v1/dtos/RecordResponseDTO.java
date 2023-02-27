@@ -49,6 +49,6 @@ public class RecordResponseDTO {
   }
 
   public static List<RecordResponseDTO> from(List<RecordEntity> records) {
-    return records.parallelStream().map(RecordResponseDTO::from).collect(Collectors.toList());
+    return records.stream().map(RecordResponseDTO::from).collect(Collectors.toList());
   }
 }

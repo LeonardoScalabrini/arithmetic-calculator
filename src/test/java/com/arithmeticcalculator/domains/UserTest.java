@@ -24,11 +24,13 @@ class UserTest {
   void pay() throws OperationException {
     var user = Fixture.getUser();
     var operation = Fixture.getOperation();
-    assertEquals(15, user.pay(operation));
-    assertEquals(10, user.pay(operation));
-    assertEquals(5, user.pay(operation));
-    assertEquals(0, user.pay(operation));
-    assertThrows(OperationException.class, () -> user.pay(operation));
+    assertEquals(15, user.pay(operation).getBalance());
+    assertEquals(10, user.pay(operation).pay(operation).getBalance());
+    assertEquals(5, user.pay(operation).pay(operation).pay(operation).getBalance());
+    assertEquals(0, user.pay(operation).pay(operation).pay(operation).pay(operation).getBalance());
+    assertThrows(
+        OperationException.class,
+        () -> user.pay(operation).pay(operation).pay(operation).pay(operation).pay(operation));
   }
 
   @Test

@@ -1,6 +1,6 @@
 package com.arithmeticcalculator.domains;
 
-import java.util.Date;
+import java.time.Instant;
 import lombok.*;
 
 @Getter
@@ -13,7 +13,7 @@ public class Record<T> {
   double amount;
   double balance;
   T operationResult;
-  Date date = new Date();
+  Instant date = Instant.now();
 
   private Record(
       @NonNull User user,

@@ -50,7 +50,7 @@ class SquareRootControllerTest {
     mockMvc
         .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/-1"))
         .andExpect(status().isInternalServerError());
-    verify(payOperationUserCase, times(1)).payOperation(anyString(), any());
+    verify(payOperationUserCase, times(0)).payOperation(anyString(), any());
   }
 
   @WithAnonymousUser

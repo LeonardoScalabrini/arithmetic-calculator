@@ -7,6 +7,7 @@ import lombok.*;
 @Getter
 @Builder
 @Value
+@RequiredArgsConstructor
 public class ApiError implements Serializable {
   Date timestamp = new Date();
   int status;

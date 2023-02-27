@@ -2,7 +2,7 @@ package com.arithmeticcalculator.entities;
 
 import com.arithmeticcalculator.domains.Record;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 import java.util.UUID;
 import javax.persistence.*;
 import lombok.*;
@@ -30,7 +30,7 @@ public class RecordEntity implements Serializable {
 
   private String operationResponse;
 
-  private Date date;
+  private Instant date;
 
   public RecordEntity() {};
 
@@ -40,7 +40,7 @@ public class RecordEntity implements Serializable {
       double amount,
       double userBalance,
       @NonNull String operationResponse,
-      @NonNull Date date) {
+      @NonNull Instant date) {
     this.user = user;
     this.operation = operation;
     this.amount = amount;

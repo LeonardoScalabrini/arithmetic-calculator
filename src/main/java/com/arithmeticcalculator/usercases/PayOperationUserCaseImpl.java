@@ -43,8 +43,8 @@ public class PayOperationUserCaseImpl implements PayOperationUserCase {
             .findByName(command.getOperationType())
             .orElseThrow(() -> OperationException.withMessage("Not found operation!"));
     var result = command.execute();
-    user.pay(operation);
-    userRepository.save(user);
-    return createRecordUserCase.create(user, operation, result);
+    var payedUser = user.pay(operation);
+    userRepository.save(payedUser);
+    return createRecordUserCase.create(payedUser, operation, result);
   }
 }

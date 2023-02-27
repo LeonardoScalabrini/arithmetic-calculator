@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 @Getter
@@ -20,7 +21,8 @@ public class UserCreateRequestDTO implements Serializable {
 
   @JsonCreator
   public UserCreateRequestDTO(
-      @JsonProperty("email") String email, @JsonProperty("password") String password) {
+      @NonNull @JsonProperty("email") String email,
+      @NonNull @JsonProperty("password") String password) {
     this.email = email;
     this.password = password;
   }

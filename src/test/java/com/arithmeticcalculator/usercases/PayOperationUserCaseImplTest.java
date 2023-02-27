@@ -27,6 +27,8 @@ class PayOperationUserCaseImplTest {
   @InjectMocks private PayOperationUserCaseImpl payOperationUserCase;
 
   @Spy private final User user = Fixture.getUser();
+
+  @Spy private final User payedUser = Fixture.getUser();
   private final Operation operation = Fixture.getOperation();
 
   private final Record<Double> record = Fixture.getRecord();
@@ -35,12 +37,13 @@ class PayOperationUserCaseImplTest {
   void setUp() throws OperationException {
     Mockito.when(userRepository.findByEmail(ArgumentMatchers.anyString()))
         .thenReturn(Optional.of(user));
-    Mockito.doNothing().when(userRepository).save(user);
+    Mockito.when(user.pay(operation)).thenReturn(payedUser);
+    Mockito.doNothing().when(userRepository).save(payedUser);
     Mockito.when(operationRepository.findByName(OperationTypes.SQUARE_ROOT))
         .thenReturn(Optional.of(operation));
     Mockito.when(operationCommand.execute()).thenReturn(2.0);
     Mockito.when(operationCommand.getOperationType()).thenReturn(OperationTypes.SQUARE_ROOT);
-    Mockito.when(createRecordUserCase.create(user, operation, 2.0)).thenReturn(record);
+    Mockito.when(createRecordUserCase.create(payedUser, operation, 2.0)).thenReturn(record);
   }
 
   @Test
@@ -49,10 +52,10 @@ class PayOperationUserCaseImplTest {
     assertEquals(record, result);
     Mockito.verify(userRepository, Mockito.times(1)).findByEmail("email");
     Mockito.verify(operationRepository, Mockito.times(1)).findByName(OperationTypes.SQUARE_ROOT);
-    Mockito.verify(userRepository, Mockito.times(1)).save(user);
+    Mockito.verify(userRepository, Mockito.times(1)).save(payedUser);
     Mockito.verify(user, Mockito.times(1)).pay(operation);
     Mockito.verify(operationCommand, Mockito.times(1)).execute();
-    Mockito.verify(createRecordUserCase, Mockito.times(1)).create(user, operation, 2.0);
+    Mockito.verify(createRecordUserCase, Mockito.times(1)).create(payedUser, operation, 2.0);
   }
 
   @Test

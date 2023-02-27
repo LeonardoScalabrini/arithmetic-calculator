@@ -9,6 +9,8 @@ public final class SquareRootCommand implements OperationCommand<Double> {
   private final double radicand;
 
   private SquareRootCommand(double radicand) {
+    if (radicand < 0)
+      throw OperationException.withMessage("The radicand should be zero or positive number!");
     this.radicand = radicand;
   }
 
@@ -23,8 +25,6 @@ public final class SquareRootCommand implements OperationCommand<Double> {
 
   @Override
   public Double execute() throws OperationException {
-    if (radicand < 0)
-      throw OperationException.withMessage("The radicand should be zero or positive number!");
     return Math.sqrt(radicand);
   }
 }
