@@ -4,7 +4,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.arithmeticcalculator.domains.commands.SquareRootCommand;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +25,7 @@ class SquareRootControllerTest {
   @MockBean private PayOperationUserCase payOperationUserCase;
 
   @BeforeEach
-  void setUp() throws OperationException {
+  void setUp() {
     when(payOperationUserCase.payOperation(anyString(), any(SquareRootCommand.class)))
         .thenReturn(Fixture.getRecord());
   }
@@ -46,7 +45,7 @@ class SquareRootControllerTest {
   @Test
   void shouldThrowException() throws Exception {
     when(payOperationUserCase.payOperation(anyString(), any(SquareRootCommand.class)))
-        .thenThrow(OperationException.class);
+        .thenThrow(IllegalStateException.class);
     mockMvc
         .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/-1"))
         .andExpect(status().isInternalServerError());

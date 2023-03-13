@@ -2,7 +2,6 @@ package com.arithmeticcalculator.domains.commands;
 
 import com.arithmeticcalculator.domains.BasicOperations;
 import com.arithmeticcalculator.domains.OperationTypes;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.interfaces.OperationCommand;
 import lombok.NonNull;
 
@@ -28,7 +27,7 @@ public final class BasicOperationCommand implements OperationCommand<Double> {
   }
 
   @Override
-  public Double execute() throws OperationException {
+  public Double execute() {
     return basicOperations.applyAsDouble(n1, n2);
   }
 }

@@ -2,6 +2,7 @@ package com.arithmeticcalculator.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,18 +26,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UserDetailsService userDetailsService;
 
+  private static final String REALM_NAME = "leonardoScalabrini";
+
+  private static final String HEADER =
+      new StringBuilder("Basic Realm - ").append(REALM_NAME).toString();
+
   @Autowired
-  public SecurityConfig(UserDetailsService userDetailsService) {
+  public SecurityConfig(@NonNull UserDetailsService userDetailsService) {
     this.userDetailsService = userDetailsService;
   }
 
   @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+  protected void configure(@NonNull AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
   }
 
   @Override
-  protected void configure(HttpSecurity http) throws Exception {
+  protected void configure(@NonNull HttpSecurity http) throws Exception {
     http.csrf()
         .disable()
         .authorizeRequests()
@@ -57,18 +63,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BasicAuthenticationEntryPoint() {
       @Override
       public void commence(
-          HttpServletRequest request,
-          HttpServletResponse response,
-          AuthenticationException authException) {
+          @NonNull HttpServletRequest request,
+          @NonNull HttpServletResponse response,
+          @NonNull AuthenticationException authException) {
 
-        response.addHeader("WWW-Authenticate", "Basic Realm - " + getRealmName());
+        response.addHeader("WWW-Authenticate", HEADER);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
       }
 
       @Override
       public void afterPropertiesSet() {
-        setRealmName("leonardoScalabrini");
+        setRealmName(REALM_NAME);
         super.afterPropertiesSet();
       }
     };

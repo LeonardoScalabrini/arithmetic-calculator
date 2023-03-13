@@ -11,6 +11,7 @@ public class RandomOrgConfigImpl implements RandomOrgConfig {
 
   private final String host;
   private final String strings;
+  private final StringBuilder url;
 
   @Autowired
   public RandomOrgConfigImpl(
@@ -18,6 +19,7 @@ public class RandomOrgConfigImpl implements RandomOrgConfig {
       @Value("${random-org-strings}") @NonNull String strings) {
     this.host = host;
     this.strings = strings;
+    this.url = new StringBuilder().append(host).append(strings);
   }
 
   @Override
@@ -28,5 +30,10 @@ public class RandomOrgConfigImpl implements RandomOrgConfig {
   @Override
   public String getStrings() {
     return strings;
+  }
+
+  @Override
+  public String getUrl() {
+    return url.toString();
   }
 }

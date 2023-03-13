@@ -1,16 +1,15 @@
 package com.arithmeticcalculator.api.commons;
 
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class RestExceptionHandler {
+public final class RestExceptionHandler {
 
-  @ExceptionHandler(OperationException.class)
-  protected ResponseEntity<ApiError> handleOperationException(OperationException ex) {
+  @ExceptionHandler(IllegalStateException.class)
+  private ResponseEntity<ApiError> handleOperationException(IllegalStateException ex) {
     return ResponseEntity.internalServerError()
         .body(
             ApiError.builder()

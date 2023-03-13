@@ -2,12 +2,12 @@ package com.arithmeticcalculator.entities;
 
 import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.security.Privileges;
-import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Immutable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity(name = "users")
@@ -15,11 +15,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @ToString
 @EqualsAndHashCode
 @Builder
-public class UserEntity implements Serializable {
+public final class UserEntity {
   @Id @EqualsAndHashCode.Exclude private final String id = UUID.randomUUID().toString();
-  @NotBlank private String email;
-  @NotBlank @EqualsAndHashCode.Exclude private String password;
 
+  @Immutable @NotBlank private String email;
+
+  @Immutable @NotBlank @EqualsAndHashCode.Exclude private String password;
+
+  @Immutable
   @NotNull
   @Enumerated(EnumType.STRING)
   private Privileges privileges;

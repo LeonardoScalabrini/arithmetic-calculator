@@ -11,12 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OperationRepositoryImpl implements OperationRepository {
+public final class OperationRepositoryImpl implements OperationRepository {
 
   private final OperationEntityJpaRepository operationEntityJpaRepository;
 
   @Autowired
-  public OperationRepositoryImpl(OperationEntityJpaRepository operationEntityJpaRepository) {
+  public OperationRepositoryImpl(
+      @NonNull OperationEntityJpaRepository operationEntityJpaRepository) {
     this.operationEntityJpaRepository = operationEntityJpaRepository;
   }
 

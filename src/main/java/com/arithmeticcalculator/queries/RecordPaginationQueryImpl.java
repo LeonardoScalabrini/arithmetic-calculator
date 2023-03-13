@@ -13,11 +13,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RecordPaginationQueryImpl implements RecordPaginationQuery {
+public final class RecordPaginationQueryImpl implements RecordPaginationQuery {
   private final RecordEntityJpaRepository recordEntityJpaRepository;
 
   @Autowired
-  public RecordPaginationQueryImpl(RecordEntityJpaRepository recordEntityJpaRepository) {
+  public RecordPaginationQueryImpl(@NonNull RecordEntityJpaRepository recordEntityJpaRepository) {
     this.recordEntityJpaRepository = recordEntityJpaRepository;
   }
 

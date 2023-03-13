@@ -2,7 +2,6 @@ package com.arithmeticcalculator.domains;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.fixtures.Fixture;
 import com.jparams.verifier.tostring.ToStringVerifier;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -21,7 +20,7 @@ class UserTest {
   }
 
   @Test
-  void pay() throws OperationException {
+  void pay() {
     var user = Fixture.getUser();
     var operation = Fixture.getOperation();
     assertEquals(15, user.pay(operation).getBalance());
@@ -29,7 +28,7 @@ class UserTest {
     assertEquals(5, user.pay(operation).pay(operation).pay(operation).getBalance());
     assertEquals(0, user.pay(operation).pay(operation).pay(operation).pay(operation).getBalance());
     assertThrows(
-        OperationException.class,
+        IllegalStateException.class,
         () -> user.pay(operation).pay(operation).pay(operation).pay(operation).pay(operation));
   }
 

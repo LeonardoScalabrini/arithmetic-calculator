@@ -3,7 +3,6 @@ package com.arithmeticcalculator.domains.commands;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.arithmeticcalculator.domains.OperationTypes;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,7 +11,7 @@ class SquareRootCommandTest {
 
   @ParameterizedTest
   @CsvSource({"1,1", "9,3", "0,0", "25,5"})
-  void sqrt(double n, double expected) throws OperationException {
+  void sqrt(double n, double expected) {
     assertEquals(expected, SquareRootCommand.of(n).execute());
   }
 
@@ -23,6 +22,6 @@ class SquareRootCommandTest {
 
   @Test
   void shouldThrows() {
-    assertThrows(OperationException.class, () -> SquareRootCommand.of(-2).execute());
+    assertThrows(IllegalStateException.class, () -> SquareRootCommand.of(-2).execute());
   }
 }

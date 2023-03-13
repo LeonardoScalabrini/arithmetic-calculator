@@ -5,6 +5,7 @@ import com.arithmeticcalculator.queries.interfaces.RecordPaginationQuery;
 import java.security.Principal;
 import java.util.List;
 import javax.validation.Valid;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
 @RequestMapping("api/v1/records")
-public class RecordController {
+public final class RecordController {
 
   private final RecordPaginationQuery recordPaginationQuery;
 
@@ -28,7 +29,7 @@ public class RecordController {
   public ResponseEntity<List<RecordResponseDTO>> findBy(
       @Valid @RequestParam("page") int page,
       @Valid @RequestParam("size") int size,
-      Principal principal) {
+      @NonNull Principal principal) {
     var result =
         RecordResponseDTO.from(recordPaginationQuery.findBy(principal.getName(), page, size));
     if (result.isEmpty()) return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);

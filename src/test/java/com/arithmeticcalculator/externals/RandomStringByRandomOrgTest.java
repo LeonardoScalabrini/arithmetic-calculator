@@ -2,8 +2,6 @@ package com.arithmeticcalculator.externals;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.arithmeticcalculator.domains.exceptions.OperationException;
-import com.arithmeticcalculator.externals.exceptions.RandomOrgException;
 import com.arithmeticcalculator.externals.interfaces.RandomOrgService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,21 +18,21 @@ class RandomStringByRandomOrgTest {
   @InjectMocks private RandomStringByRandomOrg randomStringByRandomOrg;
 
   @BeforeEach
-  void setUp() throws RandomOrgException {
+  void setUp() {
     Mockito.when(randomOrgService.strings()).thenReturn("string");
   }
 
   @Test
-  void random() throws OperationException, RandomOrgException {
+  void random() {
     var result = randomStringByRandomOrg.random();
     assertEquals("string", result);
     Mockito.verify(randomOrgService, Mockito.times(1)).strings();
   }
 
   @Test
-  void throwException() throws RandomOrgException {
-    Mockito.when(randomOrgService.strings()).thenThrow(RandomOrgException.class);
-    assertThrows(OperationException.class, () -> randomStringByRandomOrg.random());
+  void throwException() {
+    Mockito.when(randomOrgService.strings()).thenThrow(IllegalStateException.class);
+    assertThrows(IllegalStateException.class, () -> randomStringByRandomOrg.random());
     Mockito.verify(randomOrgService, Mockito.times(1)).strings();
   }
 }

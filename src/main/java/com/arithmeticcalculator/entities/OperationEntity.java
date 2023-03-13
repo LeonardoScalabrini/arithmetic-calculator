@@ -2,7 +2,6 @@ package com.arithmeticcalculator.entities;
 
 import com.arithmeticcalculator.domains.Operation;
 import com.arithmeticcalculator.domains.OperationTypes;
-import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,7 +16,7 @@ import org.hibernate.annotations.Immutable;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class OperationEntity implements Serializable {
+public final class OperationEntity {
   @Id @EqualsAndHashCode.Exclude private final String id = UUID.randomUUID().toString();
 
   @NotNull

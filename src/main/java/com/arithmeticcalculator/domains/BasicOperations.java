@@ -1,11 +1,12 @@
 package com.arithmeticcalculator.domains;
 
 import static com.arithmeticcalculator.domains.OperationTypes.*;
+import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.getInstance;
 
 import com.arithmeticcalculator.domains.commands.BasicOperationCommand;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.interfaces.OperationCommand;
 import java.util.function.DoubleBinaryOperator;
+import lombok.NonNull;
 
 public enum BasicOperations implements DoubleBinaryOperator {
   PLUS(ADDITION, Double::sum),
@@ -16,14 +17,18 @@ public enum BasicOperations implements DoubleBinaryOperator {
   private final OperationTypes operationType;
   private final DoubleBinaryOperator doubleBinaryOperator;
 
-  BasicOperations(OperationTypes operationType, DoubleBinaryOperator doubleBinaryOperator) {
+  BasicOperations(
+      @NonNull OperationTypes operationType, @NonNull DoubleBinaryOperator doubleBinaryOperator) {
     this.operationType = operationType;
     this.doubleBinaryOperator = doubleBinaryOperator;
   }
 
-  private static double divide(double dividend, double divisor) throws OperationException {
+  private static double divide(double dividend, double divisor) {
     if (divisor == 0)
-      throw OperationException.withMessage("The divisor should be great than zero!");
+      throw getInstance()
+          .param("dividend", Double.toString(divisor))
+          .message("The divisor should be great than zero!")
+          .build();
     return dividend / divisor;
   }
 

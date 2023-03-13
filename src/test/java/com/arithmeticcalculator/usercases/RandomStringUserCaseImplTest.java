@@ -1,7 +1,6 @@
 package com.arithmeticcalculator.usercases;
 
 import com.arithmeticcalculator.domains.OperationTypes;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.usercases.interfaces.services.RandomString;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
@@ -20,12 +19,12 @@ class RandomStringUserCaseImplTest {
   @InjectMocks private RandomStringUserCaseImpl randomStringUserCase;
 
   @BeforeEach
-  void setUp() throws OperationException {
+  void setUp() {
     Mockito.when(randomString.random()).thenReturn("random");
   }
 
   @Test
-  void execute() throws OperationException {
+  void execute() {
     var result = randomStringUserCase.execute();
     Assertions.assertEquals("random", result);
     Mockito.verify(randomString, Mockito.times(1)).random();
@@ -37,9 +36,9 @@ class RandomStringUserCaseImplTest {
   }
 
   @Test
-  void throwException() throws OperationException {
-    Mockito.when(randomString.random()).thenThrow(OperationException.class);
-    Assert.assertThrows(OperationException.class, () -> randomStringUserCase.execute());
+  void throwException() {
+    Mockito.when(randomString.random()).thenThrow(IllegalStateException.class);
+    Assert.assertThrows(IllegalStateException.class, () -> randomStringUserCase.execute());
     Mockito.verify(randomString, Mockito.times(1)).random();
   }
 }

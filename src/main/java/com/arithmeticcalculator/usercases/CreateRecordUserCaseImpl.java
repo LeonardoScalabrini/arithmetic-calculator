@@ -10,19 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateRecordUserCaseImpl implements CreateRecordUserCase {
+public final class CreateRecordUserCaseImpl implements CreateRecordUserCase {
 
   private final RecordRepository recordRepository;
 
   @Autowired
-  public CreateRecordUserCaseImpl(RecordRepository recordRepository) {
+  public CreateRecordUserCaseImpl(@NonNull RecordRepository recordRepository) {
     this.recordRepository = recordRepository;
   }
 
   @Override
   public <T> Record<T> create(@NonNull User user, @NonNull Operation operation, @NonNull T result) {
     var r = Record.from(user, operation, result);
-    recordRepository.save(r);
+    recordRepository.save(Record.from(user, operation, result));
     return r;
   }
 }

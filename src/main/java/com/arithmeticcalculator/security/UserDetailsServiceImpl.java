@@ -2,8 +2,9 @@ package com.arithmeticcalculator.security;
 
 import com.arithmeticcalculator.entities.UserEntity;
 import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,17 +15,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public final class UserDetailsServiceImpl implements UserDetailsService {
 
   private final UserEntityJpaRepository userRepository;
 
   @Autowired
-  public UserDetailsServiceImpl(UserEntityJpaRepository userRepository) {
+  public UserDetailsServiceImpl(@NonNull UserEntityJpaRepository userRepository) {
     this.userRepository = userRepository;
   }
 
   @Override
-  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(@NonNull String email) throws UsernameNotFoundException {
     return userRepository
         .findByEmail(email)
         .map(u -> new User(u.getEmail(), u.getPassword(), getGrantedAuthority(u)))
@@ -32,9 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             () -> new UsernameNotFoundException(String.format("Email %s not found", email)));
   }
 
-  private Collection<GrantedAuthority> getGrantedAuthority(UserEntity user) {
-    Collection<GrantedAuthority> authorities = new ArrayList<>();
-    authorities.add(new SimpleGrantedAuthority(user.getPrivileges().getRole()));
-    return authorities;
+  private Collection<GrantedAuthority> getGrantedAuthority(@NonNull UserEntity user) {
+    return Collections.singletonList(new SimpleGrantedAuthority(user.getPrivileges().getRole()));
   }
 }

@@ -1,6 +1,7 @@
 package com.arithmeticcalculator.domains;
 
-import com.arithmeticcalculator.domains.exceptions.OperationException;
+import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.getInstance;
+
 import lombok.*;
 
 @Getter
@@ -16,9 +17,12 @@ public class User {
     this.balance = balance;
   }
 
-  public User pay(@NonNull Operation operation) throws OperationException {
+  public User pay(@NonNull Operation operation) {
     if (operation.getCost() > balance)
-      throw OperationException.withMessage("The balance is not enough for the operation");
+      throw getInstance()
+          .param("operation", operation)
+          .message("The balance is not enough for the operation")
+          .build();
     return new User(this.email, balance - operation.getCost());
   }
 }

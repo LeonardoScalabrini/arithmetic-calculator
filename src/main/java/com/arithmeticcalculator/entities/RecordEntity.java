@@ -1,7 +1,6 @@
 package com.arithmeticcalculator.entities;
 
 import com.arithmeticcalculator.domains.Record;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 import javax.persistence.*;
@@ -13,7 +12,7 @@ import org.hibernate.annotations.Immutable;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class RecordEntity implements Serializable {
+public final class RecordEntity {
   @Id @EqualsAndHashCode.Exclude private final String id = UUID.randomUUID().toString();
 
   @ManyToOne

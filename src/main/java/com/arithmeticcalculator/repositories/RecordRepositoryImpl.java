@@ -11,16 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RecordRepositoryImpl implements RecordRepository {
+public final class RecordRepositoryImpl implements RecordRepository {
   private final UserEntityJpaRepository userEntityJpaRepository;
   private final OperationEntityJpaRepository operationEntityJpaRepository;
   private final RecordEntityJpaRepository recordEntityJpaRepository;
 
   @Autowired
   public RecordRepositoryImpl(
-      UserEntityJpaRepository userEntityJpaRepository,
-      OperationEntityJpaRepository operationEntityJpaRepository,
-      RecordEntityJpaRepository recordEntityJpaRepository) {
+      @NonNull UserEntityJpaRepository userEntityJpaRepository,
+      @NonNull OperationEntityJpaRepository operationEntityJpaRepository,
+      @NonNull RecordEntityJpaRepository recordEntityJpaRepository) {
     this.userEntityJpaRepository = userEntityJpaRepository;
     this.operationEntityJpaRepository = operationEntityJpaRepository;
     this.recordEntityJpaRepository = recordEntityJpaRepository;

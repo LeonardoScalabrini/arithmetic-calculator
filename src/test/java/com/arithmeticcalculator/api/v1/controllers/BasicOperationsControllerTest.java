@@ -4,7 +4,6 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +26,7 @@ class BasicOperationsControllerTest {
   @MockBean private PayOperationUserCase payOperationUserCase;
 
   @BeforeEach
-  void setUp() throws OperationException {
+  void setUp() {
     when(payOperationUserCase.<Double>payOperation(anyString(), any()))
         .thenReturn(Fixture.getRecord());
   }
@@ -74,7 +73,8 @@ class BasicOperationsControllerTest {
     "/api/v1/operations/division?n1=1.0&n2=2.0",
   })
   void shouldThrowException(String url) throws Exception {
-    when(payOperationUserCase.payOperation(anyString(), any())).thenThrow(OperationException.class);
+    when(payOperationUserCase.payOperation(anyString(), any()))
+        .thenThrow(IllegalStateException.class);
     mockMvc.perform(MockMvcRequestBuilders.post(url)).andExpect(status().isInternalServerError());
     verify(payOperationUserCase, times(1)).payOperation(anyString(), any());
   }

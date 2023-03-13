@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserRepositoryImpl implements UserRepository {
+public final class UserRepositoryImpl implements UserRepository {
 
   private final UserEntityJpaRepository userEntityJpaRepository;
 
   @Autowired
-  public UserRepositoryImpl(UserEntityJpaRepository userEntityJpaRepository) {
+  public UserRepositoryImpl(@NonNull UserEntityJpaRepository userEntityJpaRepository) {
     this.userEntityJpaRepository = userEntityJpaRepository;
   }
 

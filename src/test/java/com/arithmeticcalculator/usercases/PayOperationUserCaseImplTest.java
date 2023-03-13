@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.arithmeticcalculator.domains.*;
 import com.arithmeticcalculator.domains.Record;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.interfaces.OperationCommand;
 import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.usercases.interfaces.CreateRecordUserCase;
@@ -34,7 +33,7 @@ class PayOperationUserCaseImplTest {
   private final Record<Double> record = Fixture.getRecord();
 
   @BeforeEach
-  void setUp() throws OperationException {
+  void setUp() {
     Mockito.when(userRepository.findByEmail(ArgumentMatchers.anyString()))
         .thenReturn(Optional.of(user));
     Mockito.when(user.pay(operation)).thenReturn(payedUser);
@@ -47,7 +46,7 @@ class PayOperationUserCaseImplTest {
   }
 
   @Test
-  void payOperation() throws OperationException {
+  void payOperation() {
     var result = payOperationUserCase.payOperation("email", operationCommand);
     assertEquals(record, result);
     Mockito.verify(userRepository, Mockito.times(1)).findByEmail("email");
@@ -59,11 +58,11 @@ class PayOperationUserCaseImplTest {
   }
 
   @Test
-  void notFoundUser() throws OperationException {
+  void notFoundUser() {
     Mockito.when(userRepository.findByEmail(ArgumentMatchers.anyString()))
         .thenReturn(Optional.empty());
     assertThrows(
-        OperationException.class,
+        IllegalStateException.class,
         () -> payOperationUserCase.payOperation("email", operationCommand));
     Mockito.verify(userRepository, Mockito.times(1)).findByEmail("email");
     Mockito.verify(operationRepository, Mockito.times(0)).findByName(Mockito.any());
@@ -75,11 +74,11 @@ class PayOperationUserCaseImplTest {
   }
 
   @Test
-  void notFoundOperation() throws OperationException {
+  void notFoundOperation() {
     Mockito.when(operationRepository.findByName(OperationTypes.SQUARE_ROOT))
         .thenReturn(Optional.empty());
     assertThrows(
-        OperationException.class,
+        IllegalStateException.class,
         () -> payOperationUserCase.payOperation("email", operationCommand));
     Mockito.verify(userRepository, Mockito.times(1)).findByEmail("email");
     Mockito.verify(operationRepository, Mockito.times(1)).findByName(OperationTypes.SQUARE_ROOT);

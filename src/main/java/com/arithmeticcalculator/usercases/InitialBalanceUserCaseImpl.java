@@ -9,20 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InitialBalanceUserCaseImpl implements InitialBalanceUserCase {
+public final class InitialBalanceUserCaseImpl implements InitialBalanceUserCase {
   private final FindInitalBalance findInitalBalance;
   private final UserRepository userRepository;
 
   @Autowired
   public InitialBalanceUserCaseImpl(
-      FindInitalBalance findInitalBalance, UserRepository userRepository) {
+      @NonNull FindInitalBalance findInitalBalance, @NonNull UserRepository userRepository) {
     this.findInitalBalance = findInitalBalance;
     this.userRepository = userRepository;
   }
 
   @Override
   public void apply(@NonNull String email) {
-    var initial = findInitalBalance.find();
-    userRepository.save(User.builder().email(email).balance(initial).build());
+    userRepository.save(User.builder().email(email).balance(findInitalBalance.find()).build());
   }
 }

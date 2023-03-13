@@ -1,10 +1,9 @@
 package com.arithmeticcalculator.usercases.interfaces;
 
 import com.arithmeticcalculator.domains.Record;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.interfaces.OperationCommand;
 
 public interface PayOperationUserCase {
 
-  <T> Record<T> payOperation(String email, OperationCommand<T> command) throws OperationException;
+  <T> Record<T> payOperation(String email, OperationCommand<T> command);
 }

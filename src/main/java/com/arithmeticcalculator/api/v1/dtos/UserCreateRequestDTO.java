@@ -2,7 +2,6 @@ package com.arithmeticcalculator.api.v1.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class UserCreateRequestDTO implements Serializable {
+public final class UserCreateRequestDTO {
   @NotBlank(message = "E-mail is required")
   private final String email;
 

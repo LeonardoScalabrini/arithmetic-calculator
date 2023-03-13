@@ -1,25 +1,24 @@
 package com.arithmeticcalculator.externals;
 
-import java.util.Objects;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.lang.Nullable;
 import org.springframework.web.client.ResponseErrorHandler;
 
 public final class NoResponseErrorHandlerImpl implements ResponseErrorHandler {
 
-  private static ResponseErrorHandler instance;
+  private static final ResponseErrorHandler instance = new NoResponseErrorHandlerImpl();
 
   private NoResponseErrorHandlerImpl() {}
 
   public static ResponseErrorHandler getInstance() {
-    if (Objects.isNull(instance)) instance = new NoResponseErrorHandlerImpl();
     return instance;
   }
 
   @Override
-  public boolean hasError(ClientHttpResponse response) {
+  public boolean hasError(@Nullable ClientHttpResponse response) {
     return false;
   }
 
   @Override
-  public void handleError(ClientHttpResponse response) {}
+  public void handleError(@Nullable ClientHttpResponse response) {}
 }

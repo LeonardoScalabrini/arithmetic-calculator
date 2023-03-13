@@ -1,7 +1,8 @@
 package com.arithmeticcalculator.domains.commands;
 
+import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.getInstance;
+
 import com.arithmeticcalculator.domains.OperationTypes;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.interfaces.OperationCommand;
 
 public final class SquareRootCommand implements OperationCommand<Double> {
@@ -10,7 +11,10 @@ public final class SquareRootCommand implements OperationCommand<Double> {
 
   private SquareRootCommand(double radicand) {
     if (radicand < 0)
-      throw OperationException.withMessage("The radicand should be zero or positive number!");
+      throw getInstance()
+          .param("radicand", radicand)
+          .message("The radicand should be zero or positive number!")
+          .build();
     this.radicand = radicand;
   }
 
@@ -24,7 +28,7 @@ public final class SquareRootCommand implements OperationCommand<Double> {
   }
 
   @Override
-  public Double execute() throws OperationException {
+  public Double execute() {
     return Math.sqrt(radicand);
   }
 }

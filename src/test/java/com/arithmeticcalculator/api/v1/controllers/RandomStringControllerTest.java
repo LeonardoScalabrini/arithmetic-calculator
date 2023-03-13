@@ -4,7 +4,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.arithmeticcalculator.domains.Record;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.fixtures.Fixture;
 import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
 import com.arithmeticcalculator.usercases.interfaces.RandomStringUserCase;
@@ -27,7 +26,7 @@ class RandomStringControllerTest {
   @MockBean private PayOperationUserCase payOperationUserCase;
 
   @BeforeEach
-  void setUp() throws OperationException {
+  void setUp() {
     when(payOperationUserCase.<String>payOperation(anyString(), any()))
         .thenReturn(Record.<String>from(Fixture.getUser(), Fixture.getOperation(), "result"));
   }
@@ -46,7 +45,7 @@ class RandomStringControllerTest {
   @Test
   void shouldThrowException() throws Exception {
     when(payOperationUserCase.payOperation(anyString(), eq(randomStringUserCase)))
-        .thenThrow(OperationException.class);
+        .thenThrow(IllegalStateException.class);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isInternalServerError());

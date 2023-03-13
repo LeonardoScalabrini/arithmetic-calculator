@@ -5,11 +5,11 @@ import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.when;
 
 import com.arithmeticcalculator.configurations.interfaces.RandomOrgConfig;
-import com.arithmeticcalculator.externals.exceptions.RandomOrgException;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,10 +28,13 @@ class RandomOrgServiceImplTest {
   void setUp() {
     when(randomOrgConfig.getHost()).thenReturn("http://localhost:7777");
     when(randomOrgConfig.getStrings()).thenReturn(TEST_URL);
+    when(randomOrgConfig.getUrl())
+        .thenReturn(
+            "http://localhost:7777/strings/?num=1&len=20&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new");
   }
 
   @Test
-  void strings() throws RandomOrgException {
+  void strings() {
     final String expected = "5YGO1lItuvMQQWzuy0Qp";
     stubFor(
         get(urlEqualTo(TEST_URL))
@@ -42,6 +45,7 @@ class RandomOrgServiceImplTest {
                     .withBody(expected)));
     var result = randomOrgService.strings();
     Assertions.assertEquals(expected, result);
+    Mockito.verify(randomOrgConfig, Mockito.times(1)).getUrl();
   }
 
   @Test
@@ -52,7 +56,8 @@ class RandomOrgServiceImplTest {
                 aResponse()
                     .withStatus(HttpStatus.NO_CONTENT.value())
                     .withHeader("Content-Type", "text/plain;charset=UTF-8")));
-    assertThrows(RandomOrgException.class, () -> randomOrgService.strings());
+    assertThrows(IllegalStateException.class, () -> randomOrgService.strings());
+    Mockito.verify(randomOrgConfig, Mockito.times(2)).getUrl();
   }
 
   @Test
@@ -63,6 +68,7 @@ class RandomOrgServiceImplTest {
                 aResponse()
                     .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .withHeader("Content-Type", "text/plain;charset=UTF-8")));
-    assertThrows(RandomOrgException.class, () -> randomOrgService.strings());
+    assertThrows(IllegalStateException.class, () -> randomOrgService.strings());
+    Mockito.verify(randomOrgConfig, Mockito.times(2)).getUrl();
   }
 }

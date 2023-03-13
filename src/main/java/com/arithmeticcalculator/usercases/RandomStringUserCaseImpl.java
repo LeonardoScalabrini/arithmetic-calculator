@@ -1,18 +1,18 @@
 package com.arithmeticcalculator.usercases;
 
 import com.arithmeticcalculator.domains.OperationTypes;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.usercases.interfaces.RandomStringUserCase;
 import com.arithmeticcalculator.usercases.interfaces.services.RandomString;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RandomStringUserCaseImpl implements RandomStringUserCase {
+public final class RandomStringUserCaseImpl implements RandomStringUserCase {
   private final RandomString randomString;
 
   @Autowired
-  public RandomStringUserCaseImpl(RandomString randomString) {
+  public RandomStringUserCaseImpl(@NonNull RandomString randomString) {
     this.randomString = randomString;
   }
 
@@ -22,7 +22,7 @@ public class RandomStringUserCaseImpl implements RandomStringUserCase {
   }
 
   @Override
-  public String execute() throws OperationException {
+  public String execute() {
     return randomString.random();
   }
 }

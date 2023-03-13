@@ -1,7 +1,8 @@
 package com.arithmeticcalculator.usercases;
 
+import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.getInstance;
+
 import com.arithmeticcalculator.domains.Record;
-import com.arithmeticcalculator.domains.exceptions.OperationException;
 import com.arithmeticcalculator.domains.interfaces.*;
 import com.arithmeticcalculator.usercases.interfaces.CreateRecordUserCase;
 import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
@@ -22,9 +23,9 @@ public class PayOperationUserCaseImpl implements PayOperationUserCase {
 
   @Autowired
   public PayOperationUserCaseImpl(
-      UserRepository userRepository,
-      OperationRepository operationRepository,
-      CreateRecordUserCase createRecordUserCase) {
+      @NonNull UserRepository userRepository,
+      @NonNull OperationRepository operationRepository,
+      @NonNull CreateRecordUserCase createRecordUserCase) {
     this.userRepository = userRepository;
     this.operationRepository = operationRepository;
     this.createRecordUserCase = createRecordUserCase;
@@ -32,16 +33,28 @@ public class PayOperationUserCaseImpl implements PayOperationUserCase {
 
   @Override
   @Transactional
-  public <T> Record<T> payOperation(@NonNull String email, @NonNull OperationCommand<T> command)
-      throws OperationException {
+  public <T> Record<T> payOperation(@NonNull String email, @NonNull OperationCommand<T> command) {
+
     var user =
         userRepository
             .findByEmail(email)
-            .orElseThrow(() -> OperationException.withMessage("Not found user!"));
+            .orElseThrow(
+                () ->
+                    getInstance()
+                        .param("email", email)
+                        .param("command", command)
+                        .message("Not found user!")
+                        .build());
     var operation =
         operationRepository
             .findByName(command.getOperationType())
-            .orElseThrow(() -> OperationException.withMessage("Not found operation!"));
+            .orElseThrow(
+                () ->
+                    getInstance()
+                        .param("email", email)
+                        .param("command", command)
+                        .message("Not found operation!")
+                        .build());
     var result = command.execute();
     var payedUser = user.pay(operation);
     userRepository.save(payedUser);

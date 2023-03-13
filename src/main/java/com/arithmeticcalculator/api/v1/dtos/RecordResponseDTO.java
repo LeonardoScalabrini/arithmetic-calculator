@@ -48,7 +48,7 @@ public class RecordResponseDTO {
         r.getDate().toString());
   }
 
-  public static List<RecordResponseDTO> from(List<RecordEntity> records) {
+  public static List<RecordResponseDTO> from(@NonNull List<RecordEntity> records) {
     return records.stream().map(RecordResponseDTO::from).collect(Collectors.toList());
   }
 }
