@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.externals;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import com.arithmeticcalculator.configurations.interfaces.RandomOrgConfig;
