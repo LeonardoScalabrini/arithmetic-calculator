@@ -9,7 +9,7 @@
 	<name>arithmetic-calculator</name>
 	<description>Arithmetic Calculator Code Challenger</description>
 	<modules>
-		<module>core</module>
+		<module>application</module>
 		<module>infrastructure</module>
 	</modules>
 	<properties>

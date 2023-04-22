@@ -1,12 +1,9 @@
 package com.arithmeticcalculator.entities;
 
-import com.arithmeticcalculator.domains.Operation;
+import com.arithmeticcalculator.domains.CostOperation;
 import com.arithmeticcalculator.domains.OperationTypes;
-import java.util.UUID;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import com.arithmeticcalculator.domains.ids.CostOperationId;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
@@ -17,7 +14,7 @@ import org.hibernate.annotations.Immutable;
 @ToString
 @EqualsAndHashCode
 public final class OperationEntity {
-  @Id @EqualsAndHashCode.Exclude private final String id = UUID.randomUUID().toString();
+  @EmbeddedId @EqualsAndHashCode.Exclude private CostOperationId id;
 
   @NotNull
   @Enumerated(EnumType.STRING)
@@ -27,16 +24,21 @@ public final class OperationEntity {
 
   public OperationEntity() {};
 
-  private OperationEntity(@NonNull OperationTypes type, double cost) {
+  private OperationEntity(
+      @NonNull CostOperationId costOperationId, @NonNull OperationTypes type, double cost) {
+    this.id = costOperationId;
     this.type = type;
     this.cost = cost;
   }
 
-  public static OperationEntity from(@NonNull Operation operation) {
-    return new OperationEntity(operation.getOperationTypes(), operation.getCost());
+  public static OperationEntity from(@NonNull CostOperation costOperation) {
+    return new OperationEntity(
+        costOperation.getCostOperationId(),
+        costOperation.getOperationTypes(),
+        costOperation.getCost());
   }
 
-  public Operation getOperation() {
-    return Operation.builder().operationTypes(type).cost(cost).build();
+  public CostOperation getOperation() {
+    return CostOperation.builder().costOperationId(id).operationTypes(type).cost(cost).build();
   }
 }

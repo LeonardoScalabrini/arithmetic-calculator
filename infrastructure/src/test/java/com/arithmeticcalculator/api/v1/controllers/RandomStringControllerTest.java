@@ -5,8 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.fixtures.Fixture;
-import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
-import com.arithmeticcalculator.usercases.interfaces.RandomStringUserCase;
+import com.arithmeticcalculator.ports.in.PayOperationService;
+import com.arithmeticcalculator.ports.in.RandomStringService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class RandomStringControllerTest {
 
   @Autowired private MockMvc mockMvc;
-  @MockBean private RandomStringUserCase randomStringUserCase;
-  @MockBean private PayOperationUserCase payOperationUserCase;
+  @MockBean private RandomStringService randomStringService;
+  @MockBean private PayOperationService payOperationService;
 
   @BeforeEach
   void setUp() {
-    when(payOperationUserCase.<String>payOperation(anyString(), any()))
-        .thenReturn(Record.<String>from(Fixture.getUser(), Fixture.getOperation(), "result"));
+    when(payOperationService.<String>payOperation(anyString(), any()))
+        .thenReturn(Record.<String>from(Fixture.getUser(), Fixture.getCostOperation(), "result"));
   }
 
   @WithMockUser
@@ -38,18 +38,18 @@ class RandomStringControllerTest {
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
-    verify(payOperationUserCase, times(1)).payOperation(anyString(), eq(randomStringUserCase));
+    verify(payOperationService, times(1)).payOperation(anyString(), eq(randomStringService));
   }
 
   @WithMockUser
   @Test
   void shouldThrowException() throws Exception {
-    when(payOperationUserCase.payOperation(anyString(), eq(randomStringUserCase)))
+    when(payOperationService.payOperation(anyString(), eq(randomStringService)))
         .thenThrow(IllegalStateException.class);
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isInternalServerError());
-    verify(payOperationUserCase, times(1)).payOperation(anyString(), eq(randomStringUserCase));
+    verify(payOperationService, times(1)).payOperation(anyString(), eq(randomStringService));
   }
 
   @WithAnonymousUser
@@ -58,6 +58,6 @@ class RandomStringControllerTest {
     mockMvc
         .perform(MockMvcRequestBuilders.get("/api/v1/operations/random-string"))
         .andExpect(status().isUnauthorized());
-    verify(payOperationUserCase, times(0)).payOperation(anyString(), eq(randomStringUserCase));
+    verify(payOperationService, times(0)).payOperation(anyString(), eq(randomStringService));
   }
 }

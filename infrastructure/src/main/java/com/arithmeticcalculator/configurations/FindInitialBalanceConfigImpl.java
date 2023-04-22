@@ -1,12 +1,12 @@
 package com.arithmeticcalculator.configurations;
 
-import com.arithmeticcalculator.usercases.interfaces.services.FindInitalBalance;
+import com.arithmeticcalculator.ports.out.FindInitalBalanceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class FindInitialBalanceConfigImpl implements FindInitalBalance {
+public class FindInitialBalanceConfigImpl implements FindInitalBalanceInterface {
 
   private final double initial;
 

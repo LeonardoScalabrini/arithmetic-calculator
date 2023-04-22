@@ -1,9 +1,11 @@
 package com.arithmeticcalculator.entities;
 
+import com.arithmeticcalculator.domains.OperationTypes;
 import com.arithmeticcalculator.domains.Record;
+import com.arithmeticcalculator.domains.ids.RecordId;
 import java.time.Instant;
-import java.util.UUID;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
 
@@ -13,33 +15,35 @@ import org.hibernate.annotations.Immutable;
 @ToString
 @EqualsAndHashCode
 public final class RecordEntity {
-  @Id @EqualsAndHashCode.Exclude private final String id = UUID.randomUUID().toString();
+  @EmbeddedId @EqualsAndHashCode.Exclude private RecordId id;
 
   @ManyToOne
   @JoinColumn(name = "fk_user")
   private UserEntity user;
 
-  @ManyToOne
-  @JoinColumn(name = "fk_operation")
-  private OperationEntity operation;
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  private OperationTypes operation;
 
-  private double amount;
+  @NotNull private double amount;
 
-  private double userBalance;
+  @NotNull private double userBalance;
 
-  private String operationResponse;
+  @NotNull private String operationResponse;
 
-  private Instant date;
+  @NotNull private Instant date;
 
   public RecordEntity() {};
 
   private RecordEntity(
+      @NonNull RecordId recordId,
       @NonNull UserEntity user,
-      @NonNull OperationEntity operation,
+      @NonNull OperationTypes operation,
       double amount,
       double userBalance,
       @NonNull String operationResponse,
       @NonNull Instant date) {
+    this.id = recordId;
     this.user = user;
     this.operation = operation;
     this.amount = amount;
@@ -48,11 +52,11 @@ public final class RecordEntity {
     this.date = date;
   }
 
-  public static <T> RecordEntity from(
-      @NonNull UserEntity user, @NonNull OperationEntity operation, @NonNull Record<T> record) {
+  public static <T> RecordEntity from(@NonNull UserEntity user, @NonNull Record<T> record) {
     return new RecordEntity(
+        record.getRecordId(),
         user,
-        operation,
+        record.getOperationTypes(),
         record.getAmount(),
         record.getBalance(),
         record.getOperationResult().toString(),

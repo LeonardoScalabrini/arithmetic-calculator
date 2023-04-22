@@ -1,8 +1,8 @@
 package com.arithmeticcalculator.security;
 
+import com.arithmeticcalculator.domains.Privileges;
 import com.arithmeticcalculator.entities.UserEntity;
 import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
-import com.arithmeticcalculator.security.interfaces.SecurityService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

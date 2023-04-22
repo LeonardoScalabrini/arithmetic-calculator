@@ -1,9 +1,8 @@
 package com.arithmeticcalculator.externals;
 
-import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.getInstance;
+import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.newInstance;
 
-import com.arithmeticcalculator.configurations.interfaces.RandomOrgConfig;
-import com.arithmeticcalculator.externals.interfaces.RandomOrgService;
+import com.arithmeticcalculator.configurations.RandomOrgConfig;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -27,7 +26,7 @@ public final class RandomOrgServiceImpl implements RandomOrgService {
   public String strings() {
     var result = restTemplate.getForEntity(randomOrgConfig.getUrl(), String.class);
     if (result.getStatusCode().is2xxSuccessful() && result.hasBody()) return result.getBody();
-    throw getInstance()
+    throw newInstance()
         .param("url", randomOrgConfig.getUrl())
         .param("status", result.getStatusCode())
         .build();

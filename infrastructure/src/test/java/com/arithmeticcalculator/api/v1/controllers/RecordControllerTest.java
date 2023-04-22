@@ -4,7 +4,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.arithmeticcalculator.fixtures.Fixture;
-import com.arithmeticcalculator.queries.interfaces.RecordPaginationQuery;
+import com.arithmeticcalculator.queries.RecordPaginationQuery;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

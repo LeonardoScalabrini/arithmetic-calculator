@@ -1,6 +1,5 @@
 package com.arithmeticcalculator.configurations;
 
-import com.arithmeticcalculator.configurations.interfaces.RandomOrgConfig;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

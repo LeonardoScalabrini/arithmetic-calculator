@@ -20,12 +20,11 @@
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <sonar.sources>${project.basedir}/target/generated-sources/java</sonar.sources>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.arithmetic-calculator</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>application</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

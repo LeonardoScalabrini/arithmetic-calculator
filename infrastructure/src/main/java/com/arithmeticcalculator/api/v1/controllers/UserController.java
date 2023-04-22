@@ -1,8 +1,8 @@
 package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.api.v1.dtos.UserCreateRequestDTO;
-import com.arithmeticcalculator.security.interfaces.SecurityService;
-import com.arithmeticcalculator.usercases.interfaces.InitialBalanceUserCase;
+import com.arithmeticcalculator.ports.in.InitialBalanceService;
+import com.arithmeticcalculator.security.SecurityService;
 import javax.validation.Valid;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +15,20 @@ public final class UserController {
 
   private final SecurityService securityService;
 
-  private final InitialBalanceUserCase initialBalanceUserCase;
+  private final InitialBalanceService initialBalanceService;
 
   @Autowired
   public UserController(
       @NonNull SecurityService securityService,
-      @NonNull InitialBalanceUserCase initialBalanceUserCase) {
+      @NonNull InitialBalanceService initialBalanceService) {
     this.securityService = securityService;
-    this.initialBalanceUserCase = initialBalanceUserCase;
+    this.initialBalanceService = initialBalanceService;
   }
 
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
   public @ResponseBody void create(@Valid @RequestBody @NonNull UserCreateRequestDTO dto) {
     securityService.createUser(dto.getEmail(), dto.getPassword());
-    initialBalanceUserCase.apply(dto.getEmail());
+    initialBalanceService.apply(dto.getEmail());
   }
 }

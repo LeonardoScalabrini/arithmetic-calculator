@@ -2,7 +2,7 @@ package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.api.v1.dtos.RecordResponseDTO;
 import com.arithmeticcalculator.domains.commands.SquareRootCommand;
-import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
+import com.arithmeticcalculator.ports.in.PayOperationService;
 import java.security.Principal;
 import javax.validation.Valid;
 import lombok.NonNull;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController()
 @RequestMapping("api/v1/operations")
 public final class SquareRootController {
-  private final PayOperationUserCase payOperationUserCase;
+  private final PayOperationService payOperationService;
 
   @Autowired
-  public SquareRootController(@NonNull PayOperationUserCase payOperationUserCase) {
-    this.payOperationUserCase = payOperationUserCase;
+  public SquareRootController(@NonNull PayOperationService payOperationService) {
+    this.payOperationService = payOperationService;
   }
 
   @PostMapping("/square-root/{radicand}")
@@ -25,7 +25,6 @@ public final class SquareRootController {
       @Valid @PathVariable(value = "radicand") double radicand, @NonNull Principal principal) {
     return ResponseEntity.ok(
         RecordResponseDTO.from(
-            payOperationUserCase.payOperation(
-                principal.getName(), SquareRootCommand.of(radicand))));
+            payOperationService.payOperation(principal.getName(), SquareRootCommand.of(radicand))));
   }
 }

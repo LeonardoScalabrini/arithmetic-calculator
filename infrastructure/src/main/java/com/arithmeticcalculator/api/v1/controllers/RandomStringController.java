@@ -1,8 +1,8 @@
 package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.api.v1.dtos.RecordResponseDTO;
-import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
-import com.arithmeticcalculator.usercases.interfaces.RandomStringUserCase;
+import com.arithmeticcalculator.ports.in.PayOperationService;
+import com.arithmeticcalculator.ports.in.RandomStringService;
 import java.security.Principal;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController()
 @RequestMapping("api/v1/operations")
 public final class RandomStringController {
-  private final RandomStringUserCase randomStringUserCase;
-  private final PayOperationUserCase payOperationUserCase;
+  private final RandomStringService randomStringService;
+  private final PayOperationService payOperationService;
 
   @Autowired
   public RandomStringController(
-      @NonNull RandomStringUserCase randomStringUserCase,
-      @NonNull PayOperationUserCase payOperationUserCase) {
-    this.randomStringUserCase = randomStringUserCase;
-    this.payOperationUserCase = payOperationUserCase;
+      @NonNull RandomStringService randomStringService,
+      @NonNull PayOperationService payOperationService) {
+    this.randomStringService = randomStringService;
+    this.payOperationService = payOperationService;
   }
 
   @GetMapping("/random-string")
@@ -28,6 +28,6 @@ public final class RandomStringController {
       @NonNull Principal principal) {
     return ResponseEntity.ok(
         RecordResponseDTO.from(
-            payOperationUserCase.payOperation(principal.getName(), randomStringUserCase)));
+            payOperationService.payOperation(principal.getName(), randomStringService)));
   }
 }

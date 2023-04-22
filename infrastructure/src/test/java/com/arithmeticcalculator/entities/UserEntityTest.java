@@ -2,8 +2,8 @@ package com.arithmeticcalculator.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.arithmeticcalculator.domains.Privileges;
 import com.arithmeticcalculator.fixtures.Fixture;
-import com.arithmeticcalculator.security.Privileges;
 import com.jparams.verifier.tostring.ToStringVerifier;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;

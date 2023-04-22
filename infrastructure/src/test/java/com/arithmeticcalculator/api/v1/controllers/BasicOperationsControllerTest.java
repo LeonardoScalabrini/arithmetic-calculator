@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.arithmeticcalculator.fixtures.Fixture;
-import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
+import com.arithmeticcalculator.ports.in.PayOperationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -23,11 +23,11 @@ class BasicOperationsControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
-  @MockBean private PayOperationUserCase payOperationUserCase;
+  @MockBean private PayOperationService payOperationService;
 
   @BeforeEach
   void setUp() {
-    when(payOperationUserCase.<Double>payOperation(anyString(), any()))
+    when(payOperationService.<Double>payOperation(anyString(), any()))
         .thenReturn(Fixture.getRecord());
   }
 
@@ -44,7 +44,7 @@ class BasicOperationsControllerTest {
         .perform(MockMvcRequestBuilders.post(url))
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
-    verify(payOperationUserCase, times(1)).payOperation(anyString(), any());
+    verify(payOperationService, times(1)).payOperation(anyString(), any());
   }
 
   @WithMockUser
@@ -61,7 +61,7 @@ class BasicOperationsControllerTest {
   })
   void shouldValidateNumbers(String url) throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.post(url)).andExpect(status().isBadRequest());
-    verify(payOperationUserCase, times(0)).payOperation(anyString(), any());
+    verify(payOperationService, times(0)).payOperation(anyString(), any());
   }
 
   @WithMockUser
@@ -73,10 +73,10 @@ class BasicOperationsControllerTest {
     "/api/v1/operations/division?n1=1.0&n2=2.0",
   })
   void shouldThrowException(String url) throws Exception {
-    when(payOperationUserCase.payOperation(anyString(), any()))
+    when(payOperationService.payOperation(anyString(), any()))
         .thenThrow(IllegalStateException.class);
     mockMvc.perform(MockMvcRequestBuilders.post(url)).andExpect(status().isInternalServerError());
-    verify(payOperationUserCase, times(1)).payOperation(anyString(), any());
+    verify(payOperationService, times(1)).payOperation(anyString(), any());
   }
 
   @WithAnonymousUser
@@ -89,6 +89,6 @@ class BasicOperationsControllerTest {
   })
   void shouldAuth(String url) throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.post(url)).andExpect(status().isUnauthorized());
-    verify(payOperationUserCase, times(0)).payOperation(anyString(), any());
+    verify(payOperationService, times(0)).payOperation(anyString(), any());
   }
 }

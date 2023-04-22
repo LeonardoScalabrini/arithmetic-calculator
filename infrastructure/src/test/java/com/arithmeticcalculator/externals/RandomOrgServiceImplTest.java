@@ -1,12 +1,13 @@
 package com.arithmeticcalculator.externals;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-import com.arithmeticcalculator.configurations.interfaces.RandomOrgConfig;
+import com.arithmeticcalculator.configurations.RandomOrgConfig;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -44,8 +45,8 @@ class RandomOrgServiceImplTest {
                     .withHeader("Content-Type", "text/plain;charset=UTF-8")
                     .withBody(expected)));
     var result = randomOrgService.strings();
-    Assertions.assertEquals(expected, result);
-    Mockito.verify(randomOrgConfig, Mockito.times(1)).getUrl();
+    assertEquals(expected, result);
+    Mockito.verify(randomOrgConfig, times(1)).getUrl();
   }
 
   @Test
@@ -57,7 +58,7 @@ class RandomOrgServiceImplTest {
                     .withStatus(HttpStatus.NO_CONTENT.value())
                     .withHeader("Content-Type", "text/plain;charset=UTF-8")));
     assertThrows(IllegalStateException.class, () -> randomOrgService.strings());
-    Mockito.verify(randomOrgConfig, Mockito.times(2)).getUrl();
+    Mockito.verify(randomOrgConfig, times(2)).getUrl();
   }
 
   @Test
@@ -69,6 +70,6 @@ class RandomOrgServiceImplTest {
                     .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .withHeader("Content-Type", "text/plain;charset=UTF-8")));
     assertThrows(IllegalStateException.class, () -> randomOrgService.strings());
-    Mockito.verify(randomOrgConfig, Mockito.times(2)).getUrl();
+    Mockito.verify(randomOrgConfig, times(2)).getUrl();
   }
 }

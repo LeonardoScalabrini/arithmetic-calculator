@@ -1,11 +1,11 @@
 package com.arithmeticcalculator.fixtures;
 
 import com.arithmeticcalculator.domains.*;
+import com.arithmeticcalculator.domains.Privileges;
 import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.entities.OperationEntity;
 import com.arithmeticcalculator.entities.RecordEntity;
 import com.arithmeticcalculator.entities.UserEntity;
-import com.arithmeticcalculator.security.Privileges;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.File;
@@ -14,15 +14,15 @@ import java.io.IOException;
 public class Fixture {
 
   public static User getUser() {
-    return User.builder().email("email").balance(20).build();
+    return User.newInstance("email", 20);
   }
 
-  public static Operation getOperation() {
-    return Operation.builder().cost(5).operationTypes(OperationTypes.SQUARE_ROOT).build();
+  public static CostOperation getOperation() {
+    return CostOperation.newInstance(OperationTypes.SQUARE_ROOT, 5);
   }
 
   public static Record<Double> getRecord() {
-    return Record.from(getUser(), getOperation(), 2.0);
+    return Record.from(getUser(), getCostOperation(), 2.0);
   }
 
   public static UserEntity getUserEntity() {
@@ -35,7 +35,7 @@ public class Fixture {
   }
 
   public static OperationEntity getOperationEntity() {
-    return OperationEntity.from(getOperation());
+    return OperationEntity.from(getCostOperation());
   }
 
   public static RecordEntity getRecordEntity() {

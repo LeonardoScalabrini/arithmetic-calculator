@@ -1,7 +1,6 @@
 package com.arithmeticcalculator.queries;
 
 import com.arithmeticcalculator.entities.RecordEntity;
-import com.arithmeticcalculator.queries.interfaces.RecordPaginationQuery;
 import com.arithmeticcalculator.repositories.jpa.RecordEntityJpaRepository;
 import java.util.List;
 import lombok.NonNull;

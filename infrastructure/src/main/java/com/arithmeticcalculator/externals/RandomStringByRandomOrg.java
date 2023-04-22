@@ -1,13 +1,12 @@
 package com.arithmeticcalculator.externals;
 
-import com.arithmeticcalculator.externals.interfaces.RandomOrgService;
-import com.arithmeticcalculator.usercases.interfaces.services.RandomString;
+import com.arithmeticcalculator.ports.out.RandomStringInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class RandomStringByRandomOrg implements RandomString {
+public final class RandomStringByRandomOrg implements RandomStringInterface {
 
   private final RandomOrgService randomOrgService;
 

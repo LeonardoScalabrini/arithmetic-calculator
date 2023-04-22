@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.arithmeticcalculator.domains.commands.SquareRootCommand;
 import com.arithmeticcalculator.fixtures.Fixture;
-import com.arithmeticcalculator.usercases.interfaces.PayOperationUserCase;
+import com.arithmeticcalculator.ports.in.PayOperationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,11 @@ class SquareRootControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
-  @MockBean private PayOperationUserCase payOperationUserCase;
+  @MockBean private PayOperationService payOperationService;
 
   @BeforeEach
   void setUp() {
-    when(payOperationUserCase.payOperation(anyString(), any(SquareRootCommand.class)))
+    when(payOperationService.payOperation(anyString(), any(SquareRootCommand.class)))
         .thenReturn(Fixture.getRecord());
   }
 
@@ -38,18 +38,18 @@ class SquareRootControllerTest {
         .andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$").exists());
 
-    verify(payOperationUserCase, times(1)).payOperation(anyString(), any());
+    verify(payOperationService, times(1)).payOperation(anyString(), any());
   }
 
   @WithMockUser
   @Test
   void shouldThrowException() throws Exception {
-    when(payOperationUserCase.payOperation(anyString(), any(SquareRootCommand.class)))
+    when(payOperationService.payOperation(anyString(), any(SquareRootCommand.class)))
         .thenThrow(IllegalStateException.class);
     mockMvc
         .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/-1"))
         .andExpect(status().isInternalServerError());
-    verify(payOperationUserCase, times(0)).payOperation(anyString(), any());
+    verify(payOperationService, times(0)).payOperation(anyString(), any());
   }
 
   @WithAnonymousUser
@@ -58,6 +58,6 @@ class SquareRootControllerTest {
     mockMvc
         .perform(MockMvcRequestBuilders.post("/api/v1/operations/square-root/-1"))
         .andExpect(status().isUnauthorized());
-    verify(payOperationUserCase, times(0)).payOperation(anyString(), any());
+    verify(payOperationService, times(0)).payOperation(anyString(), any());
   }
 }

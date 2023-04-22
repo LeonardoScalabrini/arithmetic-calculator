@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.api.v1.dtos.RecordResponseDTO;
-import com.arithmeticcalculator.queries.interfaces.RecordPaginationQuery;
+import com.arithmeticcalculator.queries.RecordPaginationQuery;
 import java.security.Principal;
 import java.util.List;
 import javax.validation.Valid;
