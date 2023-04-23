@@ -2,7 +2,9 @@ package com.arithmeticcalculator.domains.specifications;
 
 import com.arithmeticcalculator.domains.CostOperation;
 import com.arithmeticcalculator.domains.User;
+import lombok.Value;
 
+@Value
 public class PaymentSpecificationImpl implements PaymentSpecification {
   private static PaymentSpecification instance;
 

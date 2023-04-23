@@ -9,12 +9,14 @@ import com.arithmeticcalculator.ports.in.PayOperationService;
 import com.arithmeticcalculator.ports.out.CostOperationRepositoryInterface;
 import com.arithmeticcalculator.ports.out.UserRepositoryInterface;
 import lombok.NonNull;
+import lombok.Value;
 
+@Value
 public class PayCostOperationServiceImpl implements PayOperationService {
-  private final UserRepositoryInterface userRepository;
-  private final CostOperationRepositoryInterface costOperationRepository;
-  private final CreateRecordService createRecordService;
-  private final PaymentSpecification paymentSpecification;
+  UserRepositoryInterface userRepository;
+  CostOperationRepositoryInterface costOperationRepository;
+  CreateRecordService createRecordService;
+  PaymentSpecification paymentSpecification;
 
   private PayCostOperationServiceImpl(
       @NonNull UserRepositoryInterface userRepository,

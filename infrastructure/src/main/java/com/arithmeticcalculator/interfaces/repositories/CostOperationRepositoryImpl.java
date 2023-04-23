@@ -8,10 +8,10 @@ import com.arithmeticcalculator.ports.out.CostOperationRepositoryInterface;
 import java.util.Optional;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
-public class CostOperationRepositoryImpl implements CostOperationRepositoryInterface {
+@Component
+public final class CostOperationRepositoryImpl implements CostOperationRepositoryInterface {
 
   private final CostOperationEntityJpaRepository costOperationEntityJpaRepository;
 

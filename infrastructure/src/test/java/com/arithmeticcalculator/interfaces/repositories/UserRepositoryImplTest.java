@@ -8,10 +8,10 @@ import static org.mockito.Mockito.*;
 import com.arithmeticcalculator.interfaces.repositories.entities.UserEntity;
 import com.arithmeticcalculator.interfaces.repositories.jpa.UserEntityJpaRepository;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -19,8 +19,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class UserRepositoryImplTest {
 
   @Mock private UserEntityJpaRepository userEntityJpaRepository;
-  @InjectMocks private UserRepositoryImpl userRepository;
+  private UserRepositoryImpl userRepository;
   private final UserEntity userEntity = getUserEntity();
+
+  @BeforeEach
+  void init() {
+    userRepository = new UserRepositoryImpl(userEntityJpaRepository);
+  }
 
   @Test
   void save() {

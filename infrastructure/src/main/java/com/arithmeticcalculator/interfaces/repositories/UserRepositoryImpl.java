@@ -7,10 +7,10 @@ import com.arithmeticcalculator.ports.out.UserRepositoryInterface;
 import java.util.Optional;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
-public class UserRepositoryImpl implements UserRepositoryInterface {
+@Component
+public final class UserRepositoryImpl implements UserRepositoryInterface {
 
   private final UserEntityJpaRepository userEntityJpaRepository;
 

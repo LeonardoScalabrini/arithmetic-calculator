@@ -2,17 +2,17 @@ package com.arithmeticcalculator.domains;
 
 import com.arithmeticcalculator.domains.ids.UserId;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NonNull;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
 public class User {
-  private final UserId userId;
-  private final String email;
-  private final double balance;
-  private final Privileges privileges = Privileges.USER;
-  private final Password password;
+  UserId userId;
+  String email;
+  double balance;
+  Privileges privileges = Privileges.USER;
+  Password password;
 
   private User(
       @NonNull UserId userId, @NonNull String email, double balance, @NonNull Password password) {

@@ -9,11 +9,11 @@ import com.arithmeticcalculator.interfaces.repositories.entities.RecordEntity;
 import com.arithmeticcalculator.interfaces.repositories.entities.UserEntity;
 import com.arithmeticcalculator.interfaces.repositories.jpa.RecordEntityJpaRepository;
 import com.arithmeticcalculator.interfaces.repositories.jpa.UserEntityJpaRepository;
+import com.arithmeticcalculator.ports.out.RecordRepositoryInterface;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,7 +23,7 @@ class RecordRepositoryImplTest {
 
   @Mock private UserEntityJpaRepository userEntityJpaRepository;
   @Mock private RecordEntityJpaRepository recordEntityJpaRepository;
-  @InjectMocks private RecordRepositoryImpl recordRepository;
+  private RecordRepositoryInterface recordRepository;
 
   private final Record<Double> record = getRecord();
   private final UserEntity userEntity = getUserEntity();
@@ -32,6 +32,7 @@ class RecordRepositoryImplTest {
 
   @BeforeEach
   void setUp() {
+    recordRepository = new RecordRepositoryImpl(userEntityJpaRepository, recordEntityJpaRepository);
     when(userEntityJpaRepository.findById(anyString())).thenReturn(Optional.of(userEntity));
     when(recordEntityJpaRepository.save(recordEntity)).thenReturn(recordEntity);
   }

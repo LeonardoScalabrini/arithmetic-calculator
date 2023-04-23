@@ -3,20 +3,15 @@ package com.arithmeticcalculator.api.v1.dtos;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@ToString
-@EqualsAndHashCode
-public final class UserCreateRequestDTO {
+@Value
+public class UserCreateRequestDTO {
   @NotBlank(message = "E-mail is required")
-  private final String email;
+  String email;
 
   @NotBlank(message = "Password is required")
-  private final String password;
+  String password;
 
   @JsonCreator
   public UserCreateRequestDTO(

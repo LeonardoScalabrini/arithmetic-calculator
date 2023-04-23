@@ -4,9 +4,11 @@ import com.arithmeticcalculator.domains.OperationTypes;
 import com.arithmeticcalculator.ports.in.RandomStringService;
 import com.arithmeticcalculator.ports.out.RandomStringInterface;
 import lombok.NonNull;
+import lombok.Value;
 
-public final class RandomStringServiceImpl implements RandomStringService {
-  private final RandomStringInterface randomString;
+@Value
+public class RandomStringServiceImpl implements RandomStringService {
+  RandomStringInterface randomString;
 
   private RandomStringServiceImpl(@NonNull RandomStringInterface randomString) {
     this.randomString = randomString;

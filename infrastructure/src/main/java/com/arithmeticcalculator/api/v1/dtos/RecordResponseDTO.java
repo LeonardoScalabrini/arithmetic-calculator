@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.*;
 
-@Getter
-@ToString
-@EqualsAndHashCode
 @Value
 public class RecordResponseDTO {
   String operation;

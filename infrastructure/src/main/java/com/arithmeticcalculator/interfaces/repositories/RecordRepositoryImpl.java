@@ -7,10 +7,10 @@ import com.arithmeticcalculator.interfaces.repositories.jpa.UserEntityJpaReposit
 import com.arithmeticcalculator.ports.out.RecordRepositoryInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
-public class RecordRepositoryImpl implements RecordRepositoryInterface {
+@Component
+public final class RecordRepositoryImpl implements RecordRepositoryInterface {
   private final UserEntityJpaRepository userEntityJpaRepository;
   private final RecordEntityJpaRepository recordEntityJpaRepository;
 

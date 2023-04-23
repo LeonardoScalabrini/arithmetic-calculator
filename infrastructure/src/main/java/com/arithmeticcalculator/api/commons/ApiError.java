@@ -3,7 +3,6 @@ package com.arithmeticcalculator.api.commons;
 import java.time.Instant;
 import lombok.*;
 
-@Getter
 @Builder
 @Value
 @RequiredArgsConstructor

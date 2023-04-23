@@ -7,11 +7,13 @@ import com.arithmeticcalculator.ports.in.CreateUserService;
 import com.arithmeticcalculator.ports.out.FindInitalBalanceInterface;
 import com.arithmeticcalculator.ports.out.UserRepositoryInterface;
 import lombok.NonNull;
+import lombok.Value;
 
+@Value
 public class CreateUserServiceImpl implements CreateUserService {
 
-  private final UserRepositoryInterface userRepositoryInterface;
-  private final FindInitalBalanceInterface findInitalBalanceInterface;
+  UserRepositoryInterface userRepositoryInterface;
+  FindInitalBalanceInterface findInitalBalanceInterface;
 
   private CreateUserServiceImpl(
       @NonNull UserRepositoryInterface userRepositoryInterface,

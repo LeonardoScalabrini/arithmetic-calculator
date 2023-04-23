@@ -6,9 +6,11 @@ import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.ports.in.CreateRecordService;
 import com.arithmeticcalculator.ports.out.RecordRepositoryInterface;
 import lombok.NonNull;
+import lombok.Value;
 
-public final class CreateRecordServiceImpl implements CreateRecordService {
-  private final RecordRepositoryInterface recordRepository;
+@Value
+public class CreateRecordServiceImpl implements CreateRecordService {
+  RecordRepositoryInterface recordRepository;
 
   private CreateRecordServiceImpl(@NonNull RecordRepositoryInterface recordRepository) {
     this.recordRepository = recordRepository;
