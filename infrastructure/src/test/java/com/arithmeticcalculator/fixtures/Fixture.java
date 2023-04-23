@@ -1,24 +1,38 @@
 package com.arithmeticcalculator.fixtures;
 
+import static com.arithmeticcalculator.domains.OperationTypes.SQUARE_ROOT;
+
 import com.arithmeticcalculator.domains.*;
 import com.arithmeticcalculator.domains.Privileges;
 import com.arithmeticcalculator.domains.Record;
-import com.arithmeticcalculator.entities.OperationEntity;
-import com.arithmeticcalculator.entities.RecordEntity;
-import com.arithmeticcalculator.entities.UserEntity;
+import com.arithmeticcalculator.domains.ids.CostOperationId;
+import com.arithmeticcalculator.domains.ids.UserId;
+import com.arithmeticcalculator.interfaces.repositories.entities.CostOperationEntity;
+import com.arithmeticcalculator.interfaces.repositories.entities.RecordEntity;
+import com.arithmeticcalculator.interfaces.repositories.entities.UserEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 public class Fixture {
 
   public static User getUser() {
-    return User.newInstance("email", 20);
+    return User.builder()
+        .userId(UserId.newInstance())
+        .email("email")
+        .balance(20)
+        .password(Password.newInstance("password"))
+        .build();
   }
 
-  public static CostOperation getOperation() {
-    return CostOperation.newInstance(OperationTypes.SQUARE_ROOT, 5);
+  public static CostOperation getCostOperation() {
+    return CostOperation.builder()
+        .costOperationId(CostOperationId.newInstance())
+        .operationTypes(SQUARE_ROOT)
+        .cost(5)
+        .build();
   }
 
   public static Record<Double> getRecord() {
@@ -26,20 +40,29 @@ public class Fixture {
   }
 
   public static UserEntity getUserEntity() {
+    return getUserEntity("email", "password");
+  }
+
+  public static UserEntity getUserEntity(String email, String password) {
     return UserEntity.builder()
-        .email("email")
+        .email(email)
         .balance(20)
-        .password("password")
+        .password(password)
         .privileges(Privileges.USER)
+        .id(UUID.randomUUID().toString())
         .build();
   }
 
-  public static OperationEntity getOperationEntity() {
-    return OperationEntity.from(getCostOperation());
+  public static CostOperationEntity getCostOperationEntity() {
+    return CostOperationEntity.from(getCostOperation());
+  }
+
+  public static RecordEntity getRecordEntity(UserEntity userEntity) {
+    return RecordEntity.from(userEntity, getRecord());
   }
 
   public static RecordEntity getRecordEntity() {
-    return RecordEntity.from(getUserEntity(), getOperationEntity(), getRecord());
+    return getRecordEntity(getUserEntity());
   }
 
   public static final String CREATE_USER_REQUEST_PATH =

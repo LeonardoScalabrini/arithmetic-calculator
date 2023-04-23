@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.queries;
 
-import com.arithmeticcalculator.entities.RecordEntity;
-import com.arithmeticcalculator.repositories.jpa.RecordEntityJpaRepository;
+import com.arithmeticcalculator.interfaces.repositories.entities.RecordEntity;
+import com.arithmeticcalculator.interfaces.repositories.jpa.RecordEntityJpaRepository;
 import java.util.List;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;

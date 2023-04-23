@@ -6,7 +6,7 @@ import com.arithmeticcalculator.domains.User;
 public class PaymentSpecificationImpl implements PaymentSpecification {
   private static PaymentSpecification instance;
 
-  private void PayOperationServiceImpl() {};
+  private PaymentSpecificationImpl() {}
 
   @Override
   public boolean test(User user, CostOperation costOperation) {

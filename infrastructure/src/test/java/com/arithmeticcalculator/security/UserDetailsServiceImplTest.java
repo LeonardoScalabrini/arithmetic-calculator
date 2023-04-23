@@ -2,18 +2,16 @@ package com.arithmeticcalculator.security;
 
 import static com.arithmeticcalculator.fixtures.Fixture.getUserEntity;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
-import com.arithmeticcalculator.entities.UserEntity;
-import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
+import com.arithmeticcalculator.interfaces.repositories.entities.UserEntity;
+import com.arithmeticcalculator.interfaces.repositories.jpa.UserEntityJpaRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -26,7 +24,7 @@ class UserDetailsServiceImplTest {
 
   @BeforeEach
   void setUp() {
-    Mockito.when(userEntityJpaRepository.findByEmail("email")).thenReturn(Optional.of(userEntity));
+    when(userEntityJpaRepository.findByEmail("email")).thenReturn(Optional.of(userEntity));
   }
 
   @Test
@@ -40,7 +38,7 @@ class UserDetailsServiceImplTest {
 
   @Test
   void sholdThrow() {
-    Mockito.when(userEntityJpaRepository.findByEmail("email")).thenReturn(Optional.empty());
+    when(userEntityJpaRepository.findByEmail("email")).thenReturn(Optional.empty());
     assertThrows(
         UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername("email"));
     verify(userEntityJpaRepository, times(1)).findByEmail("email");

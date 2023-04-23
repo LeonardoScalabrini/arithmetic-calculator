@@ -19,9 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(RecordController.class)
 class RecordControllerTest {
-
   @Autowired private MockMvc mockMvc;
-
   @MockBean private RecordPaginationQuery recordPaginationQuery;
 
   @BeforeEach

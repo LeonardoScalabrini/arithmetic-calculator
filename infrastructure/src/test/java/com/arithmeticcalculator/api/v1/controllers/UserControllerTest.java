@@ -6,8 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.arithmeticcalculator.api.v1.dtos.UserCreateRequestDTO;
-import com.arithmeticcalculator.ports.in.InitialBalanceService;
-import com.arithmeticcalculator.security.SecurityService;
+import com.arithmeticcalculator.ports.in.CreateUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,21 +17,18 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
-  @MockBean private SecurityService securityService;
-  @MockBean private InitialBalanceService initialBalanceService;
+  @MockBean private CreateUserService createUserService;
   @Autowired private MockMvc mockMvc;
 
   @Test
   void create() throws Exception {
     var dto = new UserCreateRequestDTO("email", "password");
-    doNothing().when(securityService).createUser(dto.getEmail(), dto.getPassword());
-    doNothing().when(initialBalanceService).apply(dto.getEmail());
+    doNothing().when(createUserService).create(dto.getEmail(), dto.getPassword());
     mockMvc
         .perform(
             post("/api/v1/user").content(fromJson(dto)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
-    verify(securityService, times(1)).createUser(dto.getEmail(), dto.getPassword());
-    verify(initialBalanceService, times(1)).apply(dto.getEmail());
+    verify(createUserService, times(1)).create(dto.getEmail(), dto.getPassword());
   }
 
   @Test
@@ -58,7 +54,6 @@ class UserControllerTest {
                 .content(fromJson(new UserCreateRequestDTO("", "password")))
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());
-    verify(securityService, times(0)).createUser(anyString(), anyString());
-    verify(initialBalanceService, times(0)).apply(anyString());
+    verify(createUserService, times(0)).create(anyString(), anyString());
   }
 }

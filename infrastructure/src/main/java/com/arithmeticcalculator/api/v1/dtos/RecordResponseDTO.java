@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.api.v1.dtos;
 
 import com.arithmeticcalculator.domains.Record;
-import com.arithmeticcalculator.entities.RecordEntity;
+import com.arithmeticcalculator.interfaces.repositories.entities.RecordEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.*;

@@ -22,9 +22,9 @@ class PasswordTest {
   }
 
   @Test
-  void check() {
-    Password password = Password.newInstance("password");
-    assertTrue(password.check("password"));
-    assertFalse(password.check("password2"));
+  void crypted() {
+    Password crypted = Password.newInstance("password");
+    Password password = Password.newInstance(crypted.getCryptedPassword());
+    assertEquals(crypted, password);
   }
 }

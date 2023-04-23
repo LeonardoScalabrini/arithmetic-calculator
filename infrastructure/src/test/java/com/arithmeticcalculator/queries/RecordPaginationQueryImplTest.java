@@ -3,8 +3,8 @@ package com.arithmeticcalculator.queries;
 import static com.arithmeticcalculator.fixtures.Fixture.getRecordEntity;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.arithmeticcalculator.entities.RecordEntity;
-import com.arithmeticcalculator.repositories.jpa.RecordEntityJpaRepository;
+import com.arithmeticcalculator.interfaces.repositories.entities.RecordEntity;
+import com.arithmeticcalculator.interfaces.repositories.jpa.RecordEntityJpaRepository;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

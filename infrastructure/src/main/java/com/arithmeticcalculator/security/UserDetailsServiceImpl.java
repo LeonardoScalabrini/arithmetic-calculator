@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.security;
 
-import com.arithmeticcalculator.entities.UserEntity;
-import com.arithmeticcalculator.repositories.jpa.UserEntityJpaRepository;
+import com.arithmeticcalculator.interfaces.repositories.entities.UserEntity;
+import com.arithmeticcalculator.interfaces.repositories.jpa.UserEntityJpaRepository;
 import java.util.Collection;
 import java.util.Collections;
 import lombok.NonNull;

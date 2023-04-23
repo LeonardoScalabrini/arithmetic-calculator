@@ -1,6 +1,6 @@
 package com.arithmeticcalculator.queries;
 
-import com.arithmeticcalculator.entities.RecordEntity;
+import com.arithmeticcalculator.interfaces.repositories.entities.RecordEntity;
 import java.util.List;
 
 public interface RecordPaginationQuery {
