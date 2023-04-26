@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
   private final CreateRecordService createRecordService;
-  private final PayOperationService payOperationService;
+  private final PayCostOperationService payCostOperationService;
   private final RandomStringService randomStringService;
   private final CreateUserService createUserService;
 
@@ -24,7 +24,7 @@ public class AppConfig {
       FindInitalBalanceInterface findInitalBalance) {
     this.createRecordService = CreateRecordServiceImpl.newInstance(recordRepository);
     this.createUserService = CreateUserServiceImpl.newInstance(userRepository, findInitalBalance);
-    this.payOperationService =
+    this.payCostOperationService =
         PayCostOperationServiceImpl.newInstance(
             userRepository,
             operationRepository,
@@ -39,8 +39,8 @@ public class AppConfig {
   }
 
   @Bean
-  public PayOperationService getPayOperationService() {
-    return payOperationService;
+  public PayCostOperationService getPayOperationService() {
+    return payCostOperationService;
   }
 
   @Bean

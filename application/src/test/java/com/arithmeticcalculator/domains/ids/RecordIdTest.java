@@ -2,23 +2,19 @@ package com.arithmeticcalculator.domains.ids;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.arithmeticcalculator.abstracts.UtilsTest;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-class RecordIdTest {
+class RecordIdTest extends UtilsTest {
 
   @Test
-  void newInstance() {
+  void recordId() {
+    assertClass(RecordId.class, RecordId.newInstance());
     var id = RecordId.newInstance();
-    assertNotNull(id);
-    assertNotNull(id.getId());
+    var uuid = UUID.randomUUID().toString();
     assertNotEquals(id, RecordId.newInstance());
-  }
-
-  @Test
-  void getInstance() {
-    var id = UUID.randomUUID().toString();
-    var instance = RecordId.getInstance(id).getId();
-    assertEquals(id, instance);
+    assertEquals(id, RecordId.getInstance(id.getId()));
+    assertEquals(uuid, RecordId.getInstance(uuid).getId());
   }
 }

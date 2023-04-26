@@ -1,12 +1,11 @@
 package com.arithmeticcalculator.domains;
 
+import com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory;
 import com.arithmeticcalculator.domains.ids.UserId;
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+import lombok.*;
 
 @Value
-@Builder
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
   UserId userId;
   String email;
@@ -14,19 +13,23 @@ public class User {
   Privileges privileges = Privileges.USER;
   Password password;
 
-  private User(
-      @NonNull UserId userId, @NonNull String email, double balance, @NonNull Password password) {
-    this.userId = userId;
-    this.email = email;
-    this.balance = balance;
-    this.password = password;
+  private void validateValue(double value) {
+    if (value >= 0) return;
+    throw IllegalStateExceptionFactory.builder(getClass()).param("value", value).build();
   }
 
   public User pay(double value) {
+    validateValue(value);
     return new User(userId, email, balance - value, password);
   }
 
   public User addBalance(double value) {
+    validateValue(value);
     return new User(userId, email, this.balance + value, password);
+  }
+
+  public static User newInstance(
+      @NonNull UserId userId, @NonNull String email, double balance, @NonNull Password password) {
+    return new User(userId, email, balance, password);
   }
 }

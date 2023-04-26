@@ -2,11 +2,13 @@ package com.arithmeticcalculator.domains.commands;
 
 import com.arithmeticcalculator.domains.OperationTypes;
 import lombok.NonNull;
+import lombok.Value;
 
-public final class BasicOperationCommand implements OperationCommand<Double> {
-  private final double n1;
-  private final double n2;
-  private final BasicOperations basicOperations;
+@Value
+public class BasicOperationCommand implements OperationCommand<Double> {
+  double n1;
+  double n2;
+  BasicOperations basicOperations;
 
   private BasicOperationCommand(@NonNull BasicOperations basicOperations, double n1, double n2) {
     this.n1 = n1;
@@ -14,7 +16,7 @@ public final class BasicOperationCommand implements OperationCommand<Double> {
     this.basicOperations = basicOperations;
   }
 
-  public static OperationCommand<Double> of(
+  public static BasicOperationCommand newInstance(
       @NonNull BasicOperations basicOperations, double n1, double n2) {
     return new BasicOperationCommand(basicOperations, n1, n2);
   }

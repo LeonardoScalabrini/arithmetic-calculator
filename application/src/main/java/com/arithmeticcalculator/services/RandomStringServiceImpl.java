@@ -24,7 +24,7 @@ public class RandomStringServiceImpl implements RandomStringService {
     return randomString.random();
   }
 
-  public static RandomStringService newInstance(@NonNull RandomStringInterface randomString) {
+  public static RandomStringServiceImpl newInstance(@NonNull RandomStringInterface randomString) {
     return new RandomStringServiceImpl(randomString);
   }
 }

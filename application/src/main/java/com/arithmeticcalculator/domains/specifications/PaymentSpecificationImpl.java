@@ -2,13 +2,14 @@ package com.arithmeticcalculator.domains.specifications;
 
 import com.arithmeticcalculator.domains.CostOperation;
 import com.arithmeticcalculator.domains.User;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 @Value
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PaymentSpecificationImpl implements PaymentSpecification {
   private static PaymentSpecification instance;
-
-  private PaymentSpecificationImpl() {}
 
   @Override
   public boolean test(User user, CostOperation costOperation) {

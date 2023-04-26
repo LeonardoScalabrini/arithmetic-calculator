@@ -4,18 +4,16 @@ import com.arithmeticcalculator.domains.ids.CostOperationId;
 import lombok.*;
 
 @Value
-@Builder
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CostOperation {
   CostOperationId costOperationId;
   OperationTypes operationTypes;
   double cost;
 
-  private CostOperation(
+  public static CostOperation newInstance(
       @NonNull CostOperationId costOperationId,
       @NonNull OperationTypes operationTypes,
       double cost) {
-    this.costOperationId = costOperationId;
-    this.operationTypes = operationTypes;
-    this.cost = cost;
+    return new CostOperation(costOperationId, operationTypes, cost);
   }
 }

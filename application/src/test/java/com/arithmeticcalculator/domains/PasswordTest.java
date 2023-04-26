@@ -1,30 +1,22 @@
 package com.arithmeticcalculator.domains;
 
+import static com.arithmeticcalculator.fixtures.Fixture.CRYPTED_STRING;
+import static com.arithmeticcalculator.fixtures.Fixture.getPassword;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.arithmeticcalculator.abstracts.UtilsTest;
 import org.junit.jupiter.api.Test;
 
-class PasswordTest {
+class PasswordTest extends UtilsTest {
 
   @Test
-  void newInstance() {
-    assertThrows(RuntimeException.class, () -> Password.newInstance(null));
-    assertDoesNotThrow(() -> Password.newInstance("password"));
-  }
-
-  @Test
-  void getValue() {
-    Password password = Password.newInstance("password");
-    assertNotNull(password.getCryptedPassword());
-    assertNotEquals("password", password.getCryptedPassword());
-    assertNotEquals(
-        Password.newInstance("password").getCryptedPassword(), password.getCryptedPassword());
-  }
-
-  @Test
-  void crypted() {
-    Password crypted = Password.newInstance("password");
-    Password password = Password.newInstance(crypted.getCryptedPassword());
-    assertEquals(crypted, password);
+  void password() {
+    assertClass(Password.class, getPassword());
+    var p = getPassword();
+    var cryptPassword = getPassword(p.getCryptedPassword());
+    var password = getPassword();
+    assertNotEquals(p, password);
+    assertEquals(p, cryptPassword);
+    assertEquals(CRYPTED_STRING, getPassword(CRYPTED_STRING).getCryptedPassword());
   }
 }

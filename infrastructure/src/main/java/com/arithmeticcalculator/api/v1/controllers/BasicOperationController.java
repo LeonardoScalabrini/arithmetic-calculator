@@ -2,7 +2,7 @@ package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.api.v1.dtos.RecordResponseDTO;
 import com.arithmeticcalculator.domains.commands.BasicOperations;
-import com.arithmeticcalculator.ports.in.PayOperationService;
+import com.arithmeticcalculator.ports.in.PayCostOperationService;
 import java.security.Principal;
 import javax.validation.Valid;
 import lombok.NonNull;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/operations")
 public final class BasicOperationController {
 
-  private final PayOperationService payOperationService;
+  private final PayCostOperationService payCostOperationService;
 
   @Autowired
-  public BasicOperationController(@NonNull PayOperationService payOperationService) {
-    this.payOperationService = payOperationService;
+  public BasicOperationController(@NonNull PayCostOperationService payCostOperationService) {
+    this.payCostOperationService = payCostOperationService;
   }
 
   @PostMapping("/addition")
@@ -61,7 +61,7 @@ public final class BasicOperationController {
       @NonNull Principal principal, @NonNull BasicOperations basicOperation, double n1, double n2) {
     return ResponseEntity.ok(
         RecordResponseDTO.from(
-            payOperationService.payOperation(
+            payCostOperationService.payOperation(
                 principal.getName(), basicOperation.getOperationCommand(n1, n2))));
   }
 }

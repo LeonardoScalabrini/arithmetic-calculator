@@ -7,7 +7,7 @@ public final class IllegalStateExceptionFactory {
     stringBuilder.append("class").append(tClass.getName());
   }
 
-  public static IllegalStateExceptionFactory newInstance(Class<?> tClass) {
+  public static IllegalStateExceptionFactory builder(Class<?> tClass) {
     return new IllegalStateExceptionFactory(tClass);
   }
 

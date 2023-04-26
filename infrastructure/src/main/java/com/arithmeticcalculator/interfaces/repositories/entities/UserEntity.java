@@ -47,12 +47,7 @@ public final class UserEntity {
   }
 
   public User getUser() {
-    return User.builder()
-        .userId(UserId.getInstance(id))
-        .email(email)
-        .balance(balance)
-        .password(Password.newInstance(password))
-        .build();
+    return User.newInstance(UserId.getInstance(id), email, balance, Password.newInstance(password));
   }
 
   public static UserEntity from(User user) {

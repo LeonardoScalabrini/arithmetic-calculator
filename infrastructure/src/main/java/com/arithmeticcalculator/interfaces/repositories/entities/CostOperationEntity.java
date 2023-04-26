@@ -38,10 +38,6 @@ public final class CostOperationEntity {
   }
 
   public CostOperation getOperation() {
-    return CostOperation.builder()
-        .costOperationId(CostOperationId.getInstance(id))
-        .operationTypes(type)
-        .cost(cost)
-        .build();
+    return CostOperation.newInstance(CostOperationId.getInstance(id), type, cost);
   }
 }

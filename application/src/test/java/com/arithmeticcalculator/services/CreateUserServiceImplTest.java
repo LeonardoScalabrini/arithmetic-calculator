@@ -3,6 +3,7 @@ package com.arithmeticcalculator.services;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.arithmeticcalculator.abstracts.UtilsTest;
 import com.arithmeticcalculator.ports.in.CreateUserService;
 import com.arithmeticcalculator.ports.out.FindInitalBalanceInterface;
 import com.arithmeticcalculator.ports.out.UserRepositoryInterface;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class CreateUserServiceImplTest {
+class CreateUserServiceImplTest extends UtilsTest {
 
   private final UserRepositoryInterface userRepositoryInterface =
       mock(UserRepositoryInterface.class);
@@ -26,6 +27,13 @@ class CreateUserServiceImplTest {
     doNothing().when(userRepositoryInterface).save(any());
     createUserService =
         CreateUserServiceImpl.newInstance(userRepositoryInterface, findInitalBalanceInterface);
+  }
+
+  @Test
+  void createUserServiceImpl() {
+    assertClass(
+        CreateUserServiceImpl.class,
+        CreateUserServiceImpl.newInstance(userRepositoryInterface, findInitalBalanceInterface));
   }
 
   @Test

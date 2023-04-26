@@ -1,16 +1,19 @@
 package com.arithmeticcalculator.domains.ids;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.ToString;
 import lombok.Value;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class UserId extends Id {
   private UserId() {
     super();
   }
 
-  private UserId(String id) {
+  private UserId(@NonNull String id) {
     super(id);
   }
 
@@ -18,7 +21,7 @@ public class UserId extends Id {
     return new UserId();
   }
 
-  public static UserId getInstance(String id) {
+  public static UserId getInstance(@NonNull String id) {
     return new UserId(id);
   }
 }

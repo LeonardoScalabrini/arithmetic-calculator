@@ -1,23 +1,25 @@
 package com.arithmeticcalculator.domains.commands;
 
-import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.newInstance;
+import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.builder;
 
 import com.arithmeticcalculator.domains.OperationTypes;
+import lombok.Value;
 
-public final class SquareRootCommand implements OperationCommand<Double> {
+@Value
+public class SquareRootCommand implements OperationCommand<Double> {
 
-  private final double radicand;
+  double radicand;
 
   private SquareRootCommand(double radicand) {
     if (radicand < 0)
-      throw newInstance(getClass())
+      throw builder(getClass())
           .param("radicand", radicand)
           .message("The radicand should be zero or positive number!")
           .build();
     this.radicand = radicand;
   }
 
-  public static SquareRootCommand of(double radicand) {
+  public static SquareRootCommand newInstance(double radicand) {
     return new SquareRootCommand(radicand);
   }
 

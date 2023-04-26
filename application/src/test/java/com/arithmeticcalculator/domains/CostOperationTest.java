@@ -1,27 +1,22 @@
 package com.arithmeticcalculator.domains;
 
+import static com.arithmeticcalculator.fixtures.Fixture.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.arithmeticcalculator.abstracts.UtilsTest;
+import com.arithmeticcalculator.domains.ids.CostOperationId;
 import com.arithmeticcalculator.fixtures.Fixture;
-import com.jparams.verifier.tostring.ToStringVerifier;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 import org.junit.jupiter.api.Test;
 
-class CostOperationTest {
+class CostOperationTest extends UtilsTest {
 
   @Test
   void build() {
-    var operation = Fixture.getCostOperation();
-    assertEquals(OperationTypes.SQUARE_ROOT, operation.getOperationTypes());
-    assertEquals(5, operation.getCost());
-    EqualsVerifier.forClass(CostOperation.class).suppress(Warning.STRICT_INHERITANCE).verify();
-    ToStringVerifier.forClass(CostOperation.class).verify();
-  }
-
-  @Test
-  void notNull() {
-    assertThrows(NullPointerException.class, () -> CostOperation.builder().cost(5).build());
+    assertClass(CostOperation.class, getCostOperation());
+    var id = CostOperationId.newInstance();
+    var costOperation = Fixture.getCostOperation(id);
+    assertEquals(OperationTypes.SQUARE_ROOT, costOperation.getOperationTypes());
+    assertEquals(5, costOperation.getCost());
+    assertEquals(id, costOperation.getCostOperationId());
   }
 }

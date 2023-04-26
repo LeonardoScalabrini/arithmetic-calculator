@@ -1,10 +1,12 @@
 package com.arithmeticcalculator.domains.ids;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.Value;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class CostOperationId extends Id {
   private CostOperationId() {
     super();

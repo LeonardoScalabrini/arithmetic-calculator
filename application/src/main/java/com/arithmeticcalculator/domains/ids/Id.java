@@ -2,22 +2,23 @@ package com.arithmeticcalculator.domains.ids;
 
 import java.util.UUID;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 
 @ToString
 @EqualsAndHashCode
 public abstract class Id {
-  private final UUID id;
+  private final String id;
 
   protected Id() {
-    this.id = UUID.randomUUID();
+    this.id = UUID.randomUUID().toString();
   }
 
-  protected Id(String id) {
-    this.id = UUID.fromString(id);
+  protected Id(@NonNull String id) {
+    this.id = UUID.fromString(id).toString();
   }
 
   public String getId() {
-    return id.toString();
+    return id;
   }
 }

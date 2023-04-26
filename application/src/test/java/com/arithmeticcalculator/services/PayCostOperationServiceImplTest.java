@@ -1,121 +1,131 @@
 package com.arithmeticcalculator.services;
 
 import static com.arithmeticcalculator.domains.OperationTypes.SQUARE_ROOT;
-import static com.arithmeticcalculator.fixtures.Fixture.getCostOperation;
-import static com.arithmeticcalculator.fixtures.Fixture.getRecord;
+import static com.arithmeticcalculator.fixtures.Fixture.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.params.provider.Arguments.of;
 import static org.mockito.Mockito.*;
 
+import com.arithmeticcalculator.abstracts.UtilsTest;
 import com.arithmeticcalculator.domains.CostOperation;
-import com.arithmeticcalculator.domains.Record;
 import com.arithmeticcalculator.domains.User;
 import com.arithmeticcalculator.domains.commands.OperationCommand;
 import com.arithmeticcalculator.domains.specifications.PaymentSpecification;
 import com.arithmeticcalculator.domains.specifications.PaymentSpecificationImpl;
 import com.arithmeticcalculator.ports.in.CreateRecordService;
-import com.arithmeticcalculator.ports.in.PayOperationService;
+import com.arithmeticcalculator.ports.in.PayCostOperationService;
 import com.arithmeticcalculator.ports.out.CostOperationRepositoryInterface;
 import com.arithmeticcalculator.ports.out.UserRepositoryInterface;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class PayCostOperationServiceImplTest {
+public class PayCostOperationServiceImplTest extends UtilsTest {
   private final UserRepositoryInterface userRepository = mock(UserRepositoryInterface.class);
-  private final CostOperationRepositoryInterface operationRepository =
+  private final CostOperationRepositoryInterface costOperationRepository =
       mock(CostOperationRepositoryInterface.class);
-  private final CreateRecordService createRecordService = mock(CreateRecordService.class);
-  private final OperationCommand<Double> operationCommand = mock(OperationCommand.class);
   private final PaymentSpecification paymentSpecification = mock(PaymentSpecification.class);
-  private PayOperationService payOperationService;
-  private final User user = mock(User.class);
-  private final User payedUser = mock(User.class);
-  private final CostOperation costOperation = getCostOperation();
-  private final Record<Double> record = getRecord();
+  private final CreateRecordService createRecordService = mock(CreateRecordService.class);
+  private PayCostOperationService payCostOperationService;
 
   @BeforeEach
   void setUp() {
-    when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
-    when(user.pay(costOperation.getCost())).thenReturn(payedUser);
-    doNothing().when(userRepository).save(payedUser);
-    when(operationRepository.findByName(SQUARE_ROOT)).thenReturn(Optional.of(costOperation));
-    when(operationCommand.execute()).thenReturn(2.0);
-    when(operationCommand.getOperationType()).thenReturn(SQUARE_ROOT);
-    when(createRecordService.create(payedUser, costOperation, 2.0)).thenReturn(record);
-    when(paymentSpecification.test(user, costOperation)).thenReturn(Boolean.TRUE);
-    payOperationService =
+    payCostOperationService =
         PayCostOperationServiceImpl.newInstance(
-            userRepository, operationRepository, createRecordService, paymentSpecification);
+            userRepository, costOperationRepository, createRecordService, paymentSpecification);
   }
 
   @Test
-  void payOperation() {
-    var result = payOperationService.payOperation("email", operationCommand);
-    assertEquals(record, result);
-    verify(userRepository, times(1)).findByEmail("email");
-    verify(operationRepository, times(1)).findByName(SQUARE_ROOT);
-    verify(paymentSpecification, times(1)).test(user, costOperation);
-    verify(userRepository, times(1)).save(payedUser);
-    verify(user, times(1)).pay(costOperation.getCost());
-    verify(operationCommand, times(1)).execute();
-    verify(createRecordService, times(1)).create(payedUser, costOperation, 2.0);
+  void createUserServiceImpl() {
+    assertClass(
+        PayCostOperationServiceImpl.class,
+        PayCostOperationServiceImpl.newInstance(
+            userRepository, costOperationRepository, createRecordService, paymentSpecification));
   }
 
-  @Test
-  void notPayOperation() {
-    when(paymentSpecification.test(user, costOperation)).thenReturn(Boolean.FALSE);
-    assertThrows(
-        IllegalStateException.class,
-        () -> payOperationService.payOperation("email", operationCommand));
-    verify(userRepository, times(1)).findByEmail("email");
-    verify(operationRepository, times(1)).findByName(SQUARE_ROOT);
-    verify(paymentSpecification, times(1)).test(user, costOperation);
-    verify(userRepository, times(0)).save(payedUser);
-    verify(user, times(0)).pay(costOperation.getCost());
-    verify(operationCommand, times(0)).execute();
-    verify(createRecordService, times(0)).create(payedUser, costOperation, 2.0);
-  }
+  @ParameterizedTest
+  @MethodSource("providePayOperation")
+  void payOperation(
+      User user,
+      CostOperation costOperation,
+      boolean paySpecification,
+      OperationCommand<Double> operationCommand,
+      boolean isException,
+      int findByName,
+      int test,
+      int payOperation) {
+    var record = getRecord();
+    when(operationCommand.getOperationType()).thenReturn(SQUARE_ROOT);
+    when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(user));
+    when(costOperationRepository.findByName(SQUARE_ROOT))
+        .thenReturn(Optional.ofNullable(costOperation));
+    when(paymentSpecification.test(user, costOperation)).thenReturn(paySpecification);
+    if (user != null && costOperation != null)
+      when(user.pay(costOperation.getCost())).thenReturn(user);
+    when(operationCommand.execute()).thenReturn(2.0);
+    doNothing().when(userRepository).save(user);
+    when(createRecordService.create(user, costOperation, 2.0)).thenReturn(record);
 
-  @Test
-  void notFoundUser() {
-    when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
-    assertThrows(
-        IllegalStateException.class,
-        () -> payOperationService.payOperation("email", operationCommand));
-    verify(userRepository, times(1)).findByEmail("email");
-    verify(operationRepository, times(0)).findByName(any());
-    verify(userRepository, times(0)).save(any());
-    verify(user, times(0)).pay(anyDouble());
-    verify(operationCommand, times(0)).execute();
-    verify(createRecordService, times(0)).create(any(), any(), any());
-  }
+    if (isException)
+      assertThrows(
+          IllegalStateException.class,
+          () -> payCostOperationService.payOperation("email", operationCommand));
+    else assertEquals(record, payCostOperationService.payOperation("email", operationCommand));
 
-  @Test
-  void notFoundOperation() {
-    when(operationRepository.findByName(SQUARE_ROOT)).thenReturn(Optional.empty());
-    assertThrows(
-        IllegalStateException.class,
-        () -> payOperationService.payOperation("email", operationCommand));
     verify(userRepository, times(1)).findByEmail("email");
-    verify(operationRepository, times(1)).findByName(SQUARE_ROOT);
-    verify(userRepository, times(0)).save(any());
-    verify(user, times(0)).pay(anyDouble());
-    verify(operationCommand, times(0)).execute();
-    verify(createRecordService, times(0)).create(any(), any(), any());
+    verify(operationCommand, times(findByName)).getOperationType();
+    verify(costOperationRepository, times(findByName)).findByName(SQUARE_ROOT);
+    verify(paymentSpecification, times(test)).test(user, costOperation);
+    verify(userRepository, times(payOperation)).save(user);
+    if (user != null && costOperation != null)
+      verify(user, times(payOperation)).pay(costOperation.getCost());
+    verify(operationCommand, times(payOperation)).execute();
+    verify(createRecordService, times(payOperation)).create(user, costOperation, 2.0);
   }
 
   @Test
   void newInstance() {
     assertNotSame(
-        payOperationService,
+        payCostOperationService,
         PayCostOperationServiceImpl.newInstance(
             userRepository,
-            operationRepository,
+            costOperationRepository,
             createRecordService,
             PaymentSpecificationImpl.getInstance()));
+  }
+
+  private static Stream<Arguments> providePayOperation() {
+    return Stream.of(
+        of(
+            mock(User.class),
+            mock(CostOperation.class),
+            true,
+            mock(OperationCommand.class),
+            false,
+            1,
+            1,
+            1),
+        of(mock(User.class), null, true, mock(OperationCommand.class), true, 1, 0, 0),
+        of(
+            mock(User.class),
+            mock(CostOperation.class),
+            false,
+            mock(OperationCommand.class),
+            true,
+            1,
+            1,
+            0),
+        of(mock(User.class), null, false, mock(OperationCommand.class), true, 1, 0, 0),
+        of(null, mock(CostOperation.class), true, mock(OperationCommand.class), true, 0, 0, 0),
+        of(null, null, true, mock(OperationCommand.class), true, 0, 0, 0),
+        of(null, mock(CostOperation.class), false, mock(OperationCommand.class), true, 0, 0, 0),
+        of(null, null, false, mock(OperationCommand.class), true, 0, 0, 0));
   }
 }

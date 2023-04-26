@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.domains.commands;
 
 import static com.arithmeticcalculator.domains.OperationTypes.*;
-import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.newInstance;
+import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.builder;
 
 import com.arithmeticcalculator.domains.OperationTypes;
 import java.util.function.DoubleBinaryOperator;
@@ -24,7 +24,7 @@ public enum BasicOperations implements DoubleBinaryOperator {
 
   private static double divide(double dividend, double divisor) {
     if (divisor == 0)
-      throw newInstance(BasicOperations.class)
+      throw builder(BasicOperations.class)
           .param("dividend", Double.toString(divisor))
           .message("The divisor should be great than zero!")
           .build();
@@ -32,7 +32,7 @@ public enum BasicOperations implements DoubleBinaryOperator {
   }
 
   public OperationCommand<Double> getOperationCommand(double n1, double n2) {
-    return BasicOperationCommand.of(this, n1, n2);
+    return BasicOperationCommand.newInstance(this, n1, n2);
   }
 
   public OperationTypes getOperationType() {

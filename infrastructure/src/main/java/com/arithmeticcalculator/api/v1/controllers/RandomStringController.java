@@ -1,7 +1,7 @@
 package com.arithmeticcalculator.api.v1.controllers;
 
 import com.arithmeticcalculator.api.v1.dtos.RecordResponseDTO;
-import com.arithmeticcalculator.ports.in.PayOperationService;
+import com.arithmeticcalculator.ports.in.PayCostOperationService;
 import com.arithmeticcalculator.ports.in.RandomStringService;
 import java.security.Principal;
 import lombok.NonNull;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/operations")
 public final class RandomStringController {
   private final RandomStringService randomStringService;
-  private final PayOperationService payOperationService;
+  private final PayCostOperationService payCostOperationService;
 
   @Autowired
   public RandomStringController(
       @NonNull RandomStringService randomStringService,
-      @NonNull PayOperationService payOperationService) {
+      @NonNull PayCostOperationService payCostOperationService) {
     this.randomStringService = randomStringService;
-    this.payOperationService = payOperationService;
+    this.payCostOperationService = payCostOperationService;
   }
 
   @GetMapping("/random-string")
@@ -28,6 +28,6 @@ public final class RandomStringController {
       @NonNull Principal principal) {
     return ResponseEntity.ok(
         RecordResponseDTO.from(
-            payOperationService.payOperation(principal.getName(), randomStringService)));
+            payCostOperationService.payOperation(principal.getName(), randomStringService)));
   }
 }

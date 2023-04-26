@@ -21,9 +21,11 @@ class BasicOperationsTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"PLUS,1.0,2.0", "MINUS,1.0,2.0", "DIVIDE,1.0,2.0", "TIMES,1.0,2.0"})
-  void getOperationCommand(BasicOperations basicOperations, double n, double n2) {
-    assertNotNull(basicOperations.getOperationCommand(n, n2));
+  @CsvSource({"PLUS,1.0,2.0,3.0", "MINUS,1.0,2.0,-1.0", "DIVIDE,1.0,2.0,0.5", "TIMES,1.0,2.0,2.0"})
+  void getOperationCommand(BasicOperations basicOperations, double n, double n2, double result) {
+    var command = basicOperations.getOperationCommand(n, n2);
+    assertEquals(basicOperations.getOperationType(), command.getOperationType());
+    assertEquals(result, command.execute());
   }
 
   @ParameterizedTest

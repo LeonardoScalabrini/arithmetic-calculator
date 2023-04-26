@@ -24,7 +24,7 @@ public class CreateRecordServiceImpl implements CreateRecordService {
     return r;
   }
 
-  public static CreateRecordService newInstance(
+  public static CreateRecordServiceImpl newInstance(
       @NonNull RecordRepositoryInterface recordRepository) {
     return new CreateRecordServiceImpl(recordRepository);
   }

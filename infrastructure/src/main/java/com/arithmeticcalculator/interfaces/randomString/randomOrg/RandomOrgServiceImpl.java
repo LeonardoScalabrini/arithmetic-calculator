@@ -1,6 +1,6 @@
 package com.arithmeticcalculator.interfaces.randomString.randomOrg;
 
-import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.newInstance;
+import static com.arithmeticcalculator.domains.exceptions.IllegalStateExceptionFactory.builder;
 
 import com.arithmeticcalculator.interfaces.randomString.randomOrg.config.RandomOrgConfig;
 import lombok.NonNull;
@@ -26,7 +26,7 @@ public final class RandomOrgServiceImpl implements RandomOrgService {
   public String strings() {
     var result = restTemplate.getForEntity(randomOrgConfig.getUrl(), String.class);
     if (result.getStatusCode().is2xxSuccessful() && result.hasBody()) return result.getBody();
-    throw newInstance(getClass())
+    throw builder(getClass())
         .param("url", randomOrgConfig.getUrl())
         .param("status", result.getStatusCode())
         .build();

@@ -25,16 +25,15 @@ public class CreateUserServiceImpl implements CreateUserService {
   @Override
   public void create(@NonNull String email, @NonNull String password) {
     var user =
-        User.builder()
-            .userId(UserId.newInstance())
-            .email(email)
-            .password(Password.newInstance(password))
-            .balance(findInitalBalanceInterface.find())
-            .build();
+        User.newInstance(
+            UserId.newInstance(),
+            email,
+            findInitalBalanceInterface.find(),
+            Password.newInstance(password));
     userRepositoryInterface.save(user);
   }
 
-  public static CreateUserService newInstance(
+  public static CreateUserServiceImpl newInstance(
       @NonNull UserRepositoryInterface userRepositoryInterface,
       @NonNull FindInitalBalanceInterface findInitalBalanceInterface) {
     return new CreateUserServiceImpl(userRepositoryInterface, findInitalBalanceInterface);

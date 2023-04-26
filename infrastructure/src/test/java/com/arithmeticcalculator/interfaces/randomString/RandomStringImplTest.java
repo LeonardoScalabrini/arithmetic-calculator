@@ -1,6 +1,8 @@
 package com.arithmeticcalculator.interfaces.randomString;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.arithmeticcalculator.interfaces.randomString.randomOrg.RandomOrgService;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,13 +28,13 @@ class RandomStringImplTest {
   void random() {
     var result = randomStringImpl.random();
     assertEquals("string", result);
-    Mockito.verify(randomOrgService, Mockito.times(1)).strings();
+    verify(randomOrgService, times(1)).strings();
   }
 
   @Test
   void throwException() {
     Mockito.when(randomOrgService.strings()).thenThrow(IllegalStateException.class);
     assertThrows(IllegalStateException.class, () -> randomStringImpl.random());
-    Mockito.verify(randomOrgService, Mockito.times(1)).strings();
+    verify(randomOrgService, times(1)).strings();
   }
 }

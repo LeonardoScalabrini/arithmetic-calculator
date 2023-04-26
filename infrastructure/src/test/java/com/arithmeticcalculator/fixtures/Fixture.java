@@ -19,20 +19,11 @@ import java.util.UUID;
 public class Fixture {
 
   public static User getUser() {
-    return User.builder()
-        .userId(UserId.newInstance())
-        .email("email")
-        .balance(20)
-        .password(Password.newInstance("password"))
-        .build();
+    return User.newInstance(UserId.newInstance(), "email", 20, Password.newInstance("password"));
   }
 
   public static CostOperation getCostOperation() {
-    return CostOperation.builder()
-        .costOperationId(CostOperationId.newInstance())
-        .operationTypes(SQUARE_ROOT)
-        .cost(5)
-        .build();
+    return CostOperation.newInstance(CostOperationId.newInstance(), SQUARE_ROOT, 5);
   }
 
   public static Record<Double> getRecord() {
